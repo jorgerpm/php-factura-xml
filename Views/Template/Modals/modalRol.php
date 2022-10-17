@@ -12,11 +12,11 @@
                     <input type="hidden" id="idRol" name="idRol" value="">
                     <p class="text-danger">Todos los campos son obligatorios.*</p>
                     <div class="form-group">
-                        <label class="control-label">Nombre</label>
+                        <label class="control-label">Nombre:</label>
                         <input class="form-control" id="txtNombre" name="txtNombre" type="text" placeholder="Nombre del rol" required="" style="text-transform: uppercase;">
                     </div>
                     <div class="form-group">
-                        <label for="exampleSelect1">Estado</label>
+                        <label for="exampleSelect1">Estado:</label>
                         <?php require_once './acciones/listarEstados.php'; ?>
                         <select class="form-control" id="listStatus" name="listStatus" required="">
                             <?php

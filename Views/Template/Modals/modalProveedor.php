@@ -12,16 +12,16 @@
                     <input type="hidden" id="idProveedor" name="idProveedor" value="">
                     <p class="text-danger">Todos los campos son obligatorios.*</p>
                     <div class="form-group">
-                        <label class="control-label">Nombre</label>
+                        <label class="control-label">RUC:</label>
+                        <input class="form-control" id="txtRuc" name="txtRuc" type="text" placeholder="Ruc del proveedor" required="" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Nombre:</label>
                         <input class="form-control" id="txtNombre" name="txtNombre" type="text" placeholder="Nombre del proveedor" required="" style="text-transform: uppercase;">
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Ruc</label>
-                            <input class="form-control" id="txtRuc" name="txtRuc" type="text" placeholder="Ruc del proveedor" required="" style="text-transform: uppercase;">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label">C&oacute;digo JD</label>
+                        <div class="form-group col-md-12 col-12">
+                            <label class="control-label">C&oacute;digo JD:</label>
                             <input class="form-control" id="txtCodigoJD" name="txtCodigoJD" type="text" placeholder="C&oacute;digo JD del proveedor" required="" style="text-transform: uppercase;">
                         </div>
                     </div>

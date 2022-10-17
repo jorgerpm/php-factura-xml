@@ -14,27 +14,27 @@
                     <input name="txtClaveAux" id="txtClaveAux" value="" hidden="">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label class="control-label">Nombre</label>
+                            <label class="control-label">Nombre:</label>
                             <input class="form-control" id="txtNombre" name="txtNombre" type="text" placeholder="Nombre y apellido" required="" style="text-transform: uppercase;">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label">Usuario</label>
+                            <label class="control-label">Usuario:</label>
                             <input class="form-control" id="txtUsuario" name="txtUsuario" type="text" placeholder="Nombre de usuario" required="">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label class="control-label">Clave</label>
+                            <label class="control-label">Clave:</label>
                             <input class="form-control" id="txtClave" name="txtClave" type="password" placeholder="Clave" required="">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label">Correo</label>
+                            <label class="control-label">Correo:</label>
                             <input class="form-control" id="txtCorreo" name="txtCorreo" type="email" placeholder="Correo electrónico" required="">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="listaRol">Rol</label>
+                            <label for="listaRol">Rol:</label>
                             <?php require_once './acciones/listarRoles.php'; ?>
                             <select class="form-control" id="cbxListaRol" name="cbxListaRol" required="">
                                 <?php
@@ -45,7 +45,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="listaEstado">Estado</label>
+                            <label for="listaEstado">Estado:</label>
                             <?php require_once './acciones/listarEstados.php'; ?>
                             <select class="form-control" id="cbxListaEstado" name="cbxListaEstado" required="">
                                 <?php
@@ -57,8 +57,8 @@
                         </div>
                     </div>
                     <div class="tile-footer" style="text-align: end;">
-                        <button id="btnActionForm" class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg
-                                                                                            fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;<a class="btn
+                        <button id="btnActionForm" class="btn btn-primary" type="submit">
+                            <i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;<a class="btn
                                                                                              btn-secondary" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
                     </div>
                     <div class="RespuestaAjax"></div>

@@ -12,17 +12,17 @@
                     <input type="hidden" id="idParametro" name="idParametro" value="">
                     <p class="text-danger">Todos los campos son obligatorios.*</p>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Nombre</label>
-                            <input class="form-control" id="txtNombre" name="txtNombre" type="text" placeholder="Nombre del par&aacute;metro" required="" style="text-transform: uppercase;">
+                        <div class="form-group col-md-6 col-12">
+                            <label class="control-label" for="txtNombre">Nombre:</label>
+                            <input class="form-control" id="txtNombre" name="txtNombre" type="text" placeholder="Nombre del par&aacute;metro" required style="text-transform: uppercase;">
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Valor</label>
+                        <div class="form-group col-md-6 col-12">
+                            <label class="control-label">Valor:</label>
                             <input class="form-control" id="txtValor" name="txtValor" type="text" placeholder="Valor del par&aacute;metro" required="">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="exampleSelect1">Estado</label>
+                        <label for="exampleSelect1">Estado:</label>
                         <?php require_once './acciones/listarEstados.php'; ?>
                         <select class="form-control" id="cbxListaEstado" name="cbxListaEstado" required="">
                             <?php

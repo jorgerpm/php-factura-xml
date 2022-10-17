@@ -10,7 +10,7 @@
         </ul>
     </div>
     <div class="row espacio">
-        <div class="col-md-6">
+        <div class="col-md-12 col-12">
             <div class="tile">
                 <?php
                     //require_once './acciones/listarArchivos.php';
@@ -29,8 +29,8 @@
                 <!--<form id="formMenuRol" class="FormularioAjax login-form" action="acciones/actualizarPermisos.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">-->
                 <form name="f1" id="formMenuRol" action="">
                     <div class="btn-group mb-4" role="group">
-                        <select class="form-control" name="select" onchange="this.form.submit()" id="cbxListaRol">
-                            <option class="menuRol" value="" >SELECCIONE UN ROL</option>
+                        <select class="form-control" name="select" onchange="this.form.submit()" id="cbxListaRol" required="">
+                            <option class="menuRol" value="" >Seleccione un rol</option>
                             <?php require_once './acciones/listarRoles.php';
                             foreach($listaRoles as $rol) { ?>
                             <option class="menuRol" value="<?php echo $rol->id; ?>" <?php if(isset($_GET['select']) && $_GET['select'] == $rol->id) echo "selected"; ?> ><?php echo $rol->nombre; ?></option>
@@ -49,32 +49,39 @@
                                 }
                             }
                             if (count($arrayAux) > 0) { ?>
-                                <div class="treeview1">
-                                    <span class="toggle">
-                                        <label>
-                                            <input type="checkbox" onchange="checkAll(this)" name="<?php echo $menu->id ?>" id="<?php echo $menu->id ?>"><span class="button-indecator"></span>
-                                        </label>
-                                    </span>
-                                    <a class="app-menu__item" data-toggle="treeview1" style="margin-top: -45px; margin-left: 20px;background: none;border-left-color: transparent;">
-                                        <span class=""><?php echo $menu->titulo; ?></span>
-                                        <i class="treeview-indicator fa fa-angle-right"></i>
-                                    </a>
-                                    <ul class="treeview-menu" style="padding-left:50px; background:none">
-                                    <?php foreach ($arrayAux as $menuHijoAux) { ?>
-                                        <div class="toggle">
-                                            <label>
-                                                <input type="checkbox" name="<?php echo $menuHijoAux->id ?>" id="<?php echo $menuHijoAux->id ?>" <?php if(isset($listaMenuPorRol)){
-                                                    foreach ($listaMenuPorRol as $menuRol) {
-                                                        if($menuRol->idMenu == $menuHijoAux->id) {
-                                                            echo "checked";
-                                                        }
-                                                    }
-                                                }?>><span class="button-indecator"></span>
-                                            </label>
-                                            <label style="font-size: 16px"><?php echo " " . $menuHijoAux->titulo; ?></label>
-                                        </div>
-
-                                    <?php } ?>
+                                <div class="">
+                                    <ul  id="myUL">
+                                        <li>
+                                            <div class="caret toggle" >
+                                                <label>
+                                                    <input type="checkbox" onchange='checkAll(vari = <?php echo json_encode($arrayAux); ?>, this);' name="<?php echo $menu->id; ?>" id="<?php echo $menu->id; ?>">
+                                                    <span class="button-indecator"></span>
+                                                </label>
+                                                <label class="caretAux" style="font-size: 16px">
+                                                    <?php echo $menu->titulo; ?></label>
+                                                . . . <i class="fa fa-caret-right"></i>
+                                            </div>
+                                        
+                                            <ul class="nested" style="padding-left:50px; background:none">
+                                            <?php foreach ($arrayAux as $menuHijoAux) { ?>
+                                                <li>
+                                                    <div class="toggle">
+                                                        <label>
+                                                            <input class="<?php echo $menu->id; ?>" type="checkbox" name="<?php echo $menuHijoAux->id; ?>" id="<?php echo $menuHijoAux->id; ?>" 
+                                                            <?php if(isset($listaMenuPorRol)){
+                                                                foreach ($listaMenuPorRol as $menuRol) {
+                                                                    if($menuRol->idMenu == $menuHijoAux->id) {
+                                                                        echo "checked";
+                                                                    }
+                                                                }
+                                                            }?>><span class="button-indecator"></span>
+                                                        </label>
+                                                        <label style="font-size: 16px"><?php echo " " . $menuHijoAux->titulo; ?></label>
+                                                    </div>
+                                                </li>
+                                            <?php } ?>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </div>
                             <?php }else { ?>
@@ -94,8 +101,8 @@
                         }
                     } ?>
                     <div>
-                        <button id="btnActionForm" class="btn btn-primary" type="button" onclick="actualizarPermisos(this);"><i class="fa fa-fw fa-lg
-                                                                                            "></i><span id="btnText">Actualizar permisos</span></button>
+                        <button id="btnActionForm" class="btn btn-primary" type="button" onclick="actualizarPermisos(this);">
+                            <i class="fa fa-floppy-o"></i><span id="btnText">Actualizar permisos</span></button>
                     </div>
                 </form>
             </div>
@@ -106,3 +113,16 @@
 <?php 
 echo '<script></script>' ?>
 <script src="./Assets/js/functions_menu_rol.js"></script>
+
+<script type="text/javascript">
+var toggler = document.getElementsByClassName("caret");
+
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+}
+</script>

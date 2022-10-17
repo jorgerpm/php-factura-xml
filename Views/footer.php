@@ -24,6 +24,10 @@
             infoEmpty: 'No existen registros',
             infoFiltered: '(filtrados de los _MAX_ registros totales)',
             search: 'Buscar',
+            paginate:{
+                previous: '&laquo',
+                next: '&raquo;',
+            },
         },
         lengthMenu: [
             [10, 25, 50, 100], //cantidad

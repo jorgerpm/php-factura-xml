@@ -26,8 +26,8 @@
                             <thead>
                                 <tr>
                                     <th>Código</th>
-                                    <th>nombre</th>
-                                    <th>valor</th>
+                                    <th>Nombre</th>
+                                    <th>Valor</th>
                                     <th>Estado</th>
                                     <th></th>
                                 </tr>

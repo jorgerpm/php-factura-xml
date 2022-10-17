@@ -25,9 +25,9 @@
                             <thead>
                                 <tr>
                                     <th>Código</th>
-                                    <th>nombre</th>
-                                    <th>ruc</th>
-                                    <th>código JD</th>
+                                    <th>RUC</th>
+                                    <th>Nombre</th>
+                                    <th>Código JD</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -36,8 +36,8 @@
                                 foreach ($listaProveedores as $proveedor) { ?>
                                     <tr>
                                         <td><?php echo $proveedor->id ?></td>
-                                        <td><?php echo $proveedor->nombre ?></td>
                                         <td><?php echo $proveedor->ruc ?></td>
+                                        <td><?php echo $proveedor->nombre ?></td>
                                         <td><?php echo $proveedor->codigoJD ?></td>
                                         <td>
                                             <div class="btn-group mr-2" role="group" aria-label="First group">
