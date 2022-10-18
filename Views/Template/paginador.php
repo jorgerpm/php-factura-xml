@@ -1,6 +1,8 @@
 <?php
 $paginas = 0;
+$totalRegs = 0;
 if(isset($respuesta[0]->totalRegistros)){
+    $totalRegs = $respuesta[0]->totalRegistros;
     $paginas = $respuesta[0]->totalRegistros / $regsPagina; //el 3 es el numero de registros a mostrar por pagina
 }
 
@@ -14,14 +16,49 @@ if (isset($_POST['txtActivo'])) {
 <section>
     <?php 
     if($paginas == 0){
-        echo '<label style="position: absolute;">No existen registros.</label>';
+        //echo '<label style="position: absolute;">No existen registros.</label>';
     }
     else{
-        echo '<label style="position: absolute;">Mostrando página '.$activo.' de '.$paginas.'</label>';
+        //echo '<label style="position: absolute;">Mostrando página '.$activo.' de '.$paginas.'</label>';
     }
     ?>
+    
+    <!-- aqui poner las filas a mostrar -->
+    <div class="row" style="position: absolute;">
+        <!--div class="col-3 col-sm-3 col-md-3" style="padding-left: 8px">
+            <label>Mostrar </label>
+        </div -->
+        <div class="col-4 col-sm-4 col-md-4" style="padding: 0px">
+            <select name="cmbRegsPagina" id="cmbRegsPagina" aria-controls="sampleTable" class="form-control form-control-sm" onchange="cambiarRegsPagina(this)">
+                <option value="10" <?php echo $regsPagina==10 ? 'selected':'' ?>>10</option>
+                <option value="25" <?php echo $regsPagina==25 ? 'selected':'' ?>>25</option>
+                <option value="50" <?php echo $regsPagina==50 ? 'selected':'' ?>>50</option>
+                <option value="100" <?php echo $regsPagina==100 ? 'selected':'' ?>>100</option>
+            </select>
+        </div>
+        <div class="col-8 col-sm-8 col-md-8" style="padding: 0px">
+            <label>registros por página</label>
+        </div>
+        
+    </div>
+    
     <nav aria-label="...">
         <ul class="pagination justify-content-end">
+            
+            <?php 
+            if($paginas == 0){
+                echo '<li><label >No existen registros. </label></li>';
+            }
+            else{
+                if($regsPagina <= $totalRegs){
+                    echo '<li><label >Mostrando '.$regsPagina.' de '.$totalRegs.'&nbsp;&nbsp;</label></li>';
+                }
+                else{
+                    echo '<li><label >Mostrando '.$totalRegs.' de '.$totalRegs.'&nbsp;&nbsp;</label></li>';
+                }
+            }
+            ?>
+            
             <li class="page-item <?php echo $activo == 1 ? 'disabled' : ''; ?>">
                 <button type="button" class="page-link" onclick="paginar(<?php echo ($activo-1) . ',' . $regsPagina ?>)" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>

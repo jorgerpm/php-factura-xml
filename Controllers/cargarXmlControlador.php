@@ -38,14 +38,20 @@ class cargarXmlControlador extends cargarXmlModelo {
 //echo $count;
         if($count > 0){
 
+            //convertir el archivo a base64 para ser enviado
+            $fileXml = file_get_contents($upload_location . $archivo_xml);
+            $fileB64 = base64_encode($fileXml);
+  
+            
             $array = [
-                'ubicacionArchivo' => constantesUtil::$ARCHIVOS_SUBIDOS . $archivo_xml,
-    //            'ubicacionArchivo' => $upload_location . $archivo_xml,
+//                'ubicacionArchivo' => constantesUtil::$ARCHIVOS_SUBIDOS . $archivo_xml,
+                'ubicacionArchivo' => $upload_location . $archivo_xml,
                 'nombreArchivoXml' => $archivo_xml,
                 'nombreArchivoPdf' => isset($archivo_pdf) ? $archivo_pdf : null,
                 'urlArchivo' => constantesUtil::$URL_ARCHIVOS,
                 'idUsuarioCarga' => $_SESSION['Usuario']->id,
-                'tipoDocumento' => '01'
+                'tipoDocumento' => '01',
+                'xmlBase64' => $fileB64,
             ];
 
             $respuesta = cargarXmlModelo::cargar_archivo_modelo($array);

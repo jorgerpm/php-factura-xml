@@ -35,7 +35,7 @@
                             <?php
                             foreach ($columns as $index => $col) {
                                 echo '<label class="toggle-vis btn btn-primary active" data-column="' . $index . '">';
-                                echo '<input type="checkbox" checked>';
+                                echo '<input id="' . $col['col'] . '" type="checkbox" checked>';
                                 echo '<a >' . $col['col'] . '</a>';
                                 echo '</label>';
                             }
@@ -100,23 +100,7 @@
 
 
                         <br>
-                        <!-- aqui poner las filas a mostrar -->
-                        <div class="row">
-                            <div class="col-3 col-sm-1 col-md-1" style="padding-left: 8px">
-                                <label>Mostrar </label>
-                            </div>
-                            <div class="col-3 col-sm-1 col-md-1" style="padding: 0px 0px 5px 0px">
-                                <select name="cmbRegsPagina" id="cmbRegsPagina" aria-controls="sampleTable" class="form-control form-control-sm" onchange="cambiarRegsPagina(this)">
-                                    <option value="10" <?php echo $regsPagina==10 ? 'selected':'' ?>>10</option>
-                                    <option value="25" <?php echo $regsPagina==25 ? 'selected':'' ?>>25</option>
-                                    <option value="50" <?php echo $regsPagina==50 ? 'selected':'' ?>>50</option>
-                                    <option value="100" <?php echo $regsPagina==100 ? 'selected':'' ?>>100</option>
-                                </select>
-                            </div>
-                            <div class="col-6 col-sm-3 col-md-3" style="padding: 0px">
-                                <label>registros por página</label>
-                            </div>
-                        </div>
+                        
 
 
                         <div class="table-responsive">
@@ -124,7 +108,7 @@
                                 <thead>
                                     <tr>
 <?php foreach ($columns as $col) { ?>
-                                            <th style="width: <?php echo $col['wid']; ?>;"><?php echo $col['col']; ?></th>
+                                        <th class="<?php echo $col['col']; ?>" style="width: <?php echo $col['wid']; ?>;"><?php echo $col['col']; ?></th>
                                     <?php } ?>
                                     </tr>
                                 </thead>
@@ -239,20 +223,32 @@ if (count($respuesta) > 0) {
             infoEmpty: 'No existen registros',
             infoFiltered: '(filtrados de los _MAX_ registros totales)',
             search: 'Filtrar',
+            paginate:{
+                previous: '&laquo',
+                next: '&raquo;',
+            },
         },
         lengthMenu: [
             [10, 25, 50, 100],
             [10, 25, 50, 100],
         ],
     });
+    
     $('.toggle-vis').on('click', function (e) {
         e.preventDefault();
-
         // Get the column API object
-        var column = table.column($(this).attr('data-column'));
-
-        // Toggle the visibility
-        column.visible(!column.visible());
+        var tableXml = document.getElementById('sampleTableXml');
+//        alert(tableXml.rows[0].cells[0]);
+        var numCol = $(this).attr('data-column');
+        
+        for(i=0;i<tableXml.rows.length;i++){
+            if(tableXml.rows[i].cells[numCol].style.display !== "none"){
+                tableXml.rows[i].cells[numCol].style.display="none";
+            }
+            else{
+                tableXml.rows[i].cells[numCol].style.display="table-cell";
+            }
+        }
     });
 
 
@@ -290,12 +286,49 @@ function pruebaUno(filename){
             for(var i=0;i<csv.length;i++){
                 csv[i] = csv[i].toString().replaceAll(i+" => ", "").replaceAll("  ", "");
             }
+            
+            //comprobar las columnas
+            var tableXml = document.getElementById('sampleTableXml');
+    //        alert(tableXml.rows[0].cells[0]);
+            //var numCol = $(this).attr('data-column');
+
+            var arrayCols = [];
+
+            for(i=0;i<tableXml.rows[0].cells.length;i++){
+                if(tableXml.rows[0].cells[i].style.display !== "none"){
+//                    for(j=0;j<csv[0].length;j++){
+                    var nomCol = tableXml.rows[0].cells[i].innerHTML;
+                    var datascv = csv[0].split(';');
+                    
+                    for(j=0;j<datascv.length;j++){
+                        if(datascv[j] == nomCol){
+//                            console.log(nomCol);
+                            arrayCols.push(j);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            let csvFinal = [];
+            
+            for(i=0;i<csv.length;i++){
+                let filaAux = [];
+                let csvAux = csv[i].split(";");
+                for(j=0;j<csvAux.length;j++){
+//                    console.log("comparativo", arrayCols.find(a=>a===j));
+                    if(arrayCols.find(a=>a===j) >= 0){
+                        filaAux.push(csvAux[j]);
+//                        console.log(csvAux[j]);
+                    }
+                }
+                csvFinal.push(filaAux.join(";"));    
+            }
 //            console.log("success, ", csv);
             
             // Download CSV file
-    downloadCSV(csv.join("\n"), filename);
+    downloadCSV(csvFinal.join("\n"), filename);
 //downloadCSV(csv, filename);
-    
         },
         error: function (error) {
             console.log("error: ", error);

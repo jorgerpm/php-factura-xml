@@ -92,6 +92,9 @@ function uploadFile() {
 //alert('seleccione al menos un archivo');
         swal("", "Debe seleccionar al menos el archivo xml de la factura", "warning");
     } else {
+        
+        const LOADING = document.querySelector('.loader');
+        LOADING.style = 'display: flex;';
 
         var formData = new FormData();
 
@@ -117,6 +120,7 @@ function uploadFile() {
                 var response = this.responseText;
 
                 if (response === "OK") {
+                    LOADING.style = 'display: none;';
 
                     fileXml = [];
                     filePdf = [];
@@ -125,10 +129,12 @@ function uploadFile() {
 
                     swal("", "Archivos cargados correctamente", "success");
                 } else {
+                    LOADING.style = 'display: none;';
                     swal("", "Error en la carga del archivo. " + response, "error");
                 }
 
             } else {
+                LOADING.style = 'display: none;';
                 swal("2", "Error en la carga del archivo. " + this.responseText, "error");
             }
         };

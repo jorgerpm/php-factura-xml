@@ -13,6 +13,7 @@
         <!-- Font-icon css-->
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         
+        <script src="./Assets/js/jquery-3.3.1.min.js"></script>
     </head>
     <body class="app sidebar-mini">
         <div class="loader"></div>
