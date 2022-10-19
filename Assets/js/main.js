@@ -124,6 +124,8 @@ $('.FormLogin').submit(function (e) {
     var respuesta = form.children('.RespuestaAjax');
 
     var formdata = new FormData(this);
+//    formdata.append("clave", md5(textClave.value));
+//    form.append("clave", md5(textClave.value));
 
     $.ajax({
         type: metodo,
