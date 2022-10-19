@@ -45,6 +45,16 @@ class archivoXmlControlador extends archivoXmlModelo {
                         if (!isset($val->pago) && !isset($val->totalImpuesto)) {
                             array_push($columnsAux, ['col' => $key, 'wid'=>'100px']);
                         }
+                        elseif(isset($val->totalImpuesto)){
+                            foreach ($val->totalImpuesto as $keyImp => $valImp) {
+                                if(isset($valImp->codigoPorcentaje)){
+                                    array_push($columnsAux, ['col' => 'baseImponible:'.$valImp->codigoPorcentaje, 'wid'=>'100px']);
+                                }
+                                elseif($keyImp == 'codigoPorcentaje'){
+                                    array_push($columnsAux, ['col' => 'baseImponible:'.$valImp, 'wid'=>'100px']);
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -155,11 +155,66 @@ if (count($respuesta) > 0) {
                                                                 break;
                                                             }
                                                         }
+//                                                        elseif(isset($val->totalImpuesto)){
+//                                                            foreach ($val->totalImpuesto as $keyImp => $valImp) {
+//                                                                $comprobar = array_search($valImp->baseImponible, $valores, false);
+//                                                                if($comprobar == false){
+////                                                                if($valImp->baseImponible){
+//                                                                    array_push($valores, $valImp->baseImponible);
+//                                                                    $coincide = true;
+//                                                                    //break;
+//                                                                }else{
+////                                                                $coincide = false;
+//                                                                }
+//                                                            }
+//                                                            if ($coincide) {break;}
+////                                                            break;
+//                                                        }
                                                     }
                                                     if ($coincide) {
 
                                                     } else {
-                                                        array_push($valores, ' - ');
+                                                        //print_r($docum->infoFactura->totalConImpuestos->totalImpuesto);
+                                                        if(isset($docum->infoFactura->totalConImpuestos->totalImpuesto)){
+                                                            $codP=-1;
+                                                            foreach ($docum->infoFactura->totalConImpuestos->totalImpuesto as $keyImp => $valImp) {
+                                                                
+                                                                if(isset($valImp->baseImponible)){
+                                                                    //$comprobar = array_search($valImp->baseImponible, $valores, false);
+                                                                    //echo '{'.print_r($comprobar == false).'}';
+                                                                    //if($comprobar == false){
+                                                                    if ($columns[$ind]['col'] == 'baseImponible:'.$valImp->codigoPorcentaje) {
+                                                                        array_push($valores, $valImp->baseImponible);
+                                                                        //echo 'sii:: '.$valImp->baseImponible;
+                                                                        $coincide = true;
+                                                                       // break;
+                                                                    }
+                                                                }
+                                                                else {
+                                                                    if($keyImp == 'codigoPorcentaje'){
+                                                                        $codP = $valImp;
+                                                                    }
+                                                                    if($keyImp == 'baseImponible'){
+                                                                        //$comprobar = array_search($valImp, $valores, false);
+                                                                      //  echo '['.print_r($comprobar).']';
+                                                                        //if($comprobar == false){
+                                                                        if ($columns[$ind]['col'] == 'baseImponible:'.$codP) {
+                                                                            array_push($valores, $valImp);
+                                                                            //echo 'nooo:: '.$valImp;
+                                                                            $coincide = true;
+                                                                         //   break;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            //if ($coincide) {break;}
+//                                                            break;
+                                                        }
+                                                        if ($coincide) {
+
+                                                        } else {
+                                                            array_push($valores, '0');
+                                                        }
                                                     }
                                                 }
                                             }
