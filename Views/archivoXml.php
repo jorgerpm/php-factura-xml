@@ -183,7 +183,7 @@ if (count($respuesta) > 0) {
                                                                     //$comprobar = array_search($valImp->baseImponible, $valores, false);
                                                                     //echo '{'.print_r($comprobar == false).'}';
                                                                     //if($comprobar == false){
-                                                                    if ($columns[$ind]['col'] == 'baseImponible:'.$valImp->codigoPorcentaje) {
+                                                                    if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:'.$valImp->codigoPorcentaje) {
                                                                         array_push($valores, $valImp->baseImponible);
                                                                         //echo 'sii:: '.$valImp->baseImponible;
                                                                         $coincide = true;
@@ -198,7 +198,7 @@ if (count($respuesta) > 0) {
                                                                         //$comprobar = array_search($valImp, $valores, false);
                                                                       //  echo '['.print_r($comprobar).']';
                                                                         //if($comprobar == false){
-                                                                        if ($columns[$ind]['col'] == 'baseImponible:'.$codP) {
+                                                                        if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:'.$codP) {
                                                                             array_push($valores, $valImp);
                                                                             //echo 'nooo:: '.$valImp;
                                                                             $coincide = true;
