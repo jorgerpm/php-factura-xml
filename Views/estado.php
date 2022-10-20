@@ -14,13 +14,14 @@
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
+
+                    <div>
+                        <p><button class="btn btn-primary btn-sm fa" type="button" onclick="openModalEstado(null);"><i class="fas fa-plus-circle"></i> Nuevo</button></p>
+                    </div>
+                    <div>
+                        <p><button style="display: none;" id="btnBuscar" name="btnBuscar" class="btn btn-primary btn-sm fa" type="button" onclick="window.location.href = ''">buscar</button></p>
+                    </div>
                     <div class="table-responsive">
-                        <div>
-                            <p><button class="btn btn-primary btn-sm fa" type="button" onclick="openModalEstado(null);"><i class="fas fa-plus-circle"></i> Nuevo</button></p>
-                        </div>
-                        <div>
-                            <p><button style="display: none;" id="btnBuscar" name="btnBuscar" class="btn btn-primary btn-sm fa" type="button" onclick="window.location.href = ''">buscar</button></p>
-                        </div>
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
@@ -30,7 +31,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php require_once './acciones/listarEstados.php';
+                                <?php
+                                require_once './acciones/listarEstados.php';
                                 foreach ($listaEstados as $estado) {
                                     ?>
                                     <tr>
@@ -42,7 +44,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                <?php } ?>
+<?php } ?>
                             </tbody>
                         </table>
                     </div>
