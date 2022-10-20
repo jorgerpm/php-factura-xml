@@ -80,7 +80,7 @@ class archivoXmlControlador extends archivoXmlModelo {
         }
         
         array_push($columns, ['col' => 'Tipo de documento', 'wid'=>'100px']);
-        array_push($columns, ['col' => 'Proveedor', 'wid'=>'100px']);
+        array_push($columns, ['col' => 'C&oacute;digo JD proveedor', 'wid'=>'100px']);
         array_push($columns, ['col' => 'Url archivo xml', 'wid'=>'100px']);
         array_push($columns, ['col' => 'Url archivo RIDE', 'wid'=>'100px']);
 

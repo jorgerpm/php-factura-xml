@@ -7,9 +7,9 @@ class proveedorModelo extends serviciosWebModelo {
     }
     
     
-    public function listar_proveedores() {
+    public function listar_proveedores($start, $length, $valBusq) {
         $array = [];
-        $listaProveedores = self::invocarGet('proveedor/listarProveedores', $array);
+        $listaProveedores = self::invocarGet('proveedor/listarProveedores?desde='.$start.'&hasta='.$length.'&valBusq='.$valBusq, $array);
         return $listaProveedores;
     }
 }

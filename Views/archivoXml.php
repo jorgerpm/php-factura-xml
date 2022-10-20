@@ -118,12 +118,12 @@ if (count($respuesta) > 0) {
     foreach ($respuesta as $listaArchivoXml) {
         ?>
                                     <tr>
-                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->nombreUsuario ?></td>
-                                        <td style="white-space: nowrap;"><?php echo date("d/m/Y", $listaArchivoXml->fechaEmision / 1000) ?></td>
-                                        <td style="white-space: nowrap;"><?php echo date("d/m/Y", $listaArchivoXml->fechaAutorizacion / 1000) ?></td>
-                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->estado ?></td>
-                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->numeroAutorizacion ?></td>
-                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->ambiente ?></td>
+                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->nombreUsuario; ?></td>
+                                        <td style="white-space: nowrap;"><?php echo date("d/m/Y", $listaArchivoXml->fechaEmision / 1000); ?></td>
+                                        <td style="white-space: nowrap;"><?php echo date("d/m/Y", $listaArchivoXml->fechaAutorizacion / 1000); ?></td>
+                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->estado; ?></td>
+                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->numeroAutorizacion; ?></td>
+                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->ambiente; ?></td>
 
                                         <?php
                                         $listvarj = json_decode($listaArchivoXml->comprobante);
@@ -233,8 +233,8 @@ if (count($respuesta) > 0) {
                                                 <!--td><php echo $listaArchivoXml->xmlBase64 ?></td>
                                                 <td><php echo $listaArchivoXml->pdfBase64 ?></td-->                                    
                                             <!--td><php echo $listaArchivoXml->ubicacionArchivo ?></td-->
-                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->tipoDocumento ?></td>
-                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->idProveedor ?></td>
+                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->tipoDocumento; ?></td>
+                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->codigoJDProveedor; ?></td>
                                         <td style="white-space: nowrap;"><a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?>"><?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?></a></td>
                                         <td style="white-space: nowrap;">
 <?php if ($listaArchivoXml->nombreArchivoPdf != null) { ?>

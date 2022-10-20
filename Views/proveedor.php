@@ -6,7 +6,7 @@
         </div>
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-            <li class="breadcrumb-item"><a href="#">Gestión proveedores</a></li>
+            <li class="breadcrumb-item"><a href="#">Gestión de proveedores</a></li>
         </ul>
     </div>
     </div>
@@ -21,32 +21,17 @@
                         <div>
                             <p><button style="display: none;" id="btnBuscar" name="btnBuscar" class="btn btn-primary btn-sm fa" type="button" onclick="window.location.href = ''">buscar</button></p>
                         </div>
-                        <table class="table table-hover table-bordered" id="sampleTable">
+                        <table class="table table-hover table-bordered" id="tablaProveedores">
                             <thead>
                                 <tr>
-                                    <th>Código</th>
+                                    <!--th>Código</th-->
                                     <th>RUC</th>
                                     <th>Nombre</th>
                                     <th>Código JD</th>
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php require_once './acciones/listarProveedores.php';
-                                foreach ($listaProveedores as $proveedor) { ?>
-                                    <tr>
-                                        <td><?php echo $proveedor->id ?></td>
-                                        <td><?php echo $proveedor->ruc ?></td>
-                                        <td><?php echo $proveedor->nombre ?></td>
-                                        <td><?php echo $proveedor->codigoJD ?></td>
-                                        <td>
-                                            <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                <button class="btn btn-info fa fa-edit" type="button" onclick='openModalProveedor(variableProveedor = <?php echo json_encode($proveedor); ?>);'></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
+                            
                         </table>
                     </div>
                 </div>
@@ -55,3 +40,35 @@
     </div>
 </main>
 <script src="./Assets/js/functions_proveedores.js"></script>
+
+<!-- Data table plugin-->
+<script type="text/javascript" src="./Assets/js/plugins/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="./Assets/js/plugins/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+        $('#tablaProveedores').DataTable({
+        //scrollY: '34vh',
+        //scrollCollapse: true,
+        language: {
+            lengthMenu: 'Mostrar _MENU_ registros por p&aacute;gina',
+//            zeroRecords: 'No existen registros',
+//            info: 'Mostrando p&aacute;gina _PAGE_ de _PAGES_',
+//            infoEmpty: 'No existen registros',
+//            infoFiltered: '(filtrados de los _MAX_ registros totales)',
+            search: 'Buscar por nombre: ',
+            paginate:{
+                previous: '&laquo',
+                next: '&raquo;',
+            },
+        },
+        lengthMenu: [
+            [10, 25, 50, 100], //cantidad
+            [10, 25, 50, 100],//texto que se muestra
+        ],
+        processing: true, //indica el texto processing cuando se esta cargando la tabla
+        serverSide: true,
+        ajax: {
+            url: './acciones/listarProveedores.php',
+            type: 'POST',
+        },
+    });
+    </script>

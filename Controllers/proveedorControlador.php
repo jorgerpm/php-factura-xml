@@ -2,12 +2,44 @@
 
 class proveedorControlador extends proveedorModelo {
 
-    public function listarProveedores() {
-        $listaProveedores = proveedorModelo::listar_proveedores();
-        if(!isset($listaProveedores)) {
-            $listaProveedores = [];
+    public function listarProveedores($request) {
+        $start = $request['start']; //desde el numero de registro que empieza
+        $length = $request['length']; //el numero de registros a buscar
+        $valBusq = $request['search']['value']; //este es el valor que se ingresa en la busqueda
+        
+        if(empty($valBusq)){
+            $respuesta = proveedorModelo::listar_proveedores($start, $length, null);
         }
-        return $listaProveedores;
+        elseif(strlen($valBusq) >=3 ){
+            $respuesta = proveedorModelo::listar_proveedores($start, $length, $valBusq);
+        }
+        
+        if(!isset($respuesta)) {
+            $returnLista = array();
+        }
+        else{
+            $listaProveedores = array();
+            foreach ($respuesta as $proveedor){
+                //$columnas[0] = $proveedor->id;
+                $columnas[0] = $proveedor->ruc;
+                $columnas[1] = $proveedor->nombre;
+                $columnas[2] = $proveedor->codigoJD;
+                $columnas[3] = '<div class="btn-group mr-2" role="group" aria-label="First group">
+                                                <button class="btn btn-info fa fa-edit" type="button" onclick=\'openModalProveedor(variableProveedor = '. json_encode($proveedor).');\'></button>
+                                            </div>';
+
+                $listaProveedores[] = $columnas;
+            }
+            
+            $returnLista = array(
+			"draw"            => isset ( $request['draw'] ) ? intval( $request['draw'] ) : 0,
+			"recordsTotal"    => $proveedor->totalRegistros,
+			"recordsFiltered" => $proveedor->totalRegistros,
+			"data"            => $listaProveedores
+    //[["1","2","3","4","5","6","7"]]
+		);
+        }
+        return $returnLista;
     }
 
     //aqui la logica
