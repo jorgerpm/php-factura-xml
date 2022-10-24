@@ -9,11 +9,11 @@
         </ul>
     </div>
     <!-- Cargar archivo xml -->
-    <div class="container tile">		
+    <div class="container tile espacio">		
         <div class="panel panel-primary">
             <div class="panel-body">
                 <div class="form-group">
-                    <div class="row espacio">
+                    <div class="row">
                         <div class="col-sm-4">
                             <label for="inputFileXml" class="btn btn-primary">Seleccione factura xml</label>
                             <input type="file" name="" class="btn btn-primary" id="inputFileXml" accept=".xml" style="display:none" required="">

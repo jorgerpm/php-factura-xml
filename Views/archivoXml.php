@@ -189,6 +189,12 @@ if (count($respuesta) > 0) {
                                                                         $coincide = true;
                                                                        // break;
                                                                     }
+                                                                    if ($columns[$ind]['col'] == 'valor codigoPorcentaje:'.$valImp->codigoPorcentaje) {
+                                                                        array_push($valores, $valImp->valor);
+                                                                        //echo 'sii:: '.$valImp->baseImponible;
+                                                                        $coincide = true;
+                                                                       // break;
+                                                                    }
                                                                 }
                                                                 else {
                                                                     if($keyImp == 'codigoPorcentaje'){
@@ -199,6 +205,14 @@ if (count($respuesta) > 0) {
                                                                       //  echo '['.print_r($comprobar).']';
                                                                         //if($comprobar == false){
                                                                         if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:'.$codP) {
+                                                                            array_push($valores, $valImp);
+                                                                            //echo 'nooo:: '.$valImp;
+                                                                            $coincide = true;
+                                                                         //   break;
+                                                                        }
+                                                                    }
+                                                                    if($keyImp == 'valor'){
+                                                                        if ($columns[$ind]['col'] == 'valor codigoPorcentaje:'.$codP) {
                                                                             array_push($valores, $valImp);
                                                                             //echo 'nooo:: '.$valImp;
                                                                             $coincide = true;

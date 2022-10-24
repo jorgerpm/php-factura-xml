@@ -53,6 +53,14 @@ class cargarXmlControlador extends cargarXmlModelo {
             ];
 
             $respuesta = cargarXmlModelo::cargar_archivo_modelo($array);
+            
+            //si la respuesta es diferente a OK, no cargo archivo en base y se debe borrar el archivo fisico del disco
+            if($respuesta != "OK"){
+                if(is_file($upload_location . $archivo_xml)){
+                    unlink($upload_location . $archivo_xml);
+                }
+            }
+            
             return $respuesta;
         }
         else{

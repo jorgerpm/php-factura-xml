@@ -11,7 +11,7 @@ class proveedorControlador extends proveedorModelo {
             $respuesta = proveedorModelo::listar_proveedores($start, $length, null);
         }
         elseif(strlen($valBusq) >=3 ){
-            $respuesta = proveedorModelo::listar_proveedores($start, $length, $valBusq);
+            $respuesta = proveedorModelo::listar_proveedores($start, $length, urlencode($valBusq));
         }
         
         if(!isset($respuesta)) {
