@@ -155,21 +155,6 @@ if (count($respuesta) > 0) {
                                                                 break;
                                                             }
                                                         }
-//                                                        elseif(isset($val->totalImpuesto)){
-//                                                            foreach ($val->totalImpuesto as $keyImp => $valImp) {
-//                                                                $comprobar = array_search($valImp->baseImponible, $valores, false);
-//                                                                if($comprobar == false){
-////                                                                if($valImp->baseImponible){
-//                                                                    array_push($valores, $valImp->baseImponible);
-//                                                                    $coincide = true;
-//                                                                    //break;
-//                                                                }else{
-////                                                                $coincide = false;
-//                                                                }
-//                                                            }
-//                                                            if ($coincide) {break;}
-////                                                            break;
-//                                                        }
                                                     }
                                                     if ($coincide) {
 

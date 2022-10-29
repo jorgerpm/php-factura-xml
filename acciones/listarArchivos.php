@@ -66,7 +66,44 @@ if (count($respuesta) > 0) {
                     if ($coincide) {
                         
                     } else {
-                        array_push($valores, ' - ');
+                        if(isset($docum->infoFactura->totalConImpuestos->totalImpuesto)){
+                            $codP=-1;
+                            foreach ($docum->infoFactura->totalConImpuestos->totalImpuesto as $keyImp => $valImp) {
+                                if(isset($valImp->baseImponible)){
+                                    if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:'.$valImp->codigoPorcentaje) {
+                                        array_push($valores, $valImp->baseImponible);
+                                        $coincide = true;
+                                       
+                                    }
+                                    if ($columns[$ind]['col'] == 'valor codigoPorcentaje:'.$valImp->codigoPorcentaje) {
+                                        array_push($valores, $valImp->valor);
+                                        $coincide = true;
+                                    }
+                                }
+                                else {
+                                    if($keyImp == 'codigoPorcentaje'){
+                                        $codP = $valImp;
+                                    }
+                                    if($keyImp == 'baseImponible'){
+                                        if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:'.$codP) {
+                                            array_push($valores, $valImp);
+                                            $coincide = true;
+                                        }
+                                    }
+                                    if($keyImp == 'valor'){
+                                        if ($columns[$ind]['col'] == 'valor codigoPorcentaje:'.$codP) {
+                                            array_push($valores, $valImp);
+                                            $coincide = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if ($coincide) {
+
+                        } else {
+                            array_push($valores, '0');
+                        }
                     }
                 }
             }
@@ -79,9 +116,9 @@ if (count($respuesta) > 0) {
         }
         
         array_push($filas, $listaArchivoXml->tipoDocumento);
-        array_push($filas, $listaArchivoXml->idProveedor);
-        array_push($filas, '');
-        array_push($filas, '');
+        array_push($filas, $listaArchivoXml->codigoJDProveedor);
+        array_push($filas, $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml);
+        array_push($filas, ($listaArchivoXml->nombreArchivoPdf != null) ? $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf : '');
         
 
         //al final se agregar fila por fila
