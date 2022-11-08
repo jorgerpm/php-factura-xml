@@ -43,13 +43,9 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     </div>
-
 </main>
 
 <script src="./Assets/js/functions_alertas.js"></script>
