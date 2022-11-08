@@ -16,8 +16,8 @@ class usuarioControlador extends usuarioModelo {
         $txtUsuario = $_SESSION['Usuario']->usuario;
         $claveActual = $_SESSION['Usuario']->clave;
         $txtCorreo = $_SESSION['Usuario']->correo;
-        $cbxListaRol = $_SESSION['Usuario']->idEstado;
-        $cbxListaEstado = $_SESSION['Usuario']->idRol;
+        $cbxListaRol = $_SESSION['Usuario']->idRol;
+        $cbxListaEstado = $_SESSION['Usuario']->idEstado;
 
         $txtClaveActual = $_POST['txtClaveActual'];
         $txtClaveNueva = $_POST['txtClaveNueva'];
@@ -83,9 +83,11 @@ class usuarioControlador extends usuarioModelo {
                 return '<script>swal("", "Datos almacenados correctamente", "success")
                     .then((value) => {
                         $(`#btnBuscar`).click();
-                    });</script>';
+                    });
+                    $(`#modalFormUsuario`).modal("hide");
+                    </script>';
             } else {
-                return '<script>swal("", "Error al almacenar los datos.", "error");</script>';
+                return '<script>swal("", "ERROR AL ALMACENAR LOS DATOS. '.$respuesta->respuesta.'", "error");</script>';
             }
         } else {
             return '<script>swal("", "Complete los campos requeridos del formulario.", "error");</script>';

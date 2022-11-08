@@ -59,7 +59,13 @@ inputFileXml.on('change', function (e) {
 
     files = Array.from(files);
     files.forEach(uu => {
-        fileXml.push(uu);
+        console.log("el archivo:: ", uu.type);
+        if(uu.type === "text/xml")
+            fileXml.push(uu);
+        else{
+            swal("", "Debe seleccionar un archivo de tipo XML.", "warning");
+            return;
+        }
     });
     actualizarListaDeArchivos(1);
     $(this).val('');
@@ -74,7 +80,13 @@ inputFilePdf.on('change', function (e) {
 
     files = Array.from(files);
     files.forEach(uu => {
-        filePdf.push(uu);
+        console.log("el archivo:: ", uu.type);
+        if(uu.type === "application/pdf")
+            filePdf.push(uu);
+        else{
+            swal("", "Debe seleccionar un archivo de tipo PDF.", "warning");
+            return;
+        }
     });
     actualizarListaDeArchivos(2);
     $(this).val('');

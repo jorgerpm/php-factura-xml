@@ -25,8 +25,12 @@ class loginControlador extends loginModelo {
             } elseif (isset($respuesta)) {
 //                print_r($respuesta);
                 unset($_SESSION['Usuario']); //destruye la sesión
-
-                return '<script>swal("", "Usuario y clave incorrectas.", "warning");</script>';
+                if($respuesta->respuesta != 'OK'){
+                    return '<script>swal("", "'.$respuesta->respuesta.'", "warning");</script>';
+                }
+                else{
+                    return '<script>swal("", "Usuario y clave incorrectas.", "warning");</script>';
+                }
             } else {
                 return '<script>swal("", "No existe conexion a la base de datos.", "error");</script>';
             }

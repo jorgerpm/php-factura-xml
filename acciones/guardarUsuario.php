@@ -8,4 +8,4 @@ else{
 
 $usuarioCont = new usuarioControlador();
 $respuesta = $usuarioCont->guardar_usuario_controlador();
-echo $respuesta . "<script>$('#modalFormUsuario').modal('hide');</script>";
+echo $respuesta;
