@@ -39,8 +39,8 @@
                     </div>
                 </div>
                     </form -->
-                <div class="table-responsive">
-                    <table class="table table-hover table-bordered" id="tablaProveedores">
+                <div class="">
+                    <table class="table-responsive table table-hover table-bordered" id="tablaProveedores">
                         <thead>
                             <tr>
                                 <!--th>Código</th-->

@@ -2,10 +2,10 @@
 
 class proveedorControlador extends proveedorModelo {
 
-    public function listarProveedores($request) {
-        $start = $request['start']; //desde el numero de registro que empieza
-        $length = $request['length']; //el numero de registros a buscar
-        $valBusq = $request['search']['value']; //este es el valor que se ingresa en la busqueda
+    public function listarProveedores($post) {
+        $start = $post['start']; //desde el numero de registro que empieza
+        $length = $post['length']; //el numero de registros a buscar
+        $valBusq = $post['search']['value']; //este es el valor que se ingresa en la busqueda
         
         if(empty($valBusq)){
             $respuesta = proveedorModelo::listar_proveedores($start, $length, null);
@@ -32,7 +32,7 @@ class proveedorControlador extends proveedorModelo {
             }
             
             $returnLista = array(
-			"draw"            => isset ( $request['draw'] ) ? intval( $request['draw'] ) : 0,
+			"draw"            => isset ( $post['draw'] ) ? intval( $post['draw'] ) : 0,
 			"recordsTotal"    => $proveedor->totalRegistros,
 			"recordsFiltered" => $proveedor->totalRegistros,
 			"data"            => $listaProveedores
