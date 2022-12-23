@@ -14,8 +14,8 @@ class rolControlador extends rolModelo {
     public function guardar_rol_controlador() {
         $idRol = $_POST['idRol'];
         $txtNombre = $_POST['txtNombre'];
-        $chkPrincipal = $_POST['chkPrincipal'];
-        $chkPrincipal = ($chkPrincipal == null) ? false : true;
+        $chkPrincipal = isset($_POST['chkPrincipal']) ? true : false;
+//        $chkPrincipal = ($chkPrincipal == null) ? false : true;
         $listStatus = $_POST['listStatus'];
 
         if (isset($txtNombre) && isset($listStatus)) {

@@ -1,7 +1,4 @@
 <?php
-ob_start();
-session_start();
-
 
 $plantilla = new vistasControlador();
 $vistas = $plantilla->obtener_vistas_controlador();

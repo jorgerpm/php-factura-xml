@@ -16,7 +16,7 @@
                 <div >
                     <?php
                     $regsPagina = 10;
-                    if($_POST['txtRegsPagina']){
+                    if(isset($_POST['txtRegsPagina'])){
                         $regsPagina = $_POST['txtRegsPagina'];
                     }
                     $archiCont = new archivoXmlControlador();

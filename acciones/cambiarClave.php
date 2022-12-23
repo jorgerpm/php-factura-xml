@@ -7,5 +7,4 @@ else{
 }
 
 $usuarioControlador = new usuarioControlador();
-session_start();
 $respuesta = $usuarioControlador->cambiar_clave();

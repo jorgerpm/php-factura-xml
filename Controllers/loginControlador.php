@@ -21,6 +21,8 @@ class loginControlador extends loginModelo {
                 
                 $_SESSION['Usuario'] = $respuesta;
                 
+                $_SESSION['tiempo'] = time();
+                
                 return '<script>window.location.href = "home"</script>';
             } elseif (isset($respuesta)) {
 //                print_r($respuesta);

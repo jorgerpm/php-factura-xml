@@ -30,6 +30,7 @@ if (isset($_POST['txtActivo'])) {
         </div -->
         <div class="col-4 col-sm-4 col-md-4" style="padding: 0px">
             <select name="cmbRegsPagina" id="cmbRegsPagina" aria-controls="sampleTable" class="form-control form-control-sm" onchange="cambiarRegsPagina(this)">
+                <!-- option value="5" <php echo $regsPagina==5 ? 'selected':'' ?>>5</option -->
                 <option value="10" <?php echo $regsPagina==10 ? 'selected':'' ?>>10</option>
                 <option value="25" <?php echo $regsPagina==25 ? 'selected':'' ?>>25</option>
                 <option value="50" <?php echo $regsPagina==50 ? 'selected':'' ?>>50</option>
@@ -66,11 +67,57 @@ if (isset($_POST['txtActivo'])) {
             </li>
             
             <?php
+            $puntos = false;
             for ($ind = 1; $ind <= $paginas; $ind++) {
-                if ($ind == $activo) {
-                    echo '<li class="page-item active" aria-current="page"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
-                } else {
-                    echo '<li class="page-item"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
+                if($paginas > 7){
+                    if($ind == 1 || $ind == $paginas){
+                        if ($ind == $activo) {
+                            echo '<li class="page-item active" aria-current="page"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
+                        } else {
+                            echo '<li class="page-item"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
+                        }
+                    }
+                    else{
+                        
+                        if($ind >= ($activo-2) && $ind <= ($activo+2)){
+                            if ($ind == $activo) {
+                                echo '<li class="page-item active" aria-current="page"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
+                            } else {
+                                echo '<li class="page-item"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
+                            }
+                        }
+                        else{
+                            if($ind == ($paginas-1) || $ind == 2){
+                                echo '<li class="page-item"><button type="button" class="page-link" >...</button></li>';
+                            }
+                            else{//este else es para mostrar el boton de la mitad de las paginas
+                                if($activo == 1 || $activo == $paginas){
+                                    $mitad =intval($paginas/2);
+                                    if($ind == ($mitad-1) && $activo < $mitad){
+                                        echo '<li class="page-item"><button type="button" class="page-link" >...</button></li>';
+                                    }elseif($ind == ($mitad+1)  && $activo > $mitad){
+                                        echo '<li class="page-item"><button type="button" class="page-link" >...</button></li>';
+                                    }else{
+                                        if($ind == $mitad){
+                                            if ($ind == $activo) {
+                                                echo '<li class="page-item active" aria-current="page"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
+                                            } else {
+                                                echo '<li class="page-item"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
+                                            }
+                                        }
+                                    }
+                                }
+                            }//hasta acas boton del medio
+                        }
+                        
+                    }
+                }
+                else{
+                    if ($ind == $activo) {
+                        echo '<li class="page-item active" aria-current="page"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
+                    } else {
+                        echo '<li class="page-item"><button type="button" class="page-link" onclick="paginar(' . $ind . ',' . $regsPagina . ')">' . $ind . '</button></li>';
+                    }
                 }
             }
             ?>

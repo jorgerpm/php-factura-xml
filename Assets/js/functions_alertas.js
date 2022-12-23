@@ -109,15 +109,16 @@ function uploadFile() {
         LOADING.style = 'display: flex;';
 
         var formData = new FormData();
+        var resp = $('.RespuestaAjax');
 
         // Read selected files
         fileXml.forEach(fe => {
             formData.append("archivos[]", fe);
-            console.log('arhicvo: ', fe);
+            console.log('archivo xml: ', fe);
         });
         filePdf.forEach(fe => {
             formData.append("archivos[]", fe);
-            console.log('arhicvo: ', fe);
+            console.log('archivo pdf: ', fe);
         });
 
         var xhttp = new XMLHttpRequest();
@@ -142,6 +143,7 @@ function uploadFile() {
                     swal("", "Archivos cargados correctamente", "success");
                 } else {
                     LOADING.style = 'display: none;';
+                    resp.html(response);
                     swal("", "Error en la carga del archivo. " + response, "error");
                 }
 

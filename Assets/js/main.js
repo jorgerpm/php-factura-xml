@@ -111,6 +111,9 @@ $('.FormularioAjax').submit(function (e) {
 
 /**esta parte sirve para inciar sesion en el sistema y enviar encriptado la clave del user*/
 $('.FormLogin').submit(function (e) {
+    const LOADING = document.querySelector('.loader');
+    LOADING.style = 'display: flex;';
+    
     e.preventDefault(); //no se envíe el submit todavía
 
 //var textUsuario = $("#Usuario");
@@ -135,10 +138,12 @@ $('.FormLogin').submit(function (e) {
         contentType: false,
         processData: false,
         success: function (data) {
+            LOADING.style = 'display: none;';
             textClave.value = null;
             respuesta.html(data);
         },
         error: function (error) {
+            LOADING.style = 'display: none;';
             textClave.value = null;
             respuesta.html(error);
         }
