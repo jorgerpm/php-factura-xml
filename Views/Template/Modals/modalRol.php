@@ -27,13 +27,24 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Listar todos los usuarios</label>
+                        <label class="control-label">Listar todos los usuarios:</label>
                         <div class="toggle">
                             <label>
                                 <input type="checkbox" name="chkPrincipal" id="chkPrincipal"><span class="button-indecator"></span>
                                 </label>
                             </div>
                         </div>
+                    
+                    
+                    <div class="form-group">
+                        <label class="control-label">Aprobador?:</label>
+                        <div class="toggle">
+                            <label>
+                                <input type="checkbox" name="chkAutorizador" id="chkAutorizador" checked=""/><span class="button-indecator"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
                     <div class="tile-footer" style="text-align: end;">
                         <button id="btnActionForm" class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg
                                                                                             fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;<a class="btn

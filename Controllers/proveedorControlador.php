@@ -52,9 +52,9 @@ class proveedorControlador extends proveedorModelo {
         if (isset($txtNombre) && isset($txtRuc) && isset($txtCodigoJD)) {
             $datos = [
                 "id" => $idProveedor,
-                "nombre" => strtoupper($txtNombre),
-                "ruc" => strtoupper($txtRuc),
-                "codigoJD" => strtoupper($txtCodigoJD)
+                "nombre" => mb_strtoupper($txtNombre, 'utf-8'),
+                "ruc" => mb_strtoupper($txtRuc, 'utf-8'),
+                "codigoJD" => mb_strtoupper($txtCodigoJD, 'utf-8'),
             ];
 
             $respuesta = proveedorModelo::guardar_proveedor_modelo($datos);

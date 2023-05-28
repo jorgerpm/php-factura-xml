@@ -56,5 +56,10 @@ window.addEventListener('load', (event) => {
 });
 </script>
 
+
+<?php if($_SESSION['Usuario']->alertaFD > 0){ ?>
+        <script>swal('','<?php echo $_SESSION['Usuario']->textoAlertaFD; ?>','warning');</script>
+        <?php } ?>
+
 </body>
 </html>

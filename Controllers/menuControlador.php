@@ -22,7 +22,7 @@ class menuControlador extends menuModelo {
         if (isset($txtTitulo) && isset($txtLink) && isset($txtImagen) && isset($cbxListaMenu) && isset($cbxListaEstado)) {
             $datos = [
                 "id" => $idMenu,
-                "titulo" => strtoupper($txtTitulo),
+                "titulo" => mb_strtoupper($txtTitulo, 'utf-8'),
                 "link" => $txtLink,
                 "imagen" => $txtImagen,
                 "idMenu" => $cbxListaMenu,

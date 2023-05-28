@@ -26,8 +26,13 @@
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                             <tr>
-                                <th>Código</th>
+                                <!-- th>Código</th -->
+                                <th>ID empleado</th>
                                 <th>Nombre</th>
+                                
+                                <th>C&eacute;dula</th>
+                                <th>Cargo</th>
+                                
                                 <th>Usuario</th>
                                 <th>Correo</th>
                                 <th>Rol</th>
@@ -40,8 +45,13 @@
                             foreach ($listaUsuarios as $usuario) {
                                 ?>
                                 <tr>
-                                    <td><?php echo $usuario->id ?></td>
+                                    <!-- td><php echo $usuario->id ?></td -->
+                                    <td><?php echo $usuario->idEmpleado ?></td>
                                     <td><?php echo $usuario->nombre ?></td>
+                                    
+                                    <td><?php echo $usuario->cedula ?></td>
+                                    <td><?php echo $usuario->cargo ?></td>
+                                    
                                     <td><?php echo $usuario->usuario ?></td>
                                     <td><?php echo $usuario->correo ?></td>
                                     <td><?php echo $usuario->nombreRol ?></td>

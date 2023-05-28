@@ -1,5 +1,5 @@
 <section class="login-content">
-    <div class="login-box">
+    <div class="login-box" style="height: 72vh">
         <!-- sección para iniciar sesión -->
         <form id="formUsuario" class="FormCambioClave login-form" action="acciones/cambiarClave.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
             
@@ -16,7 +16,11 @@
             <!-- Ingreso contraseña nueva -->
             <div class="form-group">
                 <label class="control-label">Contrase&ntilde;a nueva</label>
-                <input class="form-control" type="password" name="txtClaveNueva" placeholder="ingrese la contrase&ntilde;a nueva" id="txtClaveNueva" required>
+                <input class="form-control" type="password" name="txtClaveNueva" placeholder="ingrese la contrase&ntilde;a nueva" id="txtClaveNueva" required
+                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,20}$"
+                                   minlength="8" maxlength="20">
+                <label class="control-label">M&iacute;nimo 8 caracteres. M&aacute;ximo 20. Al menos una letra mayúscula. Al menos una letra min&uacute;scula. 
+Al menos un dígito. Y al menos uno de los siguientes caracteres ! @ $ % & * ?</label>
             </div>
 
             <!-- Repetir contraseña nueva -->

@@ -28,6 +28,7 @@
                                     <th>Código</th>
                                     <th>Nombre</th>
                                     <th>Consultar todas las facturas</th>
+                                    <th>Aprobador</th>
                                     <th>Estado</th>
                                     <th></th>
                                 </tr>
@@ -42,6 +43,11 @@
                                         <td>
                                             <label><?php echo ($rol->principal == 1) ? "SÍ" : "NO" ?></label>
                                         </td>
+                                        
+                                        <td>
+                                            <label><?php echo ($rol->autorizador == 1) ? "SÍ" : "NO" ?></label>
+                                        </td>
+                                        
                                         <td><?php echo ($rol->idEstado == 1) ? "ACTIVO" : "INACTIVO"; ?></td>
                                         <td>
                                             <div class="btn-group mr-2" role="group" aria-label="First group">

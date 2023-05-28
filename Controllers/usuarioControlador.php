@@ -60,7 +60,7 @@ class usuarioControlador extends usuarioModelo {
         $cbxListaRol = $_POST['cbxListaRol'];
         $cbxListaEstado = $_POST['cbxListaEstado'];
         
-        $nuevaClave = $txtClaveOriginal;
+        $nuevaClave = null;//$txtClaveOriginal;
         
         if($txtClave != $txtClaveOriginal) {
             $nuevaClave = md5($txtClave);
@@ -69,17 +69,20 @@ class usuarioControlador extends usuarioModelo {
         if (isset($txtNombre) && isset($txtUsuario) && isset($txtClave) && isset($txtCorreo) && isset($cbxListaRol) && isset($cbxListaEstado)) {
             $datos = [
                 "id" => $id,
-                "nombre" => strtoupper($txtNombre),
+                "nombre" => mb_strtoupper($txtNombre, 'utf-8'),
                 "usuario" => $txtUsuario,
                 "clave" => $nuevaClave,
                 "correo" => $txtCorreo,
                 "idEstado" => $cbxListaEstado,
-                "idRol" => $cbxListaRol
+                "idRol" => $cbxListaRol,
+                "cedula" => $_POST['txtCedula'],
+                "idEmpleado" => mb_strtoupper($_POST['idEmpleado'], 'utf-8'),
+                "cargo" => mb_strtoupper($_POST['txtCargo'], 'utf-8'),
             ];
 
             $respuesta = usuarioModelo::guardar_usuario_modelo($datos);
 
-            if ($respuesta->id > 0) {
+            if (isset($respuesta) && $respuesta->id > 0) {
                 return '<script>swal("", "Datos almacenados correctamente", "success")
                     .then((value) => {
                         $(`#btnBuscar`).click();
@@ -87,7 +90,7 @@ class usuarioControlador extends usuarioModelo {
                     $(`#modalFormUsuario`).modal("hide");
                     </script>';
             } else {
-                return '<script>swal("", "ERROR AL ALMACENAR LOS DATOS. '.$respuesta->respuesta.'", "error");</script>';
+                return '<script>swal("", "Error al almacenar los datos. '.$respuesta->respuesta.'", "error");</script>';
             }
         } else {
             return '<script>swal("", "Complete los campos requeridos del formulario.", "error");</script>';
@@ -108,6 +111,15 @@ class usuarioControlador extends usuarioModelo {
         } else {
             return '<script>swal("", "Error en el envío del correo.", "error");</script>';
         }
+    }
+    
+    
+    public function listar_usuarios_rol_controlador($idRol) {
+        $listaUsuarios = usuarioModelo::listar_usuarios_rol_modelo($idRol);
+        if (!isset($listaUsuarios)) {
+            $listaUsuarios = [];
+        }
+        return $listaUsuarios;
     }
 
 }

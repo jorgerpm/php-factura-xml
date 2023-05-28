@@ -100,61 +100,71 @@ inputFilePdf.on('change', function (e) {
 
 // Upload file
 function uploadFile() {
-    if (fileXml.length === 0) {
-//alert('seleccione al menos un archivo');
-        swal("", "Debe seleccionar al menos el archivo xml de la factura", "warning");
-    } else {
-        
-        const LOADING = document.querySelector('.loader');
-        LOADING.style = 'display: flex;';
+    
+    const tipoDoc = document.getElementById("txtTipoDoc");
+    if(tipoDoc.value === ''){
+        swal("", "Seleccione el tipo de documento.", "warning");
+    }
+    else{
+        if (fileXml.length === 0) {
+    //alert('seleccione al menos un archivo');
+            swal("", "Debe seleccionar al menos el archivo xml del comprobante a cargar.", "warning");
+        } else {
 
-        var formData = new FormData();
-        var resp = $('.RespuestaAjax');
+            const LOADING = document.querySelector('.loader');
+            LOADING.style = 'display: flex;';
 
-        // Read selected files
-        fileXml.forEach(fe => {
-            formData.append("archivos[]", fe);
-            console.log('archivo xml: ', fe);
-        });
-        filePdf.forEach(fe => {
-            formData.append("archivos[]", fe);
-            console.log('archivo pdf: ', fe);
-        });
+            var formData = new FormData();
+            var resp = $('.RespuestaAjax');
+            
+            formData.append("txtTipoDoc", tipoDoc.value);
 
-        var xhttp = new XMLHttpRequest();
+            // Read selected files
+            fileXml.forEach(fe => {
+                formData.append("archivos[]", fe);
+                console.log('archivo xml: ', fe);
+            });
+            filePdf.forEach(fe => {
+                formData.append("archivos[]", fe);
+                console.log('archivo pdf: ', fe);
+            });
 
-        // Set POST method and ajax file path
-        xhttp.open("POST", "./acciones/cargarArchivos.php", true);
+            var xhttp = new XMLHttpRequest();
 
-        // call on request changes state
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
+            // Set POST method and ajax file path
+            xhttp.open("POST", "./acciones/cargarArchivos.php", true);
 
-                var response = this.responseText;
+            // call on request changes state
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
 
-                if (response === "OK") {
-                    LOADING.style = 'display: none;';
+                    var response = this.responseText;
 
-                    fileXml = [];
-                    filePdf = [];
-                    actualizarListaDeArchivos(1);
-                    actualizarListaDeArchivos(2);
+                    if (response === "OK") {
+                        LOADING.style = 'display: none;';
 
-                    swal("", "Archivos cargados correctamente", "success");
+                        fileXml = [];
+                        filePdf = [];
+                        actualizarListaDeArchivos(1);
+                        actualizarListaDeArchivos(2);
+
+                        swal("", "Archivos cargados correctamente", "success")
+                                .then(t=>{window.location.href = "cargarXml";});
+                    } else {
+                        LOADING.style = 'display: none;';
+                        resp.html(response);
+                        swal("", "Error en la carga del archivo. " + response, "error");
+                    }
+
                 } else {
                     LOADING.style = 'display: none;';
-                    resp.html(response);
-                    swal("", "Error en la carga del archivo. " + response, "error");
+                    swal("2", "Error en la carga del archivo. " + this.responseText, "error");
                 }
+            };
 
-            } else {
-                LOADING.style = 'display: none;';
-                swal("2", "Error en la carga del archivo. " + this.responseText, "error");
-            }
-        };
-
-        // Send request with data
-        xhttp.send(formData);
+            // Send request with data
+            xhttp.send(formData);
+        }
     }
 
 }

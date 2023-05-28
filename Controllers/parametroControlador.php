@@ -20,9 +20,9 @@ class parametroControlador extends parametroModelo {
         if (isset($txtNombre) && isset($txtValor) && isset($cbxListaEstado)) {
             $datos = [
                 "id" => $idParametro,
-                "nombre" => strtoupper($txtNombre),
+                "nombre" => mb_strtoupper($txtNombre, 'utf-8'),
                 "valor" => $txtValor,
-                "idEstado" => strtoupper($cbxListaEstado)
+                "idEstado" => mb_strtoupper($cbxListaEstado, 'utf-8'),
             ];
 
             $respuesta = parametroModelo::guardar_parametro_modelo($datos);

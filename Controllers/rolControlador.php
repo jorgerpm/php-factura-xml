@@ -21,9 +21,10 @@ class rolControlador extends rolModelo {
         if (isset($txtNombre) && isset($listStatus)) {
             $datos = [
                 "id" => $idRol,
-                "nombre" => strtoupper($txtNombre),
+                "nombre" => mb_strtoupper($txtNombre, 'utf-8'),
                 "principal" => $chkPrincipal,
-                "idEstado" => $listStatus
+                "idEstado" => $listStatus,
+                "autorizador" => (isset($_POST['chkAutorizador']) ? true : false)
             ];
 
             $respuesta = rolModelo::guardar_rol_modelo($datos);

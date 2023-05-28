@@ -18,7 +18,7 @@ class estadoControlador extends estadoModelo {
         if (isset($txtNombre)) {
             $datos = [
                 "id" => $idEstado,
-                "nombre" => strtoupper($txtNombre)
+                "nombre" => mb_strtoupper($txtNombre, 'utf-8'),
             ];
 
             $respuesta = estadoModelo::guardar_estado_modelo($datos);
