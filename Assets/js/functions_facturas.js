@@ -326,3 +326,24 @@ function calcularTotalDetalles(){
     document.getElementById("lblDescuentoTotal").value = descTot;
     
 }
+
+function ponerGuion(input, event){
+//    console.log("eventooo:: ", event);
+    if(event.keyCode >= 48 && event.keyCode <= 57){
+        if(input.value.length === 3 || input.value.length === 7){
+            input.value = input.value + "-";
+        }
+        else{
+            if(input.value.length > 3 && input.value.length < 7){
+                input.value = input.value.replace("-", "");
+//                console.log(input.value.substring(0,3));
+//                console.log(input.value.substring(3));
+
+                input.value = input.value.substring(0,3) + "-" + input.value.substring(3);
+            }
+            if(input.value.length > 7){
+                input.value = input.value.substring(0,7) + "-" + input.value.substring(8);
+            }
+        }
+    }
+}

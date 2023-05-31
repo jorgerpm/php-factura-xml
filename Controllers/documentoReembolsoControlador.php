@@ -147,7 +147,7 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
     
     
     public function cargar_justificacion_controlador() {
-
+//echo $_FILES['txtArchivoJust']['type'];
         $fileP12 = file_get_contents($_FILES['txtArchivoJust']['tmp_name']);
         $archivoB64 = base64_encode($fileP12);
 
@@ -155,6 +155,7 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
         $data = [
             'id' => $_POST['idReembJust'],
             'justificacionBase64' => $archivoB64,
+            'tipoJustificacionBase64' => $_FILES['txtArchivoJust']['type'],
         ];
 
         $respuesta = documentoReembolsoModelo::cargar_justificacion_modelo($data);

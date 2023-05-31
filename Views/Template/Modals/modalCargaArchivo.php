@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formCargaArchivo" class="FormularioAjax login-form" action="acciones/cargarJustificacion.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
+                <form id="formCargaArchivo" class="login-form" action="acciones/cargarJustificacion.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
                     
                     <input id="idReembJust" name="idReembJust" type="hidden">
                     
@@ -40,12 +40,12 @@
 
 <script>
     
-$('.formCargaArchivo').submit(function (e) {
+$('#formCargaArchivo').submit(function (e) {
     const LOADING = document.querySelector('.loader');
     LOADING.style = 'display: flex;';
     
     e.preventDefault(); //no se envíe el submit todavía
-    
+console.log("cargadndododooo");
     var form = $(this);
 
     var accion = form.attr('action');

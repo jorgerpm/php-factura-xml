@@ -43,7 +43,7 @@
                                        pattern="^[a-zA-Z0-9]([a-zA-Z0-9 ]*)" minlength="4"/>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <label>Fecha factura:</label>
+                                <label>Fecha documento:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtFechaFactura" name="txtFechaFactura" class="form-control btn-sm" type="date" value="<?php echo isset($solicitudGet) ? date("Y-m-d", $solicitudGet->fechaSolicitud / 1000) : date("Y-m-d"); ?>" required="">
@@ -59,11 +59,11 @@
                                        pattern="^[a-zA-Z0-9]([a-zA-Z0-9 ]*)" minlength="4" />
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <label class="control-label">N&uacute;mero factura:</label>
+                                <label class="control-label">N&uacute;mero documento:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtNumeroFactura" name="txtNumeroFactura" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->estadoRC : "" ?>" required=""
-                                       pattern="[0-9]{3}-[0-9]{3}-[0-9]{9}" placeholder="000-000-000000000">
+                                       pattern="[0-9]{3}-[0-9]{3}-[0-9]{9}" placeholder="000-000-000000000" onkeyup="ponerGuion(this, event)">
                             </div>
                         </div>
                         
@@ -251,7 +251,7 @@
                         <br>
                         <div style="text-align: center">
                             <button class="btn btn-primary" type="submit" id="btnGuardaSolic">
-                                <i class="fa fa-floppy-o"></i> Guardar factura</button>
+                                <i class="fa fa-floppy-o"></i> Guardar</button>
                                 <button id="lkCancel" class="btn btn-secondary" onclick="window.location.href = './facturasFisicas';" data-dismiss="modal">
                                 <i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</button>
                         </div>

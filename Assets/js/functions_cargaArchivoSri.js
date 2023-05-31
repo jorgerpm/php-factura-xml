@@ -27,13 +27,15 @@ inputFileTxt.on('change', function (e) {
 });
 
 
-
+var indexNumAuto = -1;
 function cargaArchivoSri() {
 
     if (fileTxt.length === 0) {
 //alert('seleccione al menos un archivo');
         swal("", "Debe seleccionar el archivo .txt", "warning");
     } else {
+
+        var thead = document.getElementById('headSri');
 
         var archivo = fileTxt[0];
         var tbody = document.getElementById('dataSri');
@@ -53,23 +55,48 @@ function cargaArchivoSri() {
 
 
             var fila = undefined;
+            
+            var tieneAutorizacion = true;
+            
 
             lineas.map((linea, index) => {
-                if (index > 1) {
+                console.log("la linea: ",index , linea, tieneAutorizacion);
+                //comprobar si el archivo a cargar tiene la columna de clave de acceso    
+                if(index === 0){
+                    if(!linea.includes("NUMERO_AUTORIZACION")){
+                        swal('','El archivo no contiene la columna NUMERO_AUTORIZACION','error');
+                        tieneAutorizacion = false;
+                    }
+                    else{
+                        //formar la cabecera de la tabla con las columnas que tiene el archivo
+                        var headcolumn = linea.split(/\t+/);
+//                        var headrow = thead.rows[0];
+                        for(let i=0;i<headcolumn.length;i++){
+                            thead.rows[0].insertCell().innerHTML = headcolumn[i];
+                            if(headcolumn[i] === "NUMERO_AUTORIZACION"){
+                                indexNumAuto = (i+4);
+                                console.log("el index de la columna del numero de autorizacoin: ", indexNumAuto);
+                            }
+                        }
+                    }
+                }
+                
+                if (tieneAutorizacion === true && index > 0) {
 
                     //antes de generar comprobar si ya tiene esa clave de acceso
                     var existe = false;
                     for (let i = 0; i < tbody.rows.length; i++) {
 //                        console.log("linea: ", linea);
-//                        console.log("calveacceso: ", tbody.rows[i].cells[10].innerHTML);
-                        if (linea.includes(tbody.rows[i].cells[12].innerHTML)) {
+//                        aqui estaba el 12
+                        if (tbody.rows[i].cells[indexNumAuto] && linea.includes(tbody.rows[i].cells[indexNumAuto].innerHTML)) {
                             console.log("contienes issss");
                             existe = true;
                         }
                     }
 
                     if (existe === false) {
-                        const columnas = linea.split("\t");
+                        
+                        const columnas = linea.split(/\t+/);
 
                         console.log("columnas.length: ", columnas.length);
                         if (columnas.length > 1) {
@@ -162,7 +189,7 @@ function enviarFacturasServer(idUsuarioSession) {
                         //                comprobante: tbody.rows[i].cells[7].innerHTML,
                         //                comprobante: tbody.rows[i].cells[8].innerHTML,
                         //                comprobante: tbody.rows[i].cells[9].innerHTML,
-                        claveAcceso: tbody.rows[i].cells[12].innerHTML,
+                        claveAcceso: tbody.rows[i].cells[indexNumAuto].innerHTML,
                     };
 
                     detalles.push(detalle);
@@ -196,7 +223,7 @@ function enviarFacturasServer(idUsuarioSession) {
                                 console.log("1: ", tbody.rows[i].cells[11].innerText);
                                 console.log("2: ", rp.claveAcceso);
 
-                                if (tbody.rows[i].cells[12].innerText === rp.claveAcceso) {//clave de acceso 
+                                if (tbody.rows[i].cells[indexNumAuto].innerText === rp.claveAcceso) {//clave de acceso 
                                     console.log("si iguales");
                                     console.log("rp.respuesta: ", rp.claveAcceso);
 

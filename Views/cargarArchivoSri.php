@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered">
-                            <thead>
+                            <thead id="headSri">
                                 <tr>
                                     
                                     <th>#</th>
@@ -41,7 +41,7 @@
                                     <th>RESULTADO</th>
                                     <th>Estado sistema</th>
                                     
-                                    <th>COMPROBANTE</th>
+                                    <!-- <th>COMPROBANTE</th>
                                     <th>SERIE_COMPROBANTE</th>
                                     <th>RUC_EMISOR</th>
                                     <th>RAZON_SOCIAL_EMISOR</th>
@@ -52,7 +52,7 @@
                                     <th>IDENTIFICACION_RECEPTOR</th>
                                     <th>CLAVE_ACCESO</th>
                                     <th>NUMERO_AUTORIZACION</th>
-                                    <th>IMPORTE_TOTAL</th>
+                                    <th>IMPORTE_TOTAL</th> -->
                                 </tr>
                             </thead>
                             <tbody id="dataSri">

@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formDatosReemb" class="FormularioAjax login-form" action="" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
+                <form id="formDatosReemb" class="login-form" action="" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
                     
                     <div class="form-group row">
                         <div class="col-md-6">

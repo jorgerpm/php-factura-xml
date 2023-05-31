@@ -10,6 +10,11 @@ function openModalUsuario(val_datos) {
         
         document.querySelector('#txtClave').value = "986777f98F&b42b69b19";//val_datos.clave;
         document.querySelector('#txtClaveAux').value = "986777f98F&b42b69b19";//val_datos.clave;
+        
+        document.querySelector('#idEmpleado').value = val_datos.idEmpleado;
+        document.querySelector('#txtCedula').value = val_datos.cedula;
+        document.querySelector('#txtCargo').value = val_datos.cargo;
+        
     }
     else{
         document.querySelector('#idUsuario').value = null;

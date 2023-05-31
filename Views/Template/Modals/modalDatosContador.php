@@ -8,51 +8,51 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formDatosConta" class="FormularioAjax login-form" action="acciones/guardarDatosContabilidad.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
+                <form id="formDatosConta" class="login-form" action="acciones/guardarDatosContabilidad.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
                     
                     <input id="idReemb" name="idReemb" type="hidden">
                     
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">No.Batch del ingreso de liquidación:</label>
-                            <input class="form-control" id="batchIngresoLiquidacion" name="batchIngresoLiquidacion" type="text" required="" style="text-transform: uppercase;">
+                            <input class="form-control" id="batchIngresoLiquidacion" name="batchIngresoLiquidacion" type="text"  style="text-transform: uppercase;">
                         </div>
                         <div class="col-md-6">
                             <label class="control-label">No. Batch documentos internos:</label>
-                            <input class="form-control" id="batchDocumentoInterno" name="batchDocumentoInterno" type="text" required="" style="text-transform: uppercase;">
+                            <input class="form-control" id="batchDocumentoInterno" name="batchDocumentoInterno" type="text"  style="text-transform: uppercase;">
                         </div>
                     </div>
                     
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">P3:</label>
-                            <input class="form-control" id="p3" name="p3" type="text" required="" style="text-transform: uppercase;">
+                            <input class="form-control" id="p3" name="p3" type="text"  style="text-transform: uppercase;">
                         </div>
                         <div class="col-md-6">
                             <label class="control-label">P4:</label>
-                            <input class="form-control" id="p4" name="p4" type="text" step="any" required="" style="text-transform: uppercase;">
+                            <input class="form-control" id="p4" name="p4" type="text" step="any"  style="text-transform: uppercase;">
                         </div>
                     </div>
                     
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">P5:</label>
-                            <input class="form-control" id="p5" name="p5" type="text" required="" style="text-transform: uppercase;">
+                            <input class="form-control" id="p5" name="p5" type="text"  style="text-transform: uppercase;">
                         </div>
                         <div class="col-md-6">
                             <label class="control-label">PH/NE:</label>
-                            <input class="form-control" id="phne" name="phne" type="text" required="" style="text-transform: uppercase;">
+                            <input class="form-control" id="phne" name="phne" type="text"  style="text-transform: uppercase;">
                         </div>
                     </div>
                     
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Cruce:</label>
-                            <input class="form-control" id="cruce1" name="cruce1" type="text" required="" style="text-transform: uppercase;">
+                            <input class="form-control" id="cruce1" name="cruce1" type="text"  style="text-transform: uppercase;">
                         </div>
                         <div class="col-md-6">
                             <label class="control-label">Cruce2:</label>
-                            <input class="form-control" id="cruce2" name="cruce2" type="text" required="" style="text-transform: uppercase;">
+                            <input class="form-control" id="cruce2" name="cruce2" type="text"  style="text-transform: uppercase;">
                         </div>
                     </div>
                     
@@ -64,21 +64,21 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="control-label">JUSTIFICATIVOS:</label>
-                                <input class="form-control" id="justificativos" name="justificativos" type="text" required="" style="text-transform: uppercase;">
+                                <input class="form-control" id="justificativos" name="justificativos" type="text"  style="text-transform: uppercase;">
                             </div>
                             <div class="col-md-6">
                                 <label class="control-label">TIPO DOCUMENTO:</label>
-                                <input class="form-control" id="tipoDocumento" name="tipoDocumento" type="text" required="" style="text-transform: uppercase;">
+                                <input class="form-control" id="tipoDocumento" name="tipoDocumento" type="text"  style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="control-label">NÚMERO DE DOCUMENTO:</label>
-                                <input class="form-control" id="numeroDocumento" name="numeroDocumento" type="text" required="" style="text-transform: uppercase;">
+                                <input class="form-control" id="numeroDocumento" name="numeroDocumento" type="text"  style="text-transform: uppercase;">
                             </div>
                             <div class="col-md-6">
                                 <label class="control-label">NÚMERO DE RETENCIÓN:</label>
-                                <input class="form-control" id="numeroRetencion" name="numeroRetencion" type="text" required="" style="text-transform: uppercase;">
+                                <input class="form-control" id="numeroRetencion" name="numeroRetencion" type="text" style="text-transform: uppercase;">
                             </div>
                         </div>
                     </div>
@@ -101,18 +101,19 @@
 
 <script>
     
-$('.formDatosConta').submit(function (e) {
+$('#formDatosConta').submit(function (e) {
+    console.log("cero");
     const LOADING = document.querySelector('.loader');
     LOADING.style = 'display: flex;';
     
     e.preventDefault(); //no se envíe el submit todavía
-    
+    console.log("uno");
     var form = $(this);
-
+console.log("dos");
     var accion = form.attr('action');
     var metodo = form.attr('method');
     var respuesta = form.children('.RespuestaAjax');
-
+console.log("tes");
     var formdata = new FormData(this);
 
     $.ajax({

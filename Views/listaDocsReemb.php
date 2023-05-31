@@ -35,7 +35,7 @@
                                 <div class="row">
 
                                     <div class="col-md-3" style="/*display: <php echo ($_SESSION['Rol']->id ==1 || $_SESSION['Rol']->principal == 1) ? '' :'none' ?> */ ">
-                                        <label class="btn-sm" for="listUsers">Usuario:</label>
+                                        <label class="btn-sm" for="listUsers">Usuario carga:</label>
                                     </div>
                                     <div class="col-md-3 col-12" style="/*display: <php echo ($_SESSION['Rol']->id ==1 || $_SESSION['Rol']->principal == 1) ? '' :'none' ?>*/">
                                         <?php require_once './acciones/listarUsuarios.php'; ?>
@@ -57,7 +57,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-3" style="/*padding: 0px 0px 0px 0px*/">
-                                        <label class="control-label btn-sm" for="dtFechaIni">Fecha desde:</label>
+                                        <label class="control-label btn-sm" for="dtFechaIni">Fecha carga desde:</label>
                                     </div>
                                     <div class="col-md-3 col-12" style="/*padding: 0px 5px 0px 5px*/">
                                         <input id="dtFechaIni" name="dtFechaIni" class="form-control btn-sm" type="date" value="<?php
@@ -76,7 +76,7 @@
                                 <div class="row">
 
                                     <div class="col-md-3" style="/*padding: 0px 0px 0px 0px*/">
-                                        <label class="btn-sm" for="dtFechaFin">Fecha hasta:</label>
+                                        <label class="btn-sm" for="dtFechaFin">Fecha carga hasta:</label>
                                     </div>
                                     <div class="col-md-3 col-12" style="/*padding: 0px 5px 0px 0px*/">
                                         <input id="dtFechaFin" name="dtFechaFin" class="form-control btn-sm" type="date" value="<?php
@@ -132,16 +132,16 @@
                                         <?php //para el contador o para el auxiliar
                                         if($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5){ ?>
                                         <th>Datos conta.</th>
-                                        <th>Solicitar devoluci&oacute;n</th>
+                                        <th>Solicitar justificativo</th>
                                         <?php } ?>
                                         
                                         <th>Ver doc. reembolso</th>
                                         <th>Cargar justific.</th>
                                         <th>Ver justificativo</th>
                                         <th>Estado Sistema</th>
-                                        <th>Usuario</th>
+                                        <th>Tipo reembolso</th>
+                                        <th>Usuario carga</th>
                                         <th>Fecha de carga</th>
-
                                         <th>Usuario aprueba/rechaza</th>
                                         <th>Fecha aprueba/rechaza</th>
                                         <th>Raz&oacute;n rechazo</th>
@@ -189,23 +189,33 @@
                                                 </td>
                                                 
                                                 <td>
-                                                    <button class="btn btn-link fa fa-lg fa-upload" type="button" style="border: none"
+                                                    <?php $mostrar = false; 
+                                                    if($_SESSION['Usuario']->id == $docReembolso->usuarioCarga){ //el rol=3 son los jefes 
+                                                        $mostrar = true;
+                                                    }
+                                                    //para el contador o para el auxiliar y admin
+                                                    if($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5 || $_SESSION['Rol']->id == 1){
+                                                        $mostrar = true;
+                                                    }
+                                                    if($mostrar == true){?>
+                                                        <button class="btn btn-link fa fa-lg fa-upload" type="button" style="border: none"
                                                             onclick="abrirCargaArchivo(<?php echo $docReembolso->id; ?>)"></button>
+                                                    <?php } ?>
                                                 </td>
                                                 
                                                 <td>
                                                     <?php if(isset($docReembolso->justificacionBase64)) { ?>
                                                     <button class="btn btn-link fa fa-lg fa-download" type="button" style="border: none"
-                                                            onclick="mostrarJustificativo('<?php echo $docReembolso->justificacionBase64; ?>')"></button>
+                                                            onclick="mostrarJustificativo('<?php echo $docReembolso->justificacionBase64; ?>', '<?php echo $docReembolso->tipoJustificacionBase64; ?>')"></button>
                                                     <?php } ?>
                                                 </td>
 
                                                 
                                                     
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->estado; ?></td>
+                                                <td style="white-space: nowrap;"><?php echo ($docReembolso->tipoReembolso == "VIAJES" ? "LIQUIDACION DE GASTO DE VIAJES" : ($docReembolso->tipoReembolso == "GASTOS" ? "REEMBOLSO DE GASTOS" : $docReembolso->tipoReembolso)); ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->usuario->nombre; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo date("d/m/Y", $docReembolso->fechaCargaLong / 1000); ?></td>
-
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->usuarioAutoriza; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->fechaAutorizaLong != null ? date("d/m/Y H:i:s", $docReembolso->fechaAutorizaLong / 1000) : ""; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->razonRechazo; ?></td>
@@ -215,7 +225,7 @@
                                             <?php
                                         }
                                     } else {
-                                        echo '<tr><td colspan="8">No existen registros.</td></tr>';
+                                        echo '<tr><td colspan="11">No existen registros.</td></tr>';
                                     }
                                     ?>
                                 </tbody>
@@ -409,7 +419,7 @@ function abrirCargaArchivo(idReembolso){
     $('#modalCargaArchivo').modal('show');
 }
 
-function mostrarJustificativo(fileBase63){
+function mostrarJustificativo(fileBase63, tipof){
     
     var byteCharacters = atob(fileBase63);
     var byteNumbers = new Array(byteCharacters.length);
@@ -417,7 +427,20 @@ function mostrarJustificativo(fileBase63){
       byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
     var byteArray = new Uint8Array(byteNumbers);
-    var file = new Blob([byteArray], { type: 'application/pdf;base64' });
+    
+    //saber el tipo del archivo que es
+    console.log("tipof:: ", tipof);
+//    var tipoArchivo = "";
+//    if(tipof === "pdf")
+//        tipoArchivo = 'document/pdf';
+//    if(tipof === "gif" || tipof === "png" || tipof === "jpg")
+//        tipoArchivo = 'image/'+tipof;
+//    if(tipof === "xls" || tipof === "xlsx")
+//        tipoArchivo = 'application/vnd.ms-excel';
+//    if(tipof === "doc" || tipof === "docx")
+//        tipoArchivo = 'application/vnd.ms-word';
+    
+    var file = new Blob([byteArray], { type: tipof+";base64" });
     var fileURL = URL.createObjectURL(file);
     window.open(fileURL, '_blank', 'height=450,width=375,resizable=1');
 }
