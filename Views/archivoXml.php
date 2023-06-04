@@ -438,8 +438,16 @@ function pruebaUno(filename, seleccionados){
                         }
                     }
                 }
-                //se agrega dos mas por el tema de los detalles
+                //se agrega  mas columnas por el tema de los detalles
                 if(conDetalles && conDetalles.checked === true){//si esta marcado el con detalles
+                    arrayCols.push(datascv.length-10);
+                    arrayCols.push(datascv.length-9);
+                    arrayCols.push(datascv.length-8);
+                    arrayCols.push(datascv.length-7);
+                    arrayCols.push(datascv.length-6);
+                    arrayCols.push(datascv.length-5);
+                    arrayCols.push(datascv.length-4);
+                    
                     arrayCols.push(datascv.length-3);
                     arrayCols.push(datascv.length-2);
                 }

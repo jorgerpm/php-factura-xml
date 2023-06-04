@@ -131,6 +131,14 @@ if (count($respuesta) > 0) {
         if(isset($_POST['conDetalles']) && $_POST['conDetalles'] == true){
             array_push($filas, $listaArchivoXml->detalle);
             array_push($filas, $listaArchivoXml->precioUnitario);
+            //para las retenciones
+            array_push($filas, $listaArchivoXml->codDocSustento);
+            array_push($filas, $listaArchivoXml->numDocSustento);
+            array_push($filas, $listaArchivoXml->fechaEmisionDocSustento);
+            array_push($filas, $listaArchivoXml->codigoRetencion);
+            array_push($filas, $listaArchivoXml->baseImponible);
+            array_push($filas, $listaArchivoXml->porcentajeRetener);
+            array_push($filas, $listaArchivoXml->valorRetenido);
         }
         
 

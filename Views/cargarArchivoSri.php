@@ -22,8 +22,7 @@
                             <label id="archivoTxt" style="word-break:break-word;"></label>
                         </div>
                         <div class="col-sm-4">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="cargaArchivoSri();" title="Muestra el contenido del archivo">
-                                <i class="fa fa-upload1"></i> Mostrar registros</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="cargaArchivoSri();" title="Muestra el contenido del archivo">Mostrar registros</button>
                         </div>
                     </div>
                     
@@ -41,7 +40,7 @@
                                     <th>RESULTADO</th>
                                     <th>Estado sistema</th>
                                     
-                                    <!-- <th>COMPROBANTE</th>
+                                    <!--<th>COMPROBANTE</th>
                                     <th>SERIE_COMPROBANTE</th>
                                     <th>RUC_EMISOR</th>
                                     <th>RAZON_SOCIAL_EMISOR</th>
@@ -52,7 +51,7 @@
                                     <th>IDENTIFICACION_RECEPTOR</th>
                                     <th>CLAVE_ACCESO</th>
                                     <th>NUMERO_AUTORIZACION</th>
-                                    <th>IMPORTE_TOTAL</th> -->
+                                    <th>IMPORTE_TOTAL</th>-->
                                 </tr>
                             </thead>
                             <tbody id="dataSri">
@@ -62,10 +61,10 @@
                     </div>
                     <br/>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <button class="btn btn-primary" type="button" onclick="enviarFacturasServer(<?php echo $_SESSION['Usuario']->id; ?>)">CARGAR FACTURAS</button>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <!-- select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" 
                                         id="txtTipoPdf" name="txtTipoPdf">
                                     

@@ -8,7 +8,7 @@ class cargarXmlModelo extends serviciosWebModelo {
     }
     
     public function cargar_archivo_sri_modelo($data) {
-        $respp = serviciosWebModelo::invocarPost('archivoXml/cargarArchivoSri', $data);
+        $respp = serviciosWebModelo::invocarPostConTiempo('archivoXml/cargarArchivoSri', $data, 480);
         return $respp;
     }
 

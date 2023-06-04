@@ -7,13 +7,51 @@ if (is_file('./Utils/configUtil.php')) {
 }
 
 if (isset($_SESSION['Usuario'])) {
-
+//set_time_limit(300);
 //    print_r(json_decode($_POST['detalles']));
 
     $dets = json_decode($_POST['detalles']);
 
-    $cargarXmlModelo = new cargarXmlModelo();
-    $respuesta = $cargarXmlModelo->cargar_archivo_sri_modelo($dets);
+//    count($dets);
+//    print_r($dets);
+//    echo PHP_EOL;
+    
+    
+    $arrayDetalles = [];
+    $respuesta = [];
+    for($i=0;$i<count($dets);$i++){
+        $respuestaAux = null;
+        $arrayDetalles[] = $dets[$i];
+//        array_push($arrayDetalles, $dets[i]);
+        
+        if(($i+1) == count($dets)){
+//            print_r($arrayDetalles);
+            $cargarXmlModelo = new cargarXmlModelo();
+            $respuestaAux = $cargarXmlModelo->cargar_archivo_sri_modelo($arrayDetalles);
+            
+            $arrayDetalles = [];
+        }
+        else{
+            if((($i+1) % 3) == 0){
+//                echo "es multiplo de 10<br>".PHP_EOL;
+                $cargarXmlModelo = new cargarXmlModelo();
+                $respuestaAux = $cargarXmlModelo->cargar_archivo_sri_modelo($arrayDetalles);
+                
+                $arrayDetalles = [];
+            }
+        }
+        
+        if($respuestaAux != null && count($respuestaAux) > 0){
+            foreach ($respuestaAux as $aux){
+                $respuesta[] = $aux;
+            }
+        }
+    }
+    
+    
+    //
+//    $cargarXmlModelo = new cargarXmlModelo();
+//    $respuesta = $cargarXmlModelo->cargar_archivo_sri_modelo($dets);
 
     if (isset($respuesta) && count($respuesta) > 0) {
         $respss = "";
@@ -79,12 +117,6 @@ if (isset($_SESSION['Usuario'])) {
                 chmod($path."/".$arch->claveAcceso.".pdf", 0666);
                 
                 
-                //aca hacer el mesnaje de respuesta
-                //echo '<script>swal("", "Datos cargados correctamente", "success");</script>';
-//                    .then((value) => {
-//                        $(`#btnBuscar`).click();
-//                    });</script>';
-                
             }
             else if(isset($arch->respuesta)){
                 $respss = $respss . $arch->respuesta . " ";
@@ -94,6 +126,11 @@ if (isset($_SESSION['Usuario'])) {
                 $respss = $respss . $arch->respuesta . " ";
 //                echo '<script>swal("", "Error al cargar las facturas.", "error");</script>';
             }
+            
+            $arch->fileBase64 = null;
+            $arch->rideBase64 = null;
+            $arch->pathArchivos = null;
+            
         }
         
         if($respss === ""){

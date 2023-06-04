@@ -10,7 +10,7 @@ class generarTablaControlador {
         $COL_FIN = 7;
         
         if(isset($_POST['conDetalles']) && $_POST['conDetalles'] == true){
-            $COL_FIN = 9;
+            $COL_FIN = 16;
         }
 
         $valores = [];
@@ -125,6 +125,7 @@ class generarTablaControlador {
     
     
     private function generarTablaRetencion($docum, $columns, $COL_FIN) {
+//        print_r($docum);
         $valores = [];
         if ($docum != null) {
             for ($ind = self::COL_INI; $ind < (count($columns) - $COL_FIN); $ind++) {
@@ -151,60 +152,112 @@ class generarTablaControlador {
                     if ($coincide) {
                         
                     } else {
-//                        //print_r($docum->infoFactura->totalConImpuestos->totalImpuesto);
-//                        if (isset($docum->infoCompRetencion->totalConImpuestos->totalImpuesto)) {
-//                            $codP = -1;
-//                            foreach ($docum->infoCompRetencion->totalConImpuestos->totalImpuesto as $keyImp => $valImp) {
-//
-//                                if (isset($valImp->baseImponible)) {
-//                                    //$comprobar = array_search($valImp->baseImponible, $valores, false);
-//                                    //echo '{'.print_r($comprobar == false).'}';
-//                                    //if($comprobar == false){
-//                                    if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:' . $valImp->codigoPorcentaje) {
-//                                        array_push($valores, $valImp->baseImponible);
-//                                        //echo 'sii:: '.$valImp->baseImponible;
-//                                        $coincide = true;
-//                                        // break;
-//                                    }
-//                                    if ($columns[$ind]['col'] == 'valor codigoPorcentaje:' . $valImp->codigoPorcentaje) {
-//                                        array_push($valores, $valImp->valor);
-//                                        //echo 'sii:: '.$valImp->baseImponible;
-//                                        $coincide = true;
-//                                        // break;
-//                                    }
-//                                } else {
-//                                    if ($keyImp == 'codigoPorcentaje') {
-//                                        $codP = $valImp;
-//                                    }
-//                                    if ($keyImp == 'baseImponible') {
-//                                        //$comprobar = array_search($valImp, $valores, false);
-//                                        //  echo '['.print_r($comprobar).']';
-//                                        //if($comprobar == false){
-//                                        if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:' . $codP) {
-//                                            array_push($valores, $valImp);
-//                                            //echo 'nooo:: '.$valImp;
-//                                            $coincide = true;
-//                                            //   break;
-//                                        }
-//                                    }
-//                                    if ($keyImp == 'valor') {
-//                                        if ($columns[$ind]['col'] == 'valor codigoPorcentaje:' . $codP) {
-//                                            array_push($valores, $valImp);
-//                                            //echo 'nooo:: '.$valImp;
-//                                            $coincide = true;
-//                                            //   break;
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                            //if ($coincide) {break;}
-////                                                            break;
-//                        }
-//                        if ($coincide) {
-//                            
-//                        } else {
+                        
+                        
+                        if (isset($docum->docsSustento->docSustento)) {
+                            
+                            $codP = -1;
+                            foreach ($docum->docsSustento->docSustento as $keyImp => $valImp) {
+//                                print_r($valImp);
+                                if(isset($valImp->impuestoDocSustento)){
+                                    if (isset($valImp->impuestoDocSustento->baseImponible)) {
+                                        //$comprobar = array_search($valImp->baseImponible, $valores, false);
+                                        //echo '{'.print_r($comprobar == false).'}';
+                                        //if($comprobar == false){
+                                        if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:' . $valImp->impuestoDocSustento->codigoPorcentaje) {
+                                            array_push($valores, $valImp->impuestoDocSustento->baseImponible);
+                                            //echo 'sii:: '.$valImp->baseImponible;
+                                            $coincide = true;
+                                            // break;
+                                        }
+                                        if ($columns[$ind]['col'] == 'valorImpuesto codigoPorcentaje:' . $valImp->impuestoDocSustento->codigoPorcentaje) {
+                                            array_push($valores, $valImp->impuestoDocSustento->valorImpuesto);
+                                            //echo 'sii:: '.$valImp->baseImponible;
+                                            $coincide = true;
+                                            // break;
+                                        }
+                                    } else {
+                                        if ($keyImp == 'codigoPorcentaje') {
+                                            $codP = $valImp;
+                                        }
+                                        if ($keyImp == 'baseImponible') {
+                                            //$comprobar = array_search($valImp, $valores, false);
+                                            //  echo '['.print_r($comprobar).']';
+                                            //if($comprobar == false){
+                                            if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:' . $codP) {
+                                                array_push($valores, $valImp);
+                                                //echo 'nooo:: '.$valImp;
+                                                $coincide = true;
+                                                //   break;
+                                            }
+                                        }
+                                        if ($keyImp == 'valorImpuesto') {
+                                            if ($columns[$ind]['col'] == 'valorImpuesto codigoPorcentaje:' . $codP) {
+                                                array_push($valores, $valImp);
+                                                //echo 'nooo:: '.$valImp;
+                                                $coincide = true;
+                                                //   break;
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                
+                                if(isset($valImp->retencion)){
+                                    foreach ($valImp->retencion as $keyImp => $valImp) {
+                                        if(isset($valImp->codigoRetencion)){
+                                            if ($columns[$ind]['col'] == 'baseImponible codigoRetencion:' . $valImp->codigoRetencion) {
+                                                array_push($valores, $valImp->baseImponible);
+                                                $coincide = true;
+                                                // break;
+                                            }
+                                            if ($columns[$ind]['col'] == 'valorRetenido codigoRetencion:' . $valImp->codigoRetencion) {
+                                                array_push($valores, $valImp->valorRetenido);
+                                                $coincide = true;
+                                                // break;
+                                            }
+                                        }
+                                        else{
+//                                            echo $keyImp .'=='.$valImp;echo "<br/>";
+                                            if ($keyImp == 'codigoRetencion') {
+                                                $codP = $valImp;
+                                            }
+                                            if ($keyImp == 'baseImponible') {
+                                                //$comprobar = array_search($valImp, $valores, false);
+                                                //  echo '['.print_r($comprobar).']';
+                                                //if($comprobar == false){
+                                                if ($columns[$ind]['col'] == 'baseImponible codigoRetencion:' . $codP) {
+                                                    array_push($valores, $valImp);
+                                                    //echo 'nooo:: '.$valImp;
+                                                    $coincide = true;
+                                                    //   break;
+                                                }
+                                            }
+                                            if ($keyImp == 'valorRetenido') {
+                                                if ($columns[$ind]['col'] == 'valorRetenido codigoRetencion:' . $codP) {
+                                                    array_push($valores, $valImp);
+                                                    //echo 'nooo:: '.$valImp;
+                                                    $coincide = true;
+                                                    //   break;
+                                                }
+                                            }
+                                            
+                                        }
+                                    } 
+                                }
+                                
+                                
+                                
+                                
+                            }
+                            //if ($coincide) {break;}
+//                                                            break;
+                        }
+                        if ($coincide) {
+                            
+                        } else {
                             array_push($valores, '0');
-//                        }
+                        }
                     }
                 }
             }

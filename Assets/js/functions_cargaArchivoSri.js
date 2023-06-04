@@ -22,45 +22,66 @@ inputFileTxt.on('change', function (e) {
             return;
         }
     });
-    actualizarListaDeArchivos(3);
+    actualizarListaDeArchivos();
     $(this).val('');
+    
+    
+    //al seleccionar otro archivo se debe limpiar lo que ya cargaron
+    var tbody = document.getElementById('dataSri');
+    var inde = tbody.rows.length;
+    for(let i=0;i<inde;i++){
+//        console.log("i: ", i);
+        tbody.deleteRow(0);
+//        console.log("va a limpiar");
+    }
+    var thead = document.getElementById('headSri');
+    inde = thead.rows[0].cells.length;
+//    console.log("celdads: ", inde);
+    for(let i=4;i<inde;i++){
+        thead.rows[0].deleteCell(4);
+//        console.log("quito cabeza");
+    }
+    
 });
 
 
-var indexNumAuto = -1;
+let indexNumAuto = -1;
 function cargaArchivoSri() {
+    const LOADINGx = document.querySelector('.loader');
+        LOADINGx.style = 'display: flex;';
+        console.log("bloquea pantalla");
+        
 
     if (fileTxt.length === 0) {
 //alert('seleccione al menos un archivo');
+        LOADINGx.style = 'display: none;';
         swal("", "Debe seleccionar el archivo .txt", "warning");
     } else {
+        LOADINGx.style = 'display: flex;';
+            
+        const thead = document.getElementById('headSri');
 
-        var thead = document.getElementById('headSri');
+        const archivo = fileTxt[0];
+        const tbody = document.getElementById('dataSri');
+        const resp = $('.RespuestaAjax');
 
-        var archivo = fileTxt[0];
-        var tbody = document.getElementById('dataSri');
-        var resp = $('.RespuestaAjax');
-
-        console.log("va al filereader");
+//        console.log("va al filereader");
         var lector = new FileReader();
         lector.onload = function (e) {
-
-            const LOADING = document.querySelector('.loader');
-            LOADING.style = 'display: flex;';
+            LOADINGx.style = 'display: flex;';
 
             var contenido = e.target.result;
 //            console.log("contenido: ", contenido.split("\n"));
 
             const lineas = contenido.split("\n");
 
-
-            var fila = undefined;
+            let fila = undefined;
             
-            var tieneAutorizacion = true;
+            let tieneAutorizacion = true;
             
 
             lineas.map((linea, index) => {
-                console.log("la linea: ",index , linea, tieneAutorizacion);
+//                console.log("la linea: ",index , linea, tieneAutorizacion);
                 //comprobar si el archivo a cargar tiene la columna de clave de acceso    
                 if(index === 0){
                     if(!linea.includes("NUMERO_AUTORIZACION")){
@@ -69,8 +90,8 @@ function cargaArchivoSri() {
                     }
                     else{
                         //formar la cabecera de la tabla con las columnas que tiene el archivo
-                        var headcolumn = linea.split(/\t+/);
-//                        var headrow = thead.rows[0];
+                        const headcolumn = linea.split(/\t/);
+
                         for(let i=0;i<headcolumn.length;i++){
                             thead.rows[0].insertCell().innerHTML = headcolumn[i];
                             if(headcolumn[i] === "NUMERO_AUTORIZACION"){
@@ -89,16 +110,19 @@ function cargaArchivoSri() {
 //                        console.log("linea: ", linea);
 //                        aqui estaba el 12
                         if (tbody.rows[i].cells[indexNumAuto] && linea.includes(tbody.rows[i].cells[indexNumAuto].innerHTML)) {
-                            console.log("contienes issss");
+//                        if (tbody.rows[i].cells[12] && linea.includes(tbody.rows[i].cells[12].innerHTML)) {
+//                            console.log("contienes issss");
                             existe = true;
                         }
                     }
 
                     if (existe === false) {
                         
-                        const columnas = linea.split(/\t+/);
+                        const columnas = linea.split(/\t/);
+                        
+//                        console.log("spliittt:: ", columnas);
 
-                        console.log("columnas.length: ", columnas.length);
+//                        console.log("columnas.length: ", columnas.length);
                         if (columnas.length > 1) {
 //                            console.log(linea);
 
@@ -114,28 +138,27 @@ function cargaArchivoSri() {
 
                             columnas.map(col => {
 //                                console.log("col: ", col);
-                                if (col !== '')
-                                    fila.insertCell().innerHTML = col;
+                                fila.insertCell().innerHTML = col;
                             });
                         } else {
 //                            console.log("insertlinea: ", linea);
-                            if (fila && linea !== '')
-                                fila.insertCell().innerHTML = linea;
+//                            if (fila && linea !== '')
+//                                fila.insertCell().innerHTML = linea;
                         }
                     }
                 }
             });
 
-
-            LOADING.style = 'display: none;';
-
-
+            console.log("quita bloqueo");
+            LOADINGx.style = 'display: none;';
+            
         };
+        
         lector.readAsText(archivo, 'ISO-8859-1');
         console.log("leyyoooo");
 
         fileTxt = [];
-        actualizarListaDeArchivos(3);
+        actualizarListaDeArchivos();
 
     }
 
@@ -151,6 +174,7 @@ function actualizarListaDeArchivos() {
 }
 
 function enviarFacturasServer(idUsuarioSession) {
+    console.log("xxx inica");
     var tbody = document.getElementById('dataSri');
     var respuesta = $('.RespuestaAjax');
 
@@ -162,21 +186,23 @@ function enviarFacturasServer(idUsuarioSession) {
                 existen = true;
                 break;
             }
-            console.log(select);
+//            console.log(select);
         }
 
         if (existen === true) {
-            const LOADING = document.querySelector('.loader');
-            LOADING.style = 'display: flex;';
-
-            var formData = new FormData();
+            console.log("a bloeuqar");
+            const LOADINGy = document.querySelector('.loader');
+            LOADINGy.style.display = "flex";
+            LOADINGy.style.backgroundColor = "red";
+            console.log(LOADINGy);
+            console.log(LOADINGy.style);
 
             const detalles = [];
 
             for (let i = 0; i < tbody.rows.length; i++) {
 
                 const select = tbody.rows[i].cells[1].children[0].checked;
-                console.log(select);
+//                console.log(select);
 
                 if (select === true) {
                     const detalle = {
@@ -189,80 +215,37 @@ function enviarFacturasServer(idUsuarioSession) {
                         //                comprobante: tbody.rows[i].cells[7].innerHTML,
                         //                comprobante: tbody.rows[i].cells[8].innerHTML,
                         //                comprobante: tbody.rows[i].cells[9].innerHTML,
+//                        claveAcceso: tbody.rows[i].cells[12].innerHTML,
                         claveAcceso: tbody.rows[i].cells[indexNumAuto].innerHTML,
                     };
 
-                    detalles.push(detalle);
+                    detalles.push(detalle);   
                 }
-
             }
-            console.log('detalles: ', (JSON.stringify(detalles)));
+//            console.log('detalles: ', (JSON.stringify(detalles)));
 
-            formData.append("detalles", JSON.stringify(detalles));
-            //        formData.append("detalles", detalles);
-
-            $.ajax({
-                type: 'POST',
-                url: 'acciones/cargarArchivoSri.php',
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    console.log("respuets: ", (data));
-                    if(data.includes("window.location") || data.includes("error 404")){
-                        window.location.replace("index");
+            //desde aqui se reemplaza
+            let auxDetalles = [];
+            let formData = new FormData();
+            detalles.map((deta, indexDeta) => {
+                auxDetalles.push(deta);
+                let jsonEnvia = JSON.stringify(auxDetalles);
+                formData.append("detalles", jsonEnvia);
+                if((indexDeta+1) === detalles.length){
+                    procesarEnvioArchivoServer(formData, tbody, indexDeta, detalles, LOADINGy);
+                    formData = new FormData();
+                    auxDetalles = [];
+                }
+                else{
+                    if(((indexDeta+1) % 50) === 0){
+                        procesarEnvioArchivoServer(formData, tbody, indexDeta, detalles, LOADINGy);
+                        formData = new FormData();
+                        auxDetalles = [];
                     }
-                    else if(data !== null){
-                        const rsp = JSON.parse(data);
-
-                        console.log("hecho json: ", rsp[0]);
-
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            rsp.map(rp => {
-                                console.log("1: ", tbody.rows[i].cells[11].innerText);
-                                console.log("2: ", rp.claveAcceso);
-
-                                if (tbody.rows[i].cells[indexNumAuto].innerText === rp.claveAcceso) {//clave de acceso 
-                                    console.log("si iguales");
-                                    console.log("rp.respuesta: ", rp.claveAcceso);
-
-                                    if (rp.respuesta === "OK") {
-                                        //var check = '<div><input type="checkbox" id="envio' + i + '" onchange="seleccionarParaEnvio(this, \'' + rp.id.toString() + '\');"></div>';
-                                        tbody.rows[i].cells[2].innerHTML = "CARGADO OK";// + check;
-
-                                    } else if (rp.respuesta.includes("La clave de acceso")) {
-//                                        var check = "";
-//                                        if(rp.estadoSistema === "CARGADO")
-                                            //check = '<div><input type="checkbox" id="envio' + i + '" onchange="seleccionarParaEnvio(this, \'' + rp.id.toString() + '\');"></div>';
-                                        
-                                        tbody.rows[i].cells[2].innerHTML = "YA EXISTE";// + check;
-                                    } else {
-                                        tbody.rows[i].cells[2].innerHTML = "ERROR: " + rp.respuesta;
-                                    }
-                                    //aqui se pone el estado del sistema
-                                    if(rp.estadoSistema)
-                                        tbody.rows[i].cells[3].innerHTML = rp.estadoSistema;
-                                }
-                            });
-                        }
-
-    //                    respuesta.html(rsp[0].comprobante);
-                        LOADING.style = 'display: none;';
-                        swal("", "Datos cargados.", "info");
-                        
-                    }
-                    else{
-                        LOADING.style = 'display: none;';
-                        swal("", "Datos vacios, error al cargar los archivos.", "error");
-                    }
-                },
-                error: function (error) {
-                    LOADING.style = 'display: none;';
-                    console.log("error: ", error);
-                    respuesta.html(error);
                 }
             });
+            //al fin del map hasta aca
+            
 
         } else {
             swal("", "Seleccione al menos un registro.", "warning");
@@ -392,7 +375,7 @@ function ejecutarReporteFirma(ids) {
                 $('#modalDatosReemb').modal('hide');
 
                 const LOADING = document.querySelector('.loader');
-                LOADING.style = 'display: flex;';
+                LOADING.style.display='flex';
 
                 colocarAsistentes();
 
@@ -415,7 +398,7 @@ function ejecutarReporteFirma(ids) {
                         'seleccion': document.querySelector('#txtSeleccion').value
                     },
                     success: function (data) {
-                        LOADING.style = 'display: none;';          
+                        LOADING.style.display='none';
             //            console.log(data);
 
                         if(data.includes("window.location")){
@@ -456,7 +439,7 @@ function ejecutarReporteFirma(ids) {
 
                     },
                     error: function (error) {
-                        LOADING.style = 'display: none;';
+                        LOADING.style.display='none';          
                         console.log(data);
                     }
                 });
@@ -541,7 +524,7 @@ function enviarFirmar(ids) {
 
     $('#modalPdf').modal('hide');
     const LOADING = document.querySelector('.loader');
-    LOADING.style = 'display: flex;';
+    LOADING.style.display='flex';
 
     //const txtTipoPdf = document.getElementById("txtTipoPdf").value;
 
@@ -562,7 +545,7 @@ function enviarFirmar(ids) {
             'seleccion': document.querySelector('#txtSeleccion').value
         },
         success: function (data) {
-            LOADING.style = 'display: none;';          
+            LOADING.style.display='none';
             console.log(data);
 
             if(data.includes("window.location")){
@@ -603,7 +586,7 @@ function enviarFirmar(ids) {
 
         },
         error: function (error) {
-            LOADING.style = 'display: none;';
+            LOADING.style.display='none';
             console.log(data);
         }
     });
@@ -614,3 +597,93 @@ function enviarFirmar(ids) {
 }
 
 
+function procesarEnvioArchivoServer(formData, tbody, indexDeta, detalles, LOADING){
+    
+//    var formData = new FormData();
+//    formData.append("detalles", JSON.stringify(detalles));
+
+    $.ajax({
+        type: 'POST',
+        url: 'acciones/cargarArchivoSri.php',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        timeout: 360000, //6 minutos
+        async: false,
+        success: function (data) {
+//                        console.log("respuets: ", (data));
+            if(data.includes("window.location") || data.includes("error 404")){
+                window.location.replace("index");
+            }
+            else if(data !== null && data.includes("Time-out")){
+                swal('',data,'error');
+            }
+            else if(data !== null && data !== "null"){
+                const rsp = JSON.parse(data);
+
+//                        console.log("hecho json: ", rsp);
+
+                if(rsp !== null){
+                    for (let i = 0; i < tbody.rows.length; i++) {
+                        rsp.map(rp => {
+//                                    console.log("1: ", tbody.rows[i].cells[11].innerText);
+//                                    console.log("2: ", rp.claveAcceso);
+
+//                                if (tbody.rows[i].cells[12].innerText === rp.claveAcceso) {//clave de acceso 
+                            if (tbody.rows[i].cells[indexNumAuto].innerText === rp.claveAcceso) {//clave de acceso 
+//                                        console.log("si iguales");
+//                                        console.log("rp.respuesta: ", rp.claveAcceso);
+
+                                if (rp.respuesta === "OK") {
+                                    //var check = '<div><input type="checkbox" id="envio' + i + '" onchange="seleccionarParaEnvio(this, \'' + rp.id.toString() + '\');"></div>';
+                                    tbody.rows[i].cells[2].innerHTML = "CARGADO OK";// + check;
+
+                                } else if (rp.respuesta.includes("La clave de acceso")) {
+//                                        var check = "";
+//                                        if(rp.estadoSistema === "CARGADO")
+                                        //check = '<div><input type="checkbox" id="envio' + i + '" onchange="seleccionarParaEnvio(this, \'' + rp.id.toString() + '\');"></div>';
+
+                                    tbody.rows[i].cells[2].innerHTML = "YA EXISTE";// + check;
+                                } else {
+                                    tbody.rows[i].cells[2].innerHTML = "ERROR: " + rp.respuesta;
+                                }
+                                //aqui se pone el estado del sistema
+                                if(rp.estadoSistema)
+                                    tbody.rows[i].cells[3].innerHTML = rp.estadoSistema;
+                            }
+                        });
+                    }
+                }
+
+
+                if((indexDeta+1) === detalles.length){
+                    console.log("este es dentor de la function");
+                    LOADING.style.display = 'none';
+                    swal("", "Datos cargados.", "info");
+                }
+
+            }
+            else{
+                if((indexDeta+1) === detalles.length){
+                    console.log("dentro funcion del else");
+                    LOADING.style.display = 'none';
+                    swal("", "Datos vacios, error al cargar los archivos.", "error");
+                }
+            }
+        },
+        error: function (error) {
+            if((indexDeta+1) === detalles.length){
+                LOADING.style.display = 'none';
+                console.log("error: ", error);
+                if(error.statusText === "timeout"){
+                    swal('',error.statusText + " > 360000 ms",'error');
+                }
+                else
+                    swal('',error.responseText,'error');
+            }
+//                        respuesta.html(error);
+        }
+    });
+    
+}
