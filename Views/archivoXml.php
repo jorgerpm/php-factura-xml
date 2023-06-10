@@ -476,22 +476,22 @@ function pruebaUno(filename, seleccionados){
                         csvFinal.push(filaAux.join(";"));
                     }
                     else{
-                        console.log("posicion: ", (i-1));
-                        if((i-1) < tbody.rows.length){
-//                        for(let k=0;k<tbody.rows.length;k++){
-//                            console.log("es en el for: ", k);
-                            if(tbody.rows[(i-1)].cells[0].children[0].checked === true){
-//                                console.log("esta checked:: ", tbody.rows[k].cells[0].children[0]);
-//                                console.log("1: ", tbody.rows[k].cells[8].innerText);
-//                                console.log("2: ", tbody.rows[k].cells[0].children[0].id);
-//                                if(tbody.rows[k)].cells[8].innerText === tbody.rows[k].cells[0].children[0].id){
-                                    console.log("filaAux:: ", filaAux);
-                                    //console.log("seleccionado ", filaAux);
-                                    csvFinal.push(filaAux.join(";"));
-//                                }
+                        console.log("posicionxxx: ", (i-1));
+//                        if((i-1) < tbody.rows.length){
+                            for(let k=0;k<tbody.rows.length;k++){
+    //                            console.log("es en el for: ", k);
+                                if(tbody.rows[k].cells[0].children[0].checked === true){
+    //                                console.log("esta checked:: ", tbody.rows[k].cells[0].children[0]);
+    //                                console.log("1: ", tbody.rows[k].cells[8].innerText);
+    //                                console.log("2: ", tbody.rows[k].cells[0].children[0].id);
+                                    if(filaAux[5] === tbody.rows[k].cells[0].children[0].id){
+                                        console.log("filaAux:: ", filaAux);
+                                        //console.log("seleccionado ", filaAux);
+                                        csvFinal.push(filaAux.join(";"));
+                                    }
+                                }
                             }
 //                        }
-                        }
                     }
                 }
                 else{

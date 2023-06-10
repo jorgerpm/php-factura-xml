@@ -3,7 +3,7 @@
 class generarTablaControlador {
     
     const COL_INI = 7;
-//    const COL_FIN = 7;
+//    const COL_FIN = 7; este se pone abajo con la condicion de detalles
 
     public function generarTabla($listvarj, $columns) {
         
@@ -38,6 +38,13 @@ class generarTablaControlador {
         if ($docum != null) {
             for ($ind = self::COL_INI; $ind < (count($columns) - $COL_FIN); $ind++) {
                 $coincide = false;
+                
+                //aqui va lo de la version del comprobante
+                if ($columns[$ind]['col'] == "version") {
+                    array_push($valores, $docum->version);
+                    $coincide = true;
+                }
+                
                 foreach ($docum->infoTributaria as $key => $val) {
                     if ($columns[$ind]['col'] == $key) {
                         array_push($valores, $val);
@@ -130,6 +137,13 @@ class generarTablaControlador {
         if ($docum != null) {
             for ($ind = self::COL_INI; $ind < (count($columns) - $COL_FIN); $ind++) {
                 $coincide = false;
+                
+                //aqui va lo de la version del comprobante
+                if ($columns[$ind]['col'] == "version") {
+                    array_push($valores, $docum->version);
+                    $coincide = true;
+                }
+                
                 foreach ($docum->infoTributaria as $key => $val) {
                     if ($columns[$ind]['col'] == $key) {
                         array_push($valores, $val);
@@ -253,6 +267,58 @@ class generarTablaControlador {
                             //if ($coincide) {break;}
 //                                                            break;
                         }
+                        else{
+                            if (isset($docum->impuestos->impuesto)) {
+
+                                $codP = -1;
+                                foreach ($docum->impuestos->impuesto as $keyImp => $valImp) {
+                                    
+    //                                print_r($valImp);
+                                    if(isset($valImp->codigoRetencion)){
+                                        if ($columns[$ind]['col'] == 'baseImponible codigoRetencion:' . $valImp->codigoRetencion) {
+                                            array_push($valores, $valImp->baseImponible);
+                                            $coincide = true;
+                                            // break;
+                                        }
+                                        if ($columns[$ind]['col'] == 'valorRetenido codigoRetencion:' . $valImp->codigoRetencion) {
+                                            array_push($valores, $valImp->valorRetenido);
+                                            $coincide = true;
+                                            // break;
+                                        }
+                                    }
+                                    else{
+//                                            echo $keyImp .'=='.$valImp;echo "<br/>";
+                                        if ($keyImp == 'codigoRetencion') {
+                                            $codP = $valImp;
+                                        }
+                                        if ($keyImp == 'baseImponible') {
+                                            //$comprobar = array_search($valImp, $valores, false);
+                                            //  echo '['.print_r($comprobar).']';
+                                            //if($comprobar == false){
+                                            if ($columns[$ind]['col'] == 'baseImponible codigoRetencion:' . $codP) {
+                                                array_push($valores, $valImp);
+                                                //echo 'nooo:: '.$valImp;
+                                                $coincide = true;
+                                                //   break;
+                                            }
+                                        }
+                                        if ($keyImp == 'valorRetenido') {
+                                            if ($columns[$ind]['col'] == 'valorRetenido codigoRetencion:' . $codP) {
+                                                array_push($valores, $valImp);
+                                                //echo 'nooo:: '.$valImp;
+                                                $coincide = true;
+                                                //   break;
+                                            }
+                                        }
+
+                                    }
+
+                                }
+                                //if ($coincide) {break;}
+    //                                                            break;
+                            }
+                        }
+                        
                         if ($coincide) {
                             
                         } else {
@@ -272,6 +338,13 @@ class generarTablaControlador {
         if ($docum != null) {
             for ($ind = self::COL_INI; $ind < (count($columns) - $COL_FIN); $ind++) {
                 $coincide = false;
+                
+                //aqui va lo de la version del comprobante
+                if ($columns[$ind]['col'] == "version") {
+                    array_push($valores, $docum->version);
+                    $coincide = true;
+                }
+                
                 foreach ($docum->infoTributaria as $key => $val) {
                     if ($columns[$ind]['col'] == $key) {
                         array_push($valores, $val);

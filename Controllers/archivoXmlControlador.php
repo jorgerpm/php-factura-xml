@@ -112,6 +112,10 @@ class archivoXmlControlador extends archivoXmlModelo {
         array_push($columns, ['col' => 'Ambiente', 'wid' => '100px']);
 
         $columnsAux = [];
+        
+        //esta es para la version del comprobanta
+        array_push($columnsAux, ['col' => 'version', 'wid' => '100px']);
+        
         foreach ($respuesta as $respe) {
             if (isset($respe->comprobante)) {
                 $listvarj = json_decode($respe->comprobante);
@@ -126,8 +130,8 @@ class archivoXmlControlador extends archivoXmlModelo {
                     $docum = $listvarj->notaCredito;
                 }
 
-                if ($docum != null) {
-
+                if ($docum != null) {                    
+                    
                     foreach ($docum->infoTributaria as $key => $val) {
                         array_push($columnsAux, ['col' => $key, 'wid' => '100px']);
                     }
@@ -153,17 +157,19 @@ class archivoXmlControlador extends archivoXmlModelo {
                             if (!isset($val->pago) && !isset($val->totalImpuesto)) {
                                 array_push($columnsAux, ['col' => $key, 'wid' => '100px']);
                             } 
-//                            elseif (isset($val->totalImpuesto)) {
-//                                foreach ($val->totalImpuesto as $keyImp => $valImp) {
-//                                    if (isset($valImp->codigoPorcentaje)) {
-//                                        array_push($columnsAux, ['col' => 'baseImponible codigoPorcentaje:' . $valImp->codigoPorcentaje, 'wid' => '100px']);
-//                                        array_push($columnsAux, ['col' => 'valor codigoPorcentaje:' . $valImp->codigoPorcentaje, 'wid' => '100px']);
-//                                    } elseif ($keyImp == 'codigoPorcentaje') {
-//                                        array_push($columnsAux, ['col' => 'baseImponible codigoPorcentaje:' . $valImp, 'wid' => '100px']);
-//                                        array_push($columnsAux, ['col' => 'valor codigoPorcentaje:' . $valImp, 'wid' => '100px']);
-//                                    }
-//                                }
-//                            }
+                        }
+                        if(isset($docum->impuestos)){
+                            foreach ($docum->impuestos as $key => $val){
+                                foreach ($val as $keyImp => $valImp) {
+                                    if (isset($valImp->codigoRetencion)) {
+                                        array_push($columnsAux, ['col' => 'baseImponible codigoRetencion:' . $valImp->codigoRetencion, 'wid' => '100px']);
+                                        array_push($columnsAux, ['col' => 'valorRetenido codigoRetencion:' . $valImp->codigoRetencion, 'wid' => '100px']);
+                                    } elseif ($keyImp == 'codigoRetencion') {
+                                        array_push($columnsAux, ['col' => 'baseImponible codigoRetencion:' . $valImp, 'wid' => '100px']);
+                                        array_push($columnsAux, ['col' => 'valorRetenido codigoRetencion:' . $valImp, 'wid' => '100px']);
+                                    }
+                                }
+                            }
                         }
                     }
                     //esto para las retenciones
