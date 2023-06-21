@@ -45,6 +45,51 @@
                         </div>
                     </div>
                     
+                    
+                    <div class="row">
+                        <div class="col-md-2"> 
+                            <label class="control-label">Factura:</label>
+                            <div class="toggle" style="margin-top: 20px">
+                                <label>
+                                    <input type="checkbox" name="bFactura" id="bFactura" checked=""/><span class="button-indecator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label">Retenci&oacute;n:</label>
+                            <div class="toggle" style="margin-top: 20px">
+                                <label>
+                                    <input type="checkbox" name="bRetencion" id="bRetencion" checked=""/><span class="button-indecator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label">Nota cr&eacute;dito:</label>
+                            <div class="toggle">
+                                <label>
+                                    <input type="checkbox" name="bNotaCredito" id="bNotaCredito" checked=""/><span class="button-indecator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label">Nota d&eacute;bito:</label>
+                            <div class="toggle">
+                                <label>
+                                    <input type="checkbox" name="bNotaDebito" id="bNotaDebito" checked=""/><span class="button-indecator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label">Gu&iacute;a remisi&oacute;n:</label>
+                            <div class="toggle">
+                                <label>
+                                    <input type="checkbox" name="bGuiaRemision" id="bGuiaRemision" checked=""/><span class="button-indecator"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <br/>
                     <div class="tile-footer" style="text-align: end;">
                         <button id="btnActionForm" class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg
                                                                                             fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;<a class="btn

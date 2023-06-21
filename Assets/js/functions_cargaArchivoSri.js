@@ -48,119 +48,127 @@ inputFileTxt.on('change', function (e) {
 let indexNumAuto = -1;
 function cargaArchivoSri() {
     const LOADINGx = document.querySelector('.loader');
-        LOADINGx.style = 'display: flex;';
-        console.log("bloquea pantalla");
-        
+    LOADINGx.style = 'display: flex;';
+    console.log("bloquea pantalla");
 
-    if (fileTxt.length === 0) {
-//alert('seleccione al menos un archivo');
-        LOADINGx.style = 'display: none;';
-        swal("", "Debe seleccionar el archivo .txt", "warning");
-    } else {
-        LOADINGx.style = 'display: flex;';
-            
-        const thead = document.getElementById('headSri');
+    var millisecondsToWait = 100;
+    setTimeout(function() {
 
-        const archivo = fileTxt[0];
-        const tbody = document.getElementById('dataSri');
-        const resp = $('.RespuestaAjax');
+        document.getElementById("selectTiposComprobs").value = "";
 
-//        console.log("va al filereader");
-        var lector = new FileReader();
-        lector.onload = function (e) {
+
+        if (fileTxt.length === 0) {
+    //alert('seleccione al menos un archivo');
+            LOADINGx.style = 'display: none;';
+            swal("", "Debe seleccionar el archivo .txt", "warning");
+        } else {
             LOADINGx.style = 'display: flex;';
 
-            var contenido = e.target.result;
-//            console.log("contenido: ", contenido.split("\n"));
+            const thead = document.getElementById('headSri');
 
-            const lineas = contenido.split("\n");
+            const archivo = fileTxt[0];
+            const tbody = document.getElementById('dataSri');
+            const resp = $('.RespuestaAjax');
 
-            let fila = undefined;
-            
-            let tieneAutorizacion = true;
-            
+    //        console.log("va al filereader");
+            var lector = new FileReader();
+            lector.onload = function (e) {
+                LOADINGx.style = 'display: flex;';
 
-            lineas.map((linea, index) => {
-//                console.log("la linea: ",index , linea, tieneAutorizacion);
-                //comprobar si el archivo a cargar tiene la columna de clave de acceso    
-                if(index === 0){
-                    if(!linea.includes("NUMERO_AUTORIZACION")){
-                        swal('','El archivo no contiene la columna NUMERO_AUTORIZACION','error');
-                        tieneAutorizacion = false;
-                    }
-                    else{
-                        //formar la cabecera de la tabla con las columnas que tiene el archivo
-                        const headcolumn = linea.split(/\t/);
+                var contenido = e.target.result;
+    //            console.log("contenido: ", contenido.split("\n"));
 
-                        for(let i=0;i<headcolumn.length;i++){
-                            thead.rows[0].insertCell().innerHTML = headcolumn[i];
-                            if(headcolumn[i] === "NUMERO_AUTORIZACION"){
-                                indexNumAuto = (i+4);
-                                console.log("el index de la columna del numero de autorizacoin: ", indexNumAuto);
+                const lineas = contenido.split("\n");
+
+                let fila = undefined;
+
+                let tieneAutorizacion = true;
+
+
+                lineas.map((linea, index) => {
+    //                console.log("la linea: ",index , linea, tieneAutorizacion);
+                    //comprobar si el archivo a cargar tiene la columna de clave de acceso    
+                    if(index === 0){
+                        if(!linea.includes("NUMERO_AUTORIZACION")){
+                            swal('','El archivo no contiene la columna NUMERO_AUTORIZACION','error');
+                            tieneAutorizacion = false;
+                        }
+                        else{
+                            //formar la cabecera de la tabla con las columnas que tiene el archivo
+                            const headcolumn = linea.split(/\t/);
+
+                            for(let i=0;i<headcolumn.length;i++){
+                                thead.rows[0].insertCell().innerHTML = headcolumn[i];
+                                if(headcolumn[i] === "NUMERO_AUTORIZACION"){
+                                    indexNumAuto = (i+4);
+                                    console.log("el index de la columna del numero de autorizacoin: ", indexNumAuto);
+                                }
                             }
                         }
                     }
-                }
-                
-                if (tieneAutorizacion === true && index > 0) {
 
-                    //antes de generar comprobar si ya tiene esa clave de acceso
-                    var existe = false;
-                    for (let i = 0; i < tbody.rows.length; i++) {
-//                        console.log("linea: ", linea);
-//                        aqui estaba el 12
-                        if (tbody.rows[i].cells[indexNumAuto] && linea.includes(tbody.rows[i].cells[indexNumAuto].innerHTML)) {
-//                        if (tbody.rows[i].cells[12] && linea.includes(tbody.rows[i].cells[12].innerHTML)) {
-//                            console.log("contienes issss");
-                            existe = true;
+                    if (tieneAutorizacion === true && index > 0) {
+
+                        //antes de generar comprobar si ya tiene esa clave de acceso
+                        var existe = false;
+                        for (let i = 0; i < tbody.rows.length; i++) {
+    //                        console.log("linea: ", linea);
+    //                        aqui estaba el 12
+                            if (tbody.rows[i].cells[indexNumAuto] && linea.includes(tbody.rows[i].cells[indexNumAuto].innerHTML)) {
+    //                        if (tbody.rows[i].cells[12] && linea.includes(tbody.rows[i].cells[12].innerHTML)) {
+    //                            console.log("contienes issss");
+                                existe = true;
+                            }
+                        }
+
+                        if (existe === false) {
+
+                            const columnas = linea.split(/\t/);
+
+    //                        console.log("spliittt:: ", columnas);
+
+    //                        console.log("columnas.length: ", columnas.length);
+                            if (columnas.length > 1) {
+    //                            console.log(linea);
+
+
+                                fila = tbody.insertRow();
+
+
+                                fila.insertCell().innerHTML = tbody.rows.length;
+                                fila.insertCell().innerHTML = '<input id="chk' + tbody.rows.length + '" type="checkbox" class="" />';
+                                fila.insertCell().innerHTML = '';
+                                fila.insertCell().innerHTML = 'TEMPORAL';//este es del estado del sistema
+
+                                columnas.map(col => {
+    //                                console.log("col: ", col);
+                                    fila.insertCell().innerHTML = col;
+                                });
+
+
+                            } else {
+    //                            console.log("insertlinea: ", linea);
+    //                            if (fila && linea !== '')
+    //                                fila.insertCell().innerHTML = linea;
+                            }
                         }
                     }
+                });
 
-                    if (existe === false) {
-                        
-                        const columnas = linea.split(/\t/);
-                        
-//                        console.log("spliittt:: ", columnas);
+                console.log("quita bloqueo");
+                LOADINGx.style = 'display: none;';
 
-//                        console.log("columnas.length: ", columnas.length);
-                        if (columnas.length > 1) {
-//                            console.log(linea);
+            };
 
+            lector.readAsText(archivo, 'ISO-8859-1');
+            console.log("leyyoooo");
 
+            fileTxt = [];
+            actualizarListaDeArchivos();
 
-                            fila = tbody.insertRow();
-
-
-                            fila.insertCell().innerHTML = tbody.rows.length;
-                            fila.insertCell().innerHTML = '<input id="chk' + tbody.rows.length + '" type="checkbox" class="" />';
-                            fila.insertCell().innerHTML = '';
-                            fila.insertCell().innerHTML = 'TEMPORAL';//este es del estado del sistema
-
-                            columnas.map(col => {
-//                                console.log("col: ", col);
-                                fila.insertCell().innerHTML = col;
-                            });
-                        } else {
-//                            console.log("insertlinea: ", linea);
-//                            if (fila && linea !== '')
-//                                fila.insertCell().innerHTML = linea;
-                        }
-                    }
-                }
-            });
-
-            console.log("quita bloqueo");
-            LOADINGx.style = 'display: none;';
-            
-        };
+        }
         
-        lector.readAsText(archivo, 'ISO-8859-1');
-        console.log("leyyoooo");
-
-        fileTxt = [];
-        actualizarListaDeArchivos();
-
-    }
+    }, millisecondsToWait);
 
 }
 
@@ -174,86 +182,90 @@ function actualizarListaDeArchivos() {
 }
 
 function enviarFacturasServer(idUsuarioSession) {
-    console.log("xxx inica");
-    var tbody = document.getElementById('dataSri');
-    var respuesta = $('.RespuestaAjax');
+    console.log("a bloeuqar");
+    const LOADINGy = document.querySelector('.loader');
+    LOADINGy.style.display = "flex";
+    
+    var millisecondsToWait = 100;
+    setTimeout(function() {
 
-    if (tbody.rows.length > 0) {
-        var existen = false;
-        for (let i = 0; i < tbody.rows.length; i++) {
-            const select = tbody.rows[i].cells[1].children[0].checked;
-            if (select === true) {
-                existen = true;
-                break;
-            }
-//            console.log(select);
-        }
+        var tbody = document.getElementById('dataSri');
+        var respuesta = $('.RespuestaAjax');
 
-        if (existen === true) {
-            console.log("a bloeuqar");
-            const LOADINGy = document.querySelector('.loader');
-            LOADINGy.style.display = "flex";
-            LOADINGy.style.backgroundColor = "red";
-            console.log(LOADINGy);
-            console.log(LOADINGy.style);
-
-            const detalles = [];
-
+        if (tbody.rows.length > 0) {
+            var existen = false;
             for (let i = 0; i < tbody.rows.length; i++) {
-
                 const select = tbody.rows[i].cells[1].children[0].checked;
-//                console.log(select);
-
                 if (select === true) {
-                    const detalle = {
-                        comprobante: tbody.rows[i].cells[4].innerHTML,
-                        numeroDocumento: tbody.rows[i].cells[5].innerHTML,
-//                        ruc: tbody.rows[i].cells[4].innerHTML,
-//                        razonSocial: tbody.rows[i].cells[5].innerHTML,
-                        idUsuarioCarga: idUsuarioSession,
-                        //                comprobante: tbody.rows[i].cells[6].innerHTML,
-                        //                comprobante: tbody.rows[i].cells[7].innerHTML,
-                        //                comprobante: tbody.rows[i].cells[8].innerHTML,
-                        //                comprobante: tbody.rows[i].cells[9].innerHTML,
-//                        claveAcceso: tbody.rows[i].cells[12].innerHTML,
-                        claveAcceso: tbody.rows[i].cells[indexNumAuto].innerHTML,
-                    };
-
-                    detalles.push(detalle);   
+                    existen = true;
+                    break;
                 }
+    //            console.log(select);
             }
-//            console.log('detalles: ', (JSON.stringify(detalles)));
 
-            //desde aqui se reemplaza
-            let auxDetalles = [];
-            let formData = new FormData();
-            detalles.map((deta, indexDeta) => {
-                auxDetalles.push(deta);
-                let jsonEnvia = JSON.stringify(auxDetalles);
-                formData.append("detalles", jsonEnvia);
-                if((indexDeta+1) === detalles.length){
-                    procesarEnvioArchivoServer(formData, tbody, indexDeta, detalles, LOADINGy);
-                    formData = new FormData();
-                    auxDetalles = [];
+            if (existen === true) {
+
+                const detalles = [];
+
+                for (let i = 0; i < tbody.rows.length; i++) {
+
+                    const select = tbody.rows[i].cells[1].children[0].checked;
+    //                console.log(select);
+
+                    if (select === true) {
+                        const detalle = {
+                            comprobante: tbody.rows[i].cells[4].innerHTML,
+                            numeroDocumento: tbody.rows[i].cells[5].innerHTML,
+    //                        ruc: tbody.rows[i].cells[4].innerHTML,
+    //                        razonSocial: tbody.rows[i].cells[5].innerHTML,
+                            idUsuarioCarga: idUsuarioSession,
+                            //                comprobante: tbody.rows[i].cells[6].innerHTML,
+                            //                comprobante: tbody.rows[i].cells[7].innerHTML,
+                            //                comprobante: tbody.rows[i].cells[8].innerHTML,
+                            //                comprobante: tbody.rows[i].cells[9].innerHTML,
+    //                        claveAcceso: tbody.rows[i].cells[12].innerHTML,
+                            claveAcceso: tbody.rows[i].cells[indexNumAuto].innerHTML,
+                        };
+
+                        detalles.push(detalle);   
+                    }
                 }
-                else{
-                    if(((indexDeta+1) % 50) === 0){
+    //            console.log('detalles: ', (JSON.stringify(detalles)));
+
+                //desde aqui se reemplaza
+                let auxDetalles = [];
+                let formData = new FormData();
+                detalles.map((deta, indexDeta) => {
+                    auxDetalles.push(deta);
+                    let jsonEnvia = JSON.stringify(auxDetalles);
+                    formData.append("detalles", jsonEnvia);
+                    if((indexDeta+1) === detalles.length){
                         procesarEnvioArchivoServer(formData, tbody, indexDeta, detalles, LOADINGy);
                         formData = new FormData();
                         auxDetalles = [];
                     }
-                }
-            });
-            //al fin del map hasta aca
-            
+                    else{
+                        if(((indexDeta+1) % 50) === 0){
+                            procesarEnvioArchivoServer(formData, tbody, indexDeta, detalles, LOADINGy);
+                            formData = new FormData();
+                            auxDetalles = [];
+                        }
+                    }
+                });
+                //al fin del map hasta aca
+
+
+            } else {
+                LOADINGy.style.display = 'none';
+                swal("", "Seleccione al menos un registro.", "warning");
+            }
 
         } else {
-            swal("", "Seleccione al menos un registro.", "warning");
+            LOADINGy.style.display = 'none';
+            swal("", "No hay documentos para cargar.", "warning");
         }
-
-    } else {
-        swal("", "No hay documentos para cargar.", "warning");
-    }
+        
+    }, millisecondsToWait);
 }
 
 
@@ -262,10 +274,12 @@ function selectTodos(source) {
     const cantDetalles = tbody.rows.length;
 
     for (let j = 1; j <= cantDetalles; j++) {
-        var checkboxes = document.querySelectorAll('input[id="chk' + [j] + '"]');
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i] != source)
-                checkboxes[i].checked = source.checked;
+        if(tbody.rows[j-1].style.display !== "none"){
+            var checkboxes = document.querySelectorAll('input[id="chk' + [j] + '"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] != source)
+                    checkboxes[i].checked = source.checked;
+            }
         }
     }
 }
@@ -686,4 +700,45 @@ function procesarEnvioArchivoServer(formData, tbody, indexDeta, detalles, LOADIN
         }
     });
     
+}
+
+
+
+function cambiarMostrarDocs(){
+    
+    document.querySelector('.loader').style.display='flex';
+    console.log("puesto");
+    
+    var millisecondsToWait = 100;
+    setTimeout(function() {
+        //desmarcar todos los marcados
+        const source = document.getElementById("chkTodos");
+        source.checked = false;
+        selectTodos(source);
+
+        const tbody = document.getElementById('dataSri');
+        const cantDetalles = tbody.rows.length;
+
+        const tipoDoc = document.getElementById("selectTiposComprobs").value;
+
+        if(tipoDoc !== ""){
+            for(let j=0;j<cantDetalles;j++){
+                if(tbody.rows[j].cells[4].innerHTML !== tipoDoc){
+                    tbody.rows[j].style.display = "none";
+                }
+                else{
+                    tbody.rows[j].style.display = "";
+                }
+
+            }
+        }
+        else{
+            for(let i=0;i<cantDetalles;i++){
+                tbody.rows[i].style.display = "";
+            }
+        }
+
+        document.querySelector('.loader').style.display='none';
+
+    }, millisecondsToWait);
 }

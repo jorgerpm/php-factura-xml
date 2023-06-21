@@ -130,7 +130,7 @@
                                         <?php } ?>
                                         
                                         <?php //para el contador o para el auxiliar
-                                        if($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5){ ?>
+                                        if($_SESSION['Rol']->id == 1 || $_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5){ ?>
                                         <th>Datos conta.</th>
                                         <th>Solicitar justificativo</th>
                                         <?php } ?>
@@ -175,7 +175,7 @@
                                                     
                                                 
                                                 <?php //para el contador o para el auxiliar
-                                                if($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5){ ?>
+                                                if($_SESSION['Rol']->id == 1 || $_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5){ ?>
                                                 <td>
                                                     <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick='abrirDatosContador(<?php echo str_replace("'","",json_encode($docReembolso)); ?>)'></button>
                                                 </td>

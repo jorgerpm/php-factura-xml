@@ -8,6 +8,13 @@ function openModalRol(val_datos) {
         document.querySelector('#chkPrincipal').checked = val_datos.principal;
         document.querySelector('#listStatus').value = val_datos.idEstado;
         document.querySelector('#chkAutorizador').checked = val_datos.autorizador;
+        
+        document.querySelector('#bFactura').checked = val_datos.bFactura;
+        document.querySelector('#bRetencion').checked = val_datos.bRetencion;
+        document.querySelector('#bNotaCredito').checked = val_datos.bNotaCredito;
+        document.querySelector('#bNotaDebito').checked = val_datos.bNotaDebito;
+        document.querySelector('#bGuiaRemision').checked = val_datos.bGuiaRemision;
+        
         console.log("val_datos.autorizador: ", val_datos.autorizador);
     }
     else{

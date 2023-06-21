@@ -14,14 +14,23 @@
             <div class="panel-body">
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
+                            
+                            <select id="selectTiposComprobs" class="form-control" onchange="cambiarMostrarDocs();">
+                                <option value="">Todos</option>
+                                <option value="Comprobante de Retención">Comprobante de Retención</option>
+                                <option value="Factura">Factura</option>
+                                <option value="Notas de Crédito">Notas de Crédito</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3" style="text-align: right">
                             <label for="inputFileTxt" class="btn btn-primary btn-sm">Seleccione el archivo .txt</label>
                             <input type="file" name="" class="btn btn-primary btn-sm" id="inputFileTxt" accept=".txt" style="display:none" required="">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label id="archivoTxt" style="word-break:break-word;"></label>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <button type="button" class="btn btn-primary btn-sm" onclick="cargaArchivoSri();" title="Muestra el contenido del archivo">Mostrar registros</button>
                         </div>
                     </div>
@@ -62,7 +71,7 @@
                     <br/>
                     <div class="row">
                         <div class="col-md-4">
-                            <button class="btn btn-primary" type="button" onclick="enviarFacturasServer(<?php echo $_SESSION['Usuario']->id; ?>)">CARGAR FACTURAS</button>
+                            <button class="btn btn-primary" type="button" onclick="enviarFacturasServer(<?php echo $_SESSION['Usuario']->id; ?>)">CARGAR COMPROBANTES</button>
                         </div>
                         <div class="col-md-2">
                             <!-- select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" 

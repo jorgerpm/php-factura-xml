@@ -24,7 +24,13 @@ class rolControlador extends rolModelo {
                 "nombre" => mb_strtoupper($txtNombre, 'utf-8'),
                 "principal" => $chkPrincipal,
                 "idEstado" => $listStatus,
-                "autorizador" => (isset($_POST['chkAutorizador']) ? true : false)
+                "autorizador" => (isset($_POST['chkAutorizador']) ? true : false),
+                
+                "bFactura" => (isset($_POST['bFactura']) ? true : false),
+                "bRetencion" => (isset($_POST['bRetencion']) ? true : false),
+                "bNotaCredito" => (isset($_POST['bNotaCredito']) ? true : false),
+                "bNotaDebito" => (isset($_POST['bNotaDebito']) ? true : false),
+                "bGuiaRemision" => (isset($_POST['bGuiaRemision']) ? true : false),
             ];
 
             $respuesta = rolModelo::guardar_rol_modelo($datos);
