@@ -266,12 +266,12 @@ if (count($respuesta) > 0) {
                                         
                                         <td style="white-space: nowrap;">
                                             <?php if ($listaArchivoXml->nombreArchivoXml != null) { ?>
-                                            <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?>"><?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?></a>
+                                            <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "XML";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml*/ ?></a>
                                             <?php } ?>
                                         </td>
                                         <td style="white-space: nowrap;">
                                 <?php if ($listaArchivoXml->nombreArchivoPdf != null) { ?>
-                                                <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?>"><?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?></a>
+                                                <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "RIDE";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf*/ ?></a>
                                     <?php } ?>
                                         </td>
 
