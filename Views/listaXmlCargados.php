@@ -65,7 +65,7 @@
                                             <!--input id="chkTodos" type="checkbox" class="" onchange="selectTodos(this)"/ -->
                                         </th>
                                         <th>TIPO DE GASTO</th>
-                                        <th style="min-width: 200px">ASISTENTES</th>
+                                        <th style="min-width: 200px">ASISTENTES/DETALLE</th>
                                         <th>ESTADO_SISTEMA</th>
 
                                         <th>COMPROBANTE</th>
@@ -110,7 +110,7 @@
                                             <script>listaClavesAcceso.push(<?php echo "'".$xml->id."'"; ?>);
                                             listaTiposGasto.push(<?php echo "'".$xml->id.":ALIMENTACION'"; ?>);</script>
 
-                                            <input type="checkbox" checked="" disabled="" />
+                                            <input type="checkbox" checked="" onchange="seleccionarParaEnvio(this, <?php echo $xml->id; ?>);" />
                                         <?php } else { ?>
                                             <input type="checkbox" onchange="seleccionarParaEnvio(this, <?php echo $xml->id; ?>);" />
                                         <?php } ?>

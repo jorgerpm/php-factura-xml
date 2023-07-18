@@ -291,6 +291,7 @@ function validarSeleccion() {
 }
 
 function mostrarRazonRechazo() {
+    document.querySelector('#txtRazonRechazo').value = '';
     console.log("--: ", document.querySelector('#selectEstado').value);
     if (document.querySelector('#selectEstado').value === "RECHAZADO") {
         document.querySelector('#txtRazonRechazo').type = "text";
