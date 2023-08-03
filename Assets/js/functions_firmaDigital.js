@@ -10,7 +10,7 @@ function openModal(val_datos) {
 //        console.log("fecha:: ", new Date(val_datos.fechaCaducaLong).toLocaleString('en-CA'));
         
         document.querySelector('#txtFecha').value = new Date(val_datos.fechaCaducaLong).toLocaleString('en-CA').split(",")[0];
-        document.querySelector('#txtClave').value = val_datos.txtClave;
+//        document.querySelector('#txtClave').value = val_datos.txtClave;
         
         if(document.querySelector('#cbxListUser'))
             document.querySelector('#cbxListUser').value = val_datos.usuario.id;
@@ -75,17 +75,17 @@ inputFile.on('change', function (e) {
 function cambioTipoFirma(){
     const tipoFirma = document.getElementById('txtTipoFirma').value;
     if(tipoFirma === "1"){//es imagen
-        document.getElementById('txtClave').value = "1234567890";
+//        document.getElementById('txtClave').value = "1234567890";
         document.getElementById('txtFecha').value = new Date().toISOString().split('T')[0];
         
-        document.getElementById('txtClave').readOnly = true;
+//        document.getElementById('txtClave').readOnly = true;
         document.getElementById('txtFecha').readOnly = true;
     }
     if(tipoFirma === "0"){//es imagen
-        document.getElementById('txtClave').value = "";
+//        document.getElementById('txtClave').value = "";
         document.getElementById('txtFecha').value = "";
         
-        document.getElementById('txtClave').readOnly = false;
+//        document.getElementById('txtClave').readOnly = false;
         document.getElementById('txtFecha').readOnly = false;
     }
 }

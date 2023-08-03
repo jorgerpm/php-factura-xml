@@ -52,7 +52,7 @@
                     
                     
                     <div class="tile-footer" style="text-align: end;">
-                        <button id="btnActionForm" class="btn btn-primary" type="button" onclick="ejecutarReporteFirma(listaClavesAcceso)">
+                        <button id="btnActionForm" class="btn btn-primary" type="button" onclick="ejecutarReporteFirma(listaClavesAcceso);">
                             <i class="fa fa-fw fa-lg
                                fa-check-circle"></i><span id="btnText">Generar PDF</span>
                         </button>

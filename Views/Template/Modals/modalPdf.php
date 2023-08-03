@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-md-4">
 
-                                <button id="btnActionForm" class="btn btn-primary" type="button" onclick="enviarFirmar(listaClavesAcceso)">
+                                <button id="btnActionForm" class="btn btn-primary" type="button" onclick="solicitarClaveFirma();/*enviarFirmar(listaClavesAcceso)*/">
                                     <i class="fa fa-fw fa-lg
                                        fa-check-circle"></i><span id="btnText">Firmar y enviar</span>
                                 </button>

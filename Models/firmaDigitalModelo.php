@@ -12,4 +12,10 @@ class firmaDigitalModelo extends serviciosWebModelo {
         $listaFirmas = self::invocarGet('firmadigital/listarFirmas?idUsuario='.$idUsuario.'&idRol='.$idRol, $array);
         return $listaFirmas;
     }
+    
+    protected function solicitar_clave_firma_modelo($idUsuario){
+        $array = [];
+        $respuesta = self::invocarGet('firmadigital/solicitarClaveFirma?idUsuario='.$idUsuario, $array);
+        return $respuesta;
+    }
 }

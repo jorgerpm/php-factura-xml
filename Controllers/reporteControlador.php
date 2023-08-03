@@ -44,8 +44,8 @@ class reporteControlador extends reporteModelo {
                 mb_strtoupper($_POST['lugarViaje'], 'utf-8'),
                 isset($_POST['fondoEntregado']) ? $_POST['fondoEntregado'] : 0,
                 isset($_POST['observaciones']) ? mb_strtoupper($_POST['observaciones'], 'utf-8') : "",
-                isset($_POST['seleccion']) ? $_POST['seleccion'] : ""
-                
+                isset($_POST['seleccion']) ? $_POST['seleccion'] : "",
+                isset($_POST['claveFirma']) ? $_POST['claveFirma'] : "",
             
                 );
         

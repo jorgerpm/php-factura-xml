@@ -22,20 +22,12 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6 col-12">
-                            
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group col-md-6 col-12">
                             <label class="control-label" for="txtArchivo">Archivo:</label>
                             <input class="form-control" id="txtArchivo" name="txtArchivo" type="file" required >
                         </div>
-                        <div class="form-group col-md-6 col-12">
-                            <label class="control-label">Clave:</label>
-                            <input class="form-control" id="txtClave" name="txtClave" type="password"   placeholder="Clave" required="">
-                        </div>
                     </div>
+                    
+                    
                     <div class="form-row">
                         <div class="form-group col-md-6 col-12">
                             <label class="control-label">Fecha caduca:</label>

@@ -409,7 +409,8 @@ function ejecutarReporteFirma(ids) {
                         'lugarViaje': document.querySelector('#txtLugarViaje').value,
                         'fondoEntregado': document.querySelector('#txtValorEntregado').value,
                         'observaciones': document.querySelector('#txtObservaciones').value,
-                        'seleccion': document.querySelector('#txtSeleccion').value
+                        'seleccion': document.querySelector('#txtSeleccion').value,
+//                        'claveFirma': document.querySelector('#txtClaveFirma').value
                     },
                     success: function (data) {
                         LOADING.style.display='none';
@@ -517,6 +518,14 @@ function cambiarValor(){
 
 function enviarFirmar(ids) {
     
+    console.log(";;:", document.querySelector('#modalClaveFirma').style.display);
+    
+    if(document.querySelector('#modalClaveFirma').style.display === 'block'){
+        if(document.querySelector('#txtClaveFirma').value === ''){
+            swal('','Ingrese la clave de la firma electrónica.','warning');
+            return ;
+        }
+    }
     
     const txtAprobador = document.getElementById("txtAprobador").value;
     const txtTipoPdf = document.getElementById("txtTipoPdf").value;
@@ -536,7 +545,7 @@ function enviarFirmar(ids) {
     
     
 
-    $('#modalPdf').modal('hide');
+    //$('#modalPdf').modal('hide');
     const LOADING = document.querySelector('.loader');
     LOADING.style.display='flex';
 
@@ -556,7 +565,8 @@ function enviarFirmar(ids) {
             'lugarViaje': document.querySelector('#txtLugarViaje').value,
             'fondoEntregado': document.querySelector('#txtValorEntregado').value,
             'observaciones': document.querySelector('#txtObservaciones').value,
-            'seleccion': document.querySelector('#txtSeleccion').value
+            'seleccion': document.querySelector('#txtSeleccion').value,
+            'claveFirma': document.querySelector('#txtClaveFirma').value
         },
         success: function (data) {
             LOADING.style.display='none';
@@ -741,4 +751,42 @@ function cambiarMostrarDocs(){
         document.querySelector('.loader').style.display='none';
 
     }, millisecondsToWait);
+}
+
+function solicitarClaveFirma(){
+    const LOADING = document.querySelector('.loader');
+    LOADING.style.display='flex';
+
+    
+    console.log("ESTA EN solicitarClaveFirma");
+
+    $.ajax({
+        type: 'POST',
+        url: 'acciones/solicitarClaveFirma.php',
+        data: {
+        },
+        success: function (data) {
+            LOADING.style.display='none';
+            console.log("asi es la data del clavefirma:: ", data);
+
+            if(data.includes("window.location")){
+                window.location.replace("index");
+            }else{
+                
+                if(data === "1"){
+                    console.log("si es uno");
+                    $('#modalClaveFirma').modal('show');
+                }
+                else{
+                    enviarFirmar(listaClavesAcceso);
+                }
+
+            }
+
+        },
+        error: function (error) {
+            LOADING.style.display='none';          
+            console.log(data);
+        }
+    });
 }

@@ -21,8 +21,8 @@ class reporteModelo extends serviciosWebModelo {
                 $lugarViaje,
                 $fondoEntregado,
                 $observaciones,
-                $seleccion
-            
+                $seleccion,
+            $claveFirma
             
             ) {
         $array = [];
@@ -34,6 +34,7 @@ class reporteModelo extends serviciosWebModelo {
                 ."&fondoEntregado=".$fondoEntregado
                 ."&observaciones=".urlencode($observaciones)
                 ."&seleccion=".urlencode($seleccion)
+                ."&claveFirma=".urlencode($claveFirma)
                 , $array);
         return $reporteDto;
     }

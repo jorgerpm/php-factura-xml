@@ -42,6 +42,7 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
             "estado" => $_POST["selectEstado"],
             "archivoBase64" => $fileBase64,
             "idUsuarioAutoriza" => $_SESSION['Usuario']->id,
+            "claveFirma" => $_POST['txtClaveFirma']
         );
         
         $respuesta = documentoReembolsoModelo::aprobar_documento_reembolso_modelo($data);

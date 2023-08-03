@@ -14,11 +14,11 @@ class firmaDigitalControlador extends firmaDigitalModelo {
     public function guardar_firma_digital_controlador() {
         $idFirma = $_POST['idFirmaDigital'];
 //        $txtNombre = $_POST['txtArchivo'];
-        $txtClave = $_POST['txtClave'];
+//        $txtClave = $_POST['txtClave'];
         $txtFecha = $_POST['txtFecha'];
         $cbxListaEstado = $_POST['cbxListaEstado'];
 
-        if (isset($txtFecha) && isset($txtClave) && isset($cbxListaEstado)) {
+        if (isset($txtFecha) && /*isset($txtClave) &&*/ isset($cbxListaEstado)) {
             
             //echo $_FILES["txtArchivo"]["name"];
             
@@ -31,7 +31,7 @@ class firmaDigitalControlador extends firmaDigitalModelo {
             $datos = [
                 "id" => $idFirma,
                 "archivo" => $archivoB64,
-                "clave" => $txtClave,
+//                "clave" => $txtClave,
                 "fechaCaducaLong" => strtotime($txtFecha) * 1000,
                 "idEstado" => mb_strtoupper($cbxListaEstado, 'utf-8'),
                 "idUsuario" => isset($_POST["cbxListUser"]) ? $_POST["cbxListUser"] : $_SESSION['Usuario']->id,
@@ -52,6 +52,13 @@ class firmaDigitalControlador extends firmaDigitalModelo {
         } else {
             return '<script>swal("", "Complete los campos requeridos del formulario.", "error");</script>';
         }
+    }
+    
+    public function solicitar_clave_firma_controlador(){
+        
+        $respuesta = firmaDigitalModelo::solicitar_clave_firma_modelo($_SESSION['Usuario']->id);
+        
+        return $respuesta;
     }
 
 }

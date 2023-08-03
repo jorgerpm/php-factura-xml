@@ -240,6 +240,8 @@
 <?php require_once 'Template/Modals/modalAprobarReembolso.php'; ?>
 <?php require_once 'Template/Modals/modalDatosContador.php'; ?>
 <?php require_once 'Template/Modals/modalCargaArchivo.php'; ?>
+                    
+                    <?php require_once 'Template/Modals/modalClaveFirmaAprobacion.php'; ?>
 
 
                 </div>
@@ -269,20 +271,23 @@ function abrirModal(idDoc, urlArchivo) {
 }
 
 function validarSeleccion() {
-    console.log("es el id: ",
-    document.querySelector('#txtIdDocReembolso').value);
+    console.log("es el id: ", document.querySelector('#txtIdDocReembolso').value);
 
     if (document.querySelector('#selectEstado').value !== "") {
         if (document.querySelector('#selectEstado').value === "RECHAZADO") {
             if (document.querySelector('#txtRazonRechazo').value !== '') {
                 //se envia a firmar y guardar
-                firmarGuardar();
+                //aqui se llama a que muestre el modal de la clave
+                solicitarClaveFirma();
+                //firmarGuardar();
             } else {
                 swal('', 'Ingrese la raz\u00f3n del rechazo', 'warning');
             }
         } else {
             //se envia a firmar y guardar
-            firmarGuardar();
+            //aqui se llama a que muestre el modal de la clave
+            solicitarClaveFirma();
+//            firmarGuardar();
         }
     } else {
         swal('', 'Seleccione el estado', 'warning');
@@ -301,11 +306,22 @@ function mostrarRazonRechazo() {
 }
 
 function firmarGuardar() {
+    console.log(";;:", document.querySelector('#modalClaveFirmaAprobacion').style.display);
+    
+    if(document.querySelector('#modalClaveFirmaAprobacion').style.display === 'block'){
+        if(document.querySelector('#txtClaveFirma').value === ''){
+            swal('','Ingrese la clave de la firma electrónica.','warning');
+            return ;
+        }
+    }
+    
     const LOADING = document.querySelector('.loader');
     LOADING.style = 'display: flex;';
 
     const formElement = document.querySelector("#formModalPdf");
     const formData = new FormData(formElement);
+    
+    formData.append('txtClaveFirma', document.querySelector('#txtClaveFirma').value);
 
     const respuesta = $('.RespuestaAjax');
 
@@ -444,6 +460,45 @@ function mostrarJustificativo(fileBase63, tipof){
     var file = new Blob([byteArray], { type: tipof+";base64" });
     var fileURL = URL.createObjectURL(file);
     window.open(fileURL, '_blank', 'height=450,width=375,resizable=1');
+}
+
+
+function solicitarClaveFirma(){
+    const LOADING = document.querySelector('.loader');
+    LOADING.style.display='flex';
+
+    
+    console.log("ESTA EN solicitarClaveFirma");
+
+    $.ajax({
+        type: 'POST',
+        url: 'acciones/solicitarClaveFirma.php',
+        data: {
+        },
+        success: function (data) {
+            LOADING.style.display='none';
+            console.log("asi es la data del clavefirma:: ", data);
+
+            if(data.includes("window.location")){
+                window.location.replace("index");
+            }else{
+                
+                if(data === "1"){
+                    console.log("si es uno");
+                    $('#modalClaveFirmaAprobacion').modal('show');
+                }
+                else{
+                    firmarGuardar();
+                }
+
+            }
+
+        },
+        error: function (error) {
+            LOADING.style.display='none';          
+            console.log(data);
+        }
+    });
 }
 
 </script>
