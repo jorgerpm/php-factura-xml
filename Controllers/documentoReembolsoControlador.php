@@ -42,7 +42,8 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
             "estado" => $_POST["selectEstado"],
             "archivoBase64" => $fileBase64,
             "idUsuarioAutoriza" => $_SESSION['Usuario']->id,
-            "claveFirma" => $_POST['txtClaveFirma']
+            "claveFirma" => $_POST['txtClaveFirma'],
+            "terceraFirma" => $_POST['txtTerceraFirma']
         );
         
         $respuesta = documentoReembolsoModelo::aprobar_documento_reembolso_modelo($data);
@@ -54,8 +55,15 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
             }
             else{
                 $arrPath = explode("/", $pathArchivo);
+                
+                $nuevoPath = str_replace($arrPath[count($arrPath)-1], "", $pathArchivo);
+                
+                if($_POST['txtTerceraFirma'] == true){
+//                    $arrPath1 = explode("/", $nuevoPath);
+                    $nuevoPath = str_replace("APROBADO", "", $nuevoPath);
+                }
 
-                $nuevoPath = str_replace($arrPath[count($arrPath)-1], "", $pathArchivo) . $_POST["selectEstado"];
+                $nuevoPath = $nuevoPath . $_POST["selectEstado"];
 
                 if (is_dir($nuevoPath)) {
                     chmod($nuevoPath, 0777);

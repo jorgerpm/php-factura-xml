@@ -13,7 +13,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Clave:</label>
-                            <input class="form-control" id="txtClaveFirma" name="txtClaveFirma" type="password" required="">
+                            <input class="form-control" id="txtClaveFirma" name="txtClaveFirma" type="password" autofocus required>
                         </div>
                     </div>
                     

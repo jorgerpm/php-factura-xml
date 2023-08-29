@@ -18,7 +18,9 @@
                             <select class="form-control" id="txtTipoFirma" name="txtTipoFirma" required="" onchange="cambioTipoFirma()">
                                 <option value="">- seleccione -</option>
                                 <option value="0">ELECTRÓNICA</option>
+                                <?php $gg=false; if($gg == true){ //para quitar esta linea?>
                                 <option value="1">IMAGEN</option>
+                                <?php } ?>
                             </select>
                         </div>
                         <div class="form-group col-md-6 col-12">

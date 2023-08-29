@@ -154,14 +154,6 @@
                                         foreach ($respuesta as $docReembolso) {
                                             ?>
                                             <tr>
-                                                <?php if($_SESSION['Rol']->autorizador == 1){ ?>
-                                                <td>
-                                                    <?php if ($docReembolso->estado != "APROBADO" && $docReembolso->estado != "RECHAZADO") { ?>
-                                                        <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>)"></button>
-                                                    <?php } ?>
-                                                </td>
-                                                <?php } ?>
-
                                                 <?php
                                                 $nuevoPath = $docReembolso->pathArchivo;
                                                 if ($docReembolso->estado == "APROBADO" || $docReembolso->estado == "RECHAZADO") {
@@ -172,6 +164,25 @@
                                                     ?>
                                                     
                                                 <?php }  ?>
+                                                
+                                                
+                                                <?php if($_SESSION['Rol']->autorizador == 1){ ?>
+                                                <td>
+                                                    <?php if ($docReembolso->estado != "APROBADO" && $docReembolso->estado != "RECHAZADO") { ?>
+                                                        <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>, false)"></button>
+                                                    <?php }else{
+                                                        if ($docReembolso->estado == "APROBADO" && $docReembolso->tipoReembolso == "GASTOS" && $docReembolso->tresFirmas == 0
+                                                                && ($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5 || $_SESSION['Rol']->id == 1)){ 
+                                                            //solo para contador, auxiliar y admin 
+                                                            ?>
+                                                            <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $nuevoPath . "'"; ?>, true)"></button>
+                                                        <?php }
+                                                    } ?>
+                                                </td>
+                                                <?php } ?>
+
+                                                
+                                                
                                                     
                                                 
                                                 <?php //para el contador o para el auxiliar
@@ -258,7 +269,7 @@
 
 <script type="text/javascript">
 
-function abrirModal(idDoc, urlArchivo) {
+function abrirModal(idDoc, urlArchivo, terceraFirma) {
 
     document.querySelector('#formModalPdf').reset();
 
@@ -266,6 +277,10 @@ function abrirModal(idDoc, urlArchivo) {
     document.querySelector('#txtUrlDocReembolso').value = urlArchivo;
 
     document.querySelector('#txtIdDocReembolso').value = idDoc;
+    
+    if(terceraFirma === true){
+        document.querySelector('#txtTerceraFirma').value = true;
+    }
 
     $('#modalAprobarReembolso').modal('show');
 }
@@ -486,6 +501,10 @@ function solicitarClaveFirma(){
                 if(data === "1"){
                     console.log("si es uno");
                     $('#modalClaveFirmaAprobacion').modal('show');
+                    console.log("le pongo el focus");
+                    document.querySelector('#txtClaveFirma').autofocus = true;
+                    document.querySelector('#txtClaveFirma').focus();
+                    console.log(document.querySelector('#txtClaveFirma'));
                 }
                 else{
                     firmarGuardar();

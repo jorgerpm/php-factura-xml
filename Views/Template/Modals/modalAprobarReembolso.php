@@ -15,6 +15,7 @@
                     
                     <input id="txtIdDocReembolso" name="txtIdDocReembolso" style="width: 100%" type="hidden"/>
                     <input id="txtUrlDocReembolso" name="txtUrlDocReembolso" style="width: 100%" type="hidden"/>
+                    <input id="txtTerceraFirma" name="txtTerceraFirma" style="width: 100%" type="hidden"/>
                     
                     <div class="tile-footer" style="text-align: end;">
                         <div class="row">

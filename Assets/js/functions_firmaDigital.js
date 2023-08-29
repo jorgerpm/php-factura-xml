@@ -41,7 +41,8 @@ inputFile.on('change', function (e) {
         files.forEach(uu => {
             console.log("el archivo:: ", uu.type);
             if(tipoFirma === "0"){//si es electronica
-                if(uu.type === "application/pkcs12"){
+//                if(uu.type === "application/pkcs12"){
+                if(uu.type.includes("pkcs12")){
                     fileXml.push(uu);
         //            $(this).val(files);
                 }
