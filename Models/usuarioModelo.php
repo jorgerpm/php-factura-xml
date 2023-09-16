@@ -25,4 +25,10 @@ class usuarioModelo extends serviciosWebModelo {
         $listaUsuarios = self::invocarGet('usuario/listarUsuariosPorRol?idRol='.$idRol, $array);
         return $listaUsuarios;
     }
+    
+    
+    protected function cambiar_clave_modelo($datos){
+        $respuesta = self::invocarPost('usuario/cambiarClave', $datos);
+        return $respuesta;
+    }
 }

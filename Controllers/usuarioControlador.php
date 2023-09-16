@@ -35,7 +35,7 @@ class usuarioControlador extends usuarioModelo {
                     "idRol" => $cbxListaRol
                 ];
 
-                $respuesta = usuarioModelo::guardar_usuario_modelo($datos);
+                $respuesta = usuarioModelo::cambiar_clave_modelo($datos);
 
                 echo '<script>swal("", "Contraseña actualizada correctamente", "success")
                     .then((value) => {
