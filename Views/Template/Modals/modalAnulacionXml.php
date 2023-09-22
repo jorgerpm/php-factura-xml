@@ -15,7 +15,7 @@
                         <input class="form-control" id="txtRazon" name="txtRazon" type="text" required="" style="text-transform: uppercase;">
                     </div>
                     <div class="tile-footer" style="text-align: end;">
-                        <button id="btnActionForm" class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit">
                             <i class="fa fa-fw fa-lg
                                fa-check-circle"></i><span id="btnText">Guardar</span>
                         </button>

@@ -52,7 +52,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6 col-12">
                             <label for="cbxListUser">Usuario:</label>
-                            <?php require_once './acciones/listarUsuarios.php'; ?>
+                            <?php require_once './acciones/listarUsuariosActivos.php'; ?>
                             <select class="form-control" id="cbxListUser" name="cbxListUser" required="">
                                 <?php
                                 foreach ($listaUsuarios as $user) {
@@ -77,7 +77,7 @@
                     
                     
                     <div class="tile-footer" style="text-align: end;">
-                        <button id="btnActionForm" class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit">
                             <i class="fa fa-fw fa-lg fa-check-circle"></i>
                             <span id="btnText">Guardar</span>
                         </button>&nbsp;&nbsp;&nbsp;

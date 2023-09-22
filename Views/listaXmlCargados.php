@@ -22,13 +22,13 @@
                                 <label class="control-label">Usuario:</label>
                             </div>
                             <div class="col-sm-2">
-                            <?php require_once './acciones/listarUsuarios.php'; ?>
+                            <?php require_once './acciones/listarUsuariosActivos.php'; ?>
                                 <select class="form-control" id="cbxListUser" name="cbxListUser" >
                                     <?php
                                     echo ($_SESSION["Rol"]->id == 1) ? '<option value="">- seleccione -</option>' : "";
                                     
                                     foreach ($listaUsuarios as $user) {
-                                        if($user->idEstado == 1){
+//                                        if($user->idEstado == 1){
                                             if($_SESSION["Rol"]->id == 1){
                                                 echo '<option value="' . $user->id . '" '.((isset($_POST['cbxListUser']) && $_POST['cbxListUser'] == $user->id) ? 'selected' : '').'>' . $user->nombre . '</option>';
                                             }
@@ -38,7 +38,7 @@
                                                     break;
                                                 }
                                             }
-                                        }
+//                                        }
                                     }
                                     ?>
                                 </select>

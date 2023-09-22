@@ -35,7 +35,7 @@
                                        style="text-transform: uppercase;" type="hidden"/>
                             </div>
                             <div class="col-md-4">
-                                <button id="btnActionForm" class="btn btn-primary" type="button" onclick="validarSeleccion()">
+                                <button class="btn btn-primary" type="button" onclick="validarSeleccion()">
                                     <i class="fa fa-fw fa-lg
                                        fa-check-circle"></i><span id="btnText">Firmar y guardar</span>
                                 </button>

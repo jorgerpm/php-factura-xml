@@ -38,7 +38,7 @@
                                         <label class="btn-sm" for="listUsers">Usuario carga:</label>
                                     </div>
                                     <div class="col-md-3 col-12" style="/*display: <php echo ($_SESSION['Rol']->id ==1 || $_SESSION['Rol']->principal == 1) ? '' :'none' ?>*/">
-                                        <?php require_once './acciones/listarUsuarios.php'; ?>
+                                        <?php require_once './acciones/listarUsuariosActivos.php'; ?>
                                         <select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" id="listUsers" name="listUsers" <?php echo ($_SESSION['Rol']->id ==1 || $_SESSION['Rol']->principal == 1) ? '' : 'readonly' ?> >
                                             <?php if ($_SESSION['Rol']->id ==1 || $_SESSION['Rol']->principal == 1) { ?>
                                                 <option value="">Seleccione</option>;
@@ -168,9 +168,19 @@
                                                 
                                                 <?php if($_SESSION['Rol']->autorizador == 1){ ?>
                                                 <td>
-                                                    <?php if ($docReembolso->estado != "APROBADO" && $docReembolso->estado != "RECHAZADO") { ?>
-                                                        <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>, false)"></button>
-                                                    <?php }else{
+                                                    <?php 
+                                                    if ($docReembolso->estado != "APROBADO" && $docReembolso->estado != "RECHAZADO") { 
+                                                        //si es un gasto solo debe aprobar el admin o la persona a quien se le asigno para aprobar (aprobador)
+                                                            if ($docReembolso->tipoReembolso == "GASTOS"){
+                                                                //si es admin muestra el boton para aprobar
+                                                                //si es el mismo usuario al que le dijeron que apruebe tambien muestra el boton
+                                                                    if($_SESSION['Rol']->id == 1 || $_SESSION['Usuario']->id == $docReembolso->idAprobador){ ?>
+                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>, false)"></button>
+                                                                    <?php }
+                                                            }else{ ?>
+                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>, false)"></button>
+                                                           <?php }
+                                                        }else{
                                                         if ($docReembolso->estado == "APROBADO" && $docReembolso->tipoReembolso == "GASTOS" && $docReembolso->tresFirmas == 0
                                                                 && ($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5 || $_SESSION['Rol']->id == 1)){ 
                                                             //solo para contador, auxiliar y admin 

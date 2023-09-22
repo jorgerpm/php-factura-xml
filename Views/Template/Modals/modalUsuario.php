@@ -90,7 +90,7 @@ Al menos un dígito. Y al menos uno de los siguientes caracteres ! @ $ % & * ?</
                     </div>
                     
                     <div class="tile-footer" style="text-align: end;">
-                        <button id="btnActionForm" class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit">
                             <i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span>
                         </button>&nbsp;&nbsp;&nbsp;
 

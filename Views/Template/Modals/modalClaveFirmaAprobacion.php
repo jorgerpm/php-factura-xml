@@ -13,13 +13,13 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Clave:</label>
-                            <input class="form-control" id="txtClaveFirma" name="txtClaveFirma" type="password" autofocus required>
+                            <input class="form-control" id="txtClaveFirma" name="txtClaveFirma" type="password" autofocus required autocomplete="false">
                         </div>
                     </div>
                     
                     
                     <div class="tile-footer" style="text-align: end;">
-                        <button id="btnActionForm" class="btn btn-primary" type="button" onclick="firmarGuardar()">
+                        <button class="btn btn-primary" type="button" onclick="firmarGuardar()">
                             <i class="fa fa-fw fa-lg
                                fa-check-circle"></i><span id="btnText">Firmar</span>
                         </button>

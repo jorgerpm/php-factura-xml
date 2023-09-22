@@ -31,4 +31,10 @@ class usuarioModelo extends serviciosWebModelo {
         $respuesta = self::invocarPost('usuario/cambiarClave', $datos);
         return $respuesta;
     }
+    
+    protected function listar_usuarios_activos_modelo() {
+        $array = [];
+        $listaUsuarios = self::invocarGet('usuario/listarUsuariosActivos', $array);
+        return $listaUsuarios;
+    }
 }

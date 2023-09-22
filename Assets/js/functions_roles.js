@@ -21,7 +21,7 @@ function openModalRol(val_datos) {
         document.querySelector('#idRol').value = null;
     }
 //    document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
-//    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
+//    document.querySelector('#btnActionFormxx').classList.replace("btn-info", "btn-primary");
 //    document.querySelector('#btnText').innerHTML = "Guardar";
 //    document.querySelector('#titleModal').innerHTML = "Gesti&oacute;n de rol";
     $('#modalFormRol').modal('show');

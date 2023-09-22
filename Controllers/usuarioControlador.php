@@ -121,5 +121,14 @@ class usuarioControlador extends usuarioModelo {
         }
         return $listaUsuarios;
     }
+    
+    
+    public function listar_usuarios_activos_controlador() {
+        $listaUsuarios = usuarioModelo::listar_usuarios_activos_modelo();
+        if (!isset($listaUsuarios)) {
+            $listaUsuarios = [];
+        }
+        return $listaUsuarios;
+    }
 
 }

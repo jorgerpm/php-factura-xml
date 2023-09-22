@@ -56,7 +56,7 @@
                                 <label class="btn-sm" for="listUsers">Usuario:</label>
                             </div>
                             <div class="col-md-3 col-12" style="/*padding: 0px 5px 0px 8px*/">
-                                <?php require_once './acciones/listarUsuarios.php'; ?>
+                                <?php require_once './acciones/listarUsuariosActivos.php'; ?>
                                 <select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" id="listUsers" name="listUsers" <?php echo ($_SESSION['Rol']->principal == 0) ? "" : "" ?>>
                                     <?php if ($_SESSION['Rol']->principal == 1) { ?>
                                         <option value="">Seleccione</option>;

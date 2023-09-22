@@ -101,7 +101,7 @@
                         }
                     } ?>
                     <div>
-                        <button id="btnActionForm" class="btn btn-primary" type="button" onclick="actualizarPermisos(this);">
+                        <button class="btn btn-primary" type="button" onclick="actualizarPermisos(this);">
                             <i class="fa fa-floppy-o"></i><span id="btnText">Actualizar permisos</span></button>
                     </div>
                 </form>
