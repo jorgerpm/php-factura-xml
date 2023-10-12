@@ -46,14 +46,50 @@ class reporteControlador extends reporteModelo {
                 isset($_POST['observaciones']) ? mb_strtoupper($_POST['observaciones'], 'utf-8') : "",
                 isset($_POST['seleccion']) ? $_POST['seleccion'] : "",
                 isset($_POST['claveFirma']) ? $_POST['claveFirma'] : "",
-            
+                mb_strtoupper($_POST['numeroRC'], 'utf-8'),
                 );
         
         if(isset($reporteDto) && $reporteDto->respuesta == "OK"){
             
+            //esto se hace solo cuando ya firma, y escribe el archivo en disco en el 
+            //path que viene desde el backend
             if($_POST['reporte'] == "SIFIRMA"){
             
-                $output_file = $reporteDto->pathArchivo;
+                $output_file = $reporteDto->pathArchivo; //=> Archivos_subidos/reembolsos/VIAJES/POR_AUTORIZAR/1697061648256.pdf
+                
+                $raux = explode("/", $output_file);
+                //desde aqui sale y se va al archivos_subidos que es la carpeta principal
+                $path_file = "../" . str_replace("/".$raux[4], "", $output_file);
+                
+                if (is_dir($path_file)) {
+//                    echo "SIIII existe";
+                } else {
+                    //dar los permisos cuando no existe
+                    $pathsArray = "../".$raux[0];
+                    
+                    for ($i = 1; $i < count($raux)-1; $i++) {
+//                                echo "<br>";
+//                                echo PHP_EOL;
+//                                echo $i;
+//                                echo "<br>";
+//                                echo PHP_EOL;
+//                                echo $pathsArray[$i];
+                        $pathsArray = $pathsArray . "/" .$raux[$i];
+                        //echo $pathsArray . PHP_EOL;
+                        
+                        if (is_dir($pathsArray)) {
+                            chmod($pathsArray, 0777);
+                        } else {
+                            mkdir($pathsArray, 0777, true);
+                            chmod($pathsArray, 0777);
+                        }
+                    }
+
+                    mkdir($path_file, 0777, true);
+                    chmod($path_file, 0777);
+                }
+                
+                
                 $ifp = fopen("../".$output_file, 'wb' );
                 fwrite( $ifp, base64_decode( $reporteDto->reporteBase64 ) );
                 fclose( $ifp ); 

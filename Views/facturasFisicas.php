@@ -33,14 +33,14 @@
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtRuc" name="txtRuc" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->codigoRC : ""; ?>" required="" 
-                                       pattern="^[a-zA-Z0-9]*" />
+                                       pattern="^[a-zA-Z0-9]*" minlength="5" maxlength="13"/>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <label>Proveedor:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtProveedor" name="txtProveedor" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($numSolicitud) ? $numSolicitud->codigoSolicitud : (isset($solicitudGet) ? $solicitudGet->codigoSolicitud : "") ?>" required=""
-                                       pattern="^[a-zA-Z0-9]([a-zA-Z0-9 ]*)" minlength="4"/>
+                                       pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4"/>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <label>Fecha documento:</label>
@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-md-6 col-sm-6 col-12">
                                 <input id="txtDirecProv" name="txtDirecProv" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->montoAprobado : "" ?>" required=""
-                                       pattern="^[a-zA-Z0-9]([a-zA-Z0-9 ]*)" minlength="4" />
+                                       minlength="4" type="text"/>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <label class="control-label">N&uacute;mero documento:</label>
@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtCliente" name="txtCliente" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->unidadNegocioRC : "" ?>" required=""
-                                       pattern="^[a-zA-Z0-9]([a-zA-Z0-9 ]*)" minlength="4" />
+                                       pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4" />
                             </div>
                         </div>
 
@@ -122,7 +122,7 @@
                             </div>
                             <div class="col-md-6 col-sm-6 col-12">
                                 <input id="txtDirCliente" name="txtDirCliente" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->autorizadoPorRC : ""; ?>" required=""
-                                       pattern="^[a-zA-Z0-9]([a-zA-Z0-9 ]*)" minlength="4" />
+                                        minlength="4" type="text"/>
                             </div>
                             
                             <div class="col-md-2 col-sm-2 col-12">
@@ -178,7 +178,7 @@
                                         for ($i = 0; $i < count($solicitudGet->listaDetalles); $i++) {
                                             echo '<tr>';
                                             echo '<td><input type="number" id="txtCantidad' . ($i + 1) . '" style="width: 100%" value="' . $solicitudGet->listaDetalles[$i]->cantidad . '"></td>'
-                                            . '<td><input id="txtDetalle' . ($i + 1) . '" style="width: 100%; text-transform: uppercase;" value="' . $solicitudGet->listaDetalles[$i]->detalle . '"></td>'
+                                            . '<td><input id="txtDetalle' . ($i + 1) . '" style="width: 100%; text-transform: uppercase;" value="' . $solicitudGet->listaDetalles[$i]->detalle . '" type="text"></td>'
                                             . '<td>aqui archivo</td>'
                                             . '<td><input id="' . ($i + 1) . '" type="button" value="x" onclick="eliminarFila(this);">';
                                             echo '<input type="hidden" id="txtIdDetalle' . ($i + 1) . '" name="txtIdDetalle' . ($i + 1) . '" value="' . $solicitudGet->listaDetalles[$i]->id . '"></td>';

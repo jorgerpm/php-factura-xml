@@ -97,6 +97,7 @@
                                             <option value="">Seleccione</option>
 
                                             <option value="APROBADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "APROBADO") ? 'selected' : ''); ?> >APROBADO</option>
+                                            <option value="PROCESADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "PROCESADO") ? 'selected' : ''); ?> >PROCESADO</option>
                                             <option value="RECHAZADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "RECHAZADO") ? 'selected' : ''); ?> >RECHAZADO</option>
                                             <option value="POR_AUTORIZAR" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "POR_AUTORIZAR") ? 'selected' : ''); ?> >POR_AUTORIZAR</option>
 
@@ -138,12 +139,17 @@
                                         <th>Ver doc. reembolso</th>
                                         <th>Cargar justific.</th>
                                         <th>Ver justificativo</th>
+                                        <!--th>Ver documentos</th-->
                                         <th>Estado Sistema</th>
                                         <th>Tipo reembolso</th>
                                         <th>Usuario carga</th>
                                         <th>Fecha de carga</th>
+                                        <th>Número R.C.</th>
+                                        <th>Aprobador</th>
                                         <th>Usuario aprueba/rechaza</th>
                                         <th>Fecha aprueba/rechaza</th>
+                                        <th>Usuario procesa/rechaza</th>
+                                        <th>Fecha procesa/rechaza</th>
                                         <th>Raz&oacute;n rechazo</th>
                                     </tr>
                                 </thead>
@@ -155,39 +161,40 @@
                                             ?>
                                             <tr>
                                                 <?php
-                                                $nuevoPath = $docReembolso->pathArchivo;
-                                                if ($docReembolso->estado == "APROBADO" || $docReembolso->estado == "RECHAZADO") {
-                                                    $pathArchivo = $docReembolso->pathArchivo;
-                                                    $arrPath = explode("/", $pathArchivo);
-
-                                                    $nuevoPath = str_replace($arrPath[count($arrPath) - 1], "", $pathArchivo) . $docReembolso->estado . "/" . $arrPath[count($arrPath) - 1];
-                                                    ?>
-                                                    
-                                                <?php }  ?>
+//                                                $nuevoPath = $docReembolso->pathArchivo;
+//                                                if ($docReembolso->estado == "APROBADO" || $docReembolso->estado == "RECHAZADO" || $docReembolso->estado == "PROCESADO") {
+//                                                    $pathArchivo = $docReembolso->pathArchivo;
+//                                                    $arrPath = explode("/", $pathArchivo);
+//
+//                                                    $nuevoPath = str_replace($arrPath[count($arrPath) - 1], "", $pathArchivo) . $docReembolso->estado . "/" . $arrPath[count($arrPath) - 1];
+//                                                }
+                                                $nuevoPath = $_SESSION['URL_SISTEMA'] . $docReembolso->pathArchivo;
+                                                ?>
                                                 
                                                 
                                                 <?php if($_SESSION['Rol']->autorizador == 1){ ?>
                                                 <td>
-                                                    <?php 
-                                                    if ($docReembolso->estado != "APROBADO" && $docReembolso->estado != "RECHAZADO") { 
+                                                    <?php /*echo $_SESSION['URL_SISTEMA']; echo "<br/>";*/
+                                                    if ($docReembolso->estado == "POR_AUTORIZAR") { //APROBADO" && $docReembolso->estado != "RECHAZADO" && $docReembolso->estado != "PROCESADO
                                                         //si es un gasto solo debe aprobar el admin o la persona a quien se le asigno para aprobar (aprobador)
                                                             if ($docReembolso->tipoReembolso == "GASTOS"){
                                                                 //si es admin muestra el boton para aprobar
                                                                 //si es el mismo usuario al que le dijeron que apruebe tambien muestra el boton
-                                                                    if($_SESSION['Rol']->id == 1 || $_SESSION['Usuario']->id == $docReembolso->idAprobador){ ?>
-                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>, false)"></button>
-                                                                    <?php }
-                                                            }else{ ?>
-                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>, false)"></button>
+                                                                if($_SESSION['Rol']->id == 1 || $_SESSION['Usuario']->id == $docReembolso->idAprobador){ ?>
+                                                                    <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $nuevoPath/*$docReembolso->pathArchivo*/ . "'"; ?>, false, <?php echo "'".$docReembolso->tipoReembolso."','".$docReembolso->estado."'"?>)"></button>
+                                                          <?php }
+                                                            }elseif($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5 || $_SESSION['Rol']->id == 1){ 
+                                                                //solo para contador, auxiliar y admin ?>
+                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $nuevoPath/*$docReembolso->pathArchivo*/ . "'"; ?>, false, <?php echo "'".$docReembolso->tipoReembolso."','".$docReembolso->estado."'"?>)"></button>
                                                            <?php }
                                                         }else{
-                                                        if ($docReembolso->estado == "APROBADO" && $docReembolso->tipoReembolso == "GASTOS" && $docReembolso->tresFirmas == 0
+                                                            if ($docReembolso->estado == "APROBADO" && $docReembolso->tipoReembolso == "GASTOS" && $docReembolso->tresFirmas == 0
                                                                 && ($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5 || $_SESSION['Rol']->id == 1)){ 
-                                                            //solo para contador, auxiliar y admin 
-                                                            ?>
-                                                            <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $nuevoPath . "'"; ?>, true)"></button>
+                                                                //solo para contador, auxiliar y admin 
+                                                                ?>
+                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $nuevoPath . "'"; ?>, true, <?php echo "'".$docReembolso->tipoReembolso."','".$docReembolso->estado."'"?>)"></button>
                                                         <?php }
-                                                    } ?>
+                                                        } ?>
                                                 </td>
                                                 <?php } ?>
 
@@ -232,13 +239,22 @@
                                                 </td>
 
                                                 
-                                                    
+                                                <!--td>
+                                                    <button class="btn btn-info fa fa-file-code-o" type="button" style="border: none"
+                                                        onclick="mostrarFacturasXml(<php echo $docReembolso->id ?>)">
+                                                    </button>
+                                                </td-->
+                                                
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->estado; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo ($docReembolso->tipoReembolso == "VIAJES" ? "LIQUIDACION DE GASTO DE VIAJES" : ($docReembolso->tipoReembolso == "GASTOS" ? "REEMBOLSO DE GASTOS" : $docReembolso->tipoReembolso)); ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->usuario->nombre; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo date("d/m/Y", $docReembolso->fechaCargaLong / 1000); ?></td>
+                                                <td style="white-space: nowrap;"><?php echo $docReembolso->numeroRC; ?></td>
+                                                <td style="white-space: nowrap;"><?php echo $docReembolso->aprobador; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->usuarioAutoriza; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->fechaAutorizaLong != null ? date("d/m/Y H:i:s", $docReembolso->fechaAutorizaLong / 1000) : ""; ?></td>
+                                                <td style="white-space: nowrap;"><?php echo $docReembolso->usuarioProcesa; ?></td>
+                                                <td style="white-space: nowrap;"><?php echo $docReembolso->fechaProcesaLong != null ? date("d/m/Y H:i:s", $docReembolso->fechaProcesaLong / 1000) : ""; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->razonRechazo; ?></td>
 
 
@@ -246,7 +262,7 @@
                                             <?php
                                         }
                                     } else {
-                                        echo '<tr><td colspan="11">No existen registros.</td></tr>';
+                                        echo '<tr><td colspan="12">No existen registros.</td></tr>';
                                     }
                                     ?>
                                 </tbody>
@@ -263,7 +279,7 @@
 <?php require_once 'Template/Modals/modalCargaArchivo.php'; ?>
                     
                     <?php require_once 'Template/Modals/modalClaveFirmaAprobacion.php'; ?>
-
+<?php require_once 'Template/Modals/modalFacturasReembolso.php'; ?>
 
                 </div>
             </div>
@@ -277,16 +293,53 @@
 <script type="text/javascript" src="./Assets/js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="./Assets/js/plugins/dataTables.bootstrap.min.js"></script>
 
+<script type="text/javascript" src="./Assets/js/functions_reembolsos.js"></script>
+
+<script type="text/javascript" src="./Assets/js/functions_archivosxml.js"></script>
+
 <script type="text/javascript">
 
-function abrirModal(idDoc, urlArchivo, terceraFirma) {
+function abrirModal(idDoc, urlArchivo, terceraFirma, tipoReembolso, estadoReembolso) {
 
     document.querySelector('#formModalPdf').reset();
 
     document.querySelector('#archivoPdf').src = urlArchivo;//fileURL;
     document.querySelector('#txtUrlDocReembolso').value = urlArchivo;
-
     document.querySelector('#txtIdDocReembolso').value = idDoc;
+    
+    //aqui se controla los estados que se van a mostrar en la ventana de aprobacion.
+    //para saber si se aprueba o se procesa
+    document.querySelector('#txtRazonRechazo').type = "hidden";
+    var cmbEstados = document.querySelector('#selectEstado');
+    cmbEstados.innerHTML='';    
+    var option = document.createElement("option");
+    option.text = "Seleccione estado";
+    option.value = null;
+    cmbEstados.add(option);
+    if(tipoReembolso === "GASTOS"){
+        if(estadoReembolso === "POR_AUTORIZAR"){
+            var option = document.createElement("option");
+            option.text = "APROBADO";
+            option.value = "APROBADO";
+            cmbEstados.add(option);
+        }else{
+            var option = document.createElement("option");
+            option.text = "PROCESADO";
+            option.value = "PROCESADO";
+            cmbEstados.add(option);
+        }
+    }
+    else{
+        var option = document.createElement("option");
+        option.text = "PROCESADO";
+        option.value = "PROCESADO";
+        cmbEstados.add(option);
+    }
+    var option = document.createElement("option");
+    option.text = "RECHAZADO";
+    option.value = "RECHAZADO";
+    cmbEstados.add(option);
+    //hasta aca
     
     if(terceraFirma === true){
         document.querySelector('#txtTerceraFirma').value = true;

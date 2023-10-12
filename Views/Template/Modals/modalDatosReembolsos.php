@@ -31,6 +31,16 @@
                         </div>
                     </div>
                     
+                    
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label class="control-label">N&uacute;mero RC:</label>
+                            <input class="form-control" id="txtNumeroRC" name="txtNumeroRC" type="text" required="" style="text-transform: uppercase;">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label id="lblObservaciones" class="control-label">Observaciones:</label>
                         <input class="form-control" id="txtObservaciones" name="txtObservaciones" type="text" style="text-transform: uppercase;">

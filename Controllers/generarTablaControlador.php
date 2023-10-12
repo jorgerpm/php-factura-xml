@@ -41,7 +41,7 @@ class generarTablaControlador {
                 
                 //aqui va lo de la version del comprobante
                 if ($columns[$ind]['col'] == "version") {
-                    array_push($valores, $docum->version);
+                    array_push($valores, isset($docum->version) ? $docum->version : null);
                     $coincide = true;
                 }
                 

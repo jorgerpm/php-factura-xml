@@ -7,5 +7,7 @@ class listasBlancasUtil {
         "listaDocsReemb",
         "listaXmlCargados",
         "facturasFisicas",
+        "listaRazonesRechazo",
+        "listaEmpresas",
         ];
 }

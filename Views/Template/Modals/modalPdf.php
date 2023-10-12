@@ -36,7 +36,9 @@
                                     <option value="">- seleccione -</option>
                                     <?php
                                     foreach ($usersAprobs as $usap) {
-                                        echo '<option value="' . $usap->id . '">' . $usap->nombre . '</option>';
+                                        if($usap->id != $_SESSION['Usuario']->id){
+                                            echo '<option value="' . $usap->id . '">' . $usap->nombre . '</option>';
+                                        }
                                     }
                                     ?>
                                 </select>

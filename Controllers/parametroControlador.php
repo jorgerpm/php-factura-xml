@@ -23,6 +23,7 @@ class parametroControlador extends parametroModelo {
                 "nombre" => mb_strtoupper($txtNombre, 'utf-8'),
                 "valor" => $txtValor,
                 "idEstado" => mb_strtoupper($cbxListaEstado, 'utf-8'),
+                "idUsuarioModifica"=> $_SESSION['Usuario']->id,
             ];
 
             $respuesta = parametroModelo::guardar_parametro_modelo($datos);

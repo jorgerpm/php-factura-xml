@@ -27,6 +27,7 @@ class cargarXmlControlador extends cargarXmlModelo {
                     if (is_file($path)) {
                         return "Ya existe un archivo con el mismo nombre, no se puede cargar el mismo archivo.";
                     } else {
+//                        echo $_FILES['archivos']['tmp_name'][$i].PHP_EOL;
                         if (move_uploaded_file($_FILES['archivos']['tmp_name'][$i], $path)) { //Cargar archivos
                             $count += 1;
                         }
@@ -59,7 +60,10 @@ class cargarXmlControlador extends cargarXmlModelo {
                     //mover el archivo a la ubicacion real de carpetas creadas en el java
                     if ($respuesta->respuesta == "OK") {
 
-//                        echo "mover desde: " . $path;
+//                        echo "mover desde: " . $pathXml y $pathPdf;
+//                        print_r($respuesta);
+//                        echo PHP_EOL;
+//                        print_r($respuesta->dto);
 
                         $carpetasPath = str_replace("Controllers", "", __DIR__) . $respuesta->dto; //aqui el path real 
 
@@ -101,8 +105,18 @@ class cargarXmlControlador extends cargarXmlModelo {
                             chmod($carpetasPath, 0777);
                         }
 
-                        if (rename($path, $carpetasPath . "/".$archivo_xml)) {
+                        //debe escribir en la nueva ubicacion el archivo pdf y el xml., los dos
+//                        echo PHP_EOL."Desde: ".$upload_location . $archivo_xml." - Hasta: ".$carpetasPath . "/".$archivo_xml.PHP_EOL;
+                        if (rename(($upload_location.$archivo_xml), $carpetasPath ."/".$archivo_xml)) {
                             chmod($carpetasPath . "/".$archivo_xml, 0666);
+//                            echo "MOVIOOOOOO <br/>";
+                        } else {
+//                            echo "NOO se movvvv";
+                        }
+                        //escribir el archivo pdf
+//                        echo PHP_EOL."Desde: ".$upload_location . $archivo_pdf." - Hasta: ".$carpetasPath . "/".$archivo_pdf.PHP_EOL;
+                        if (rename(($upload_location.$archivo_pdf), $carpetasPath ."/".$archivo_pdf)) {
+                            chmod($carpetasPath . "/".$archivo_pdf, 0666);
 //                            echo "MOVIOOOOOO <br/>";
                         } else {
 //                            echo "NOO se movvvv";
@@ -115,6 +129,9 @@ class cargarXmlControlador extends cargarXmlModelo {
                 if ($respuesta != "OK") {
                     if (is_file($upload_location . $archivo_xml)) {
                         unlink($upload_location . $archivo_xml);
+                    }
+                    if (is_file($upload_location . $archivo_pdf)) {
+                        unlink($upload_location . $archivo_pdf);
                     }
                 }
 

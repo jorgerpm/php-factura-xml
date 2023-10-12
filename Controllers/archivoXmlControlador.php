@@ -13,10 +13,11 @@ class archivoXmlControlador extends archivoXmlModelo {
                             $post['txtDesde'], $regsPagina,
                             isset($post['txtEstadoSistema']) ? $post['txtEstadoSistema'] : null,
                             isset($post['seleccionados']) ? $post['seleccionados'] : false,
-                    isset($post['conDetalles']) ? $post['conDetalles'] : false);
+                    isset($post['conDetalles']) ? $post['conDetalles'] : false,
+                    isset($post['idReembolso']) ? $post['idReembolso'] : null);
         } else {
             $respuesta = archivoXmlModelo::listar_archivos(date("Y-m-d"), date("Y-m-d"), ($_SESSION['Rol']->principal == 0) ? $_SESSION['Usuario']->id : null,
-                            null, null, null, 0, $regsPagina, null, false, false);
+                            null, null, null, 0, $regsPagina, null, false, false, null);
         }
 
         if (!isset($respuesta)) {
@@ -61,7 +62,7 @@ class archivoXmlControlador extends archivoXmlModelo {
          $respuesta = archivoXmlModelo::listar_archivos($nuevafecha, date("Y-m-d"), 
                  //($_SESSION['Rol']->principal == 0) ? $_SESSION['Usuario']->id : null,
                  isset($_POST['cbxListUser']) ? $_POST['cbxListUser'] : ($_SESSION['Rol']->id == 1 ? null : $_SESSION['Usuario']->id),
-                            null, null, null, 0, $regsPagina, "CARGADO", false, false);
+                            null, null, null, 0, $regsPagina, "CARGADO", false, false, null);
         
 
         if (!isset($respuesta)) {
@@ -252,8 +253,8 @@ class archivoXmlControlador extends archivoXmlModelo {
         array_push($columns, ['col' => 'Fecha anula', 'wid' => '100px']);
         array_push($columns, ['col' => 'Razón anulación', 'wid' => '100px']);
                                         
-        array_push($columns, ['col' => 'Url archivo xml', 'wid' => '100px']);
-        array_push($columns, ['col' => 'Url archivo RIDE', 'wid' => '100px']);
+        array_push($columns, ['col' => 'Archivo xml', 'wid' => '100px']);
+        array_push($columns, ['col' => 'Archivo RIDE', 'wid' => '100px']);
         
         
         

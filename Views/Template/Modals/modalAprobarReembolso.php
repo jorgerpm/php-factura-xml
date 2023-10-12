@@ -25,9 +25,6 @@
                             <div class="col-md-2">
                                 <select class="form-control disable-selection btn-sm" 
                                         id="selectEstado" name="selectEstado" onchange="mostrarRazonRechazo()">
-                                    <option value="">Seleccione estado</option>
-                                    <option value="APROBADO" >APROBADO</option>
-                                    <option value="RECHAZADO" >RECHAZADO</option>
                                 </select>
                             </div>
                             <div class="col-md-4">

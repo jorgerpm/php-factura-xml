@@ -1,30 +1,3 @@
-/*function uploadFile() {
- var totalfiles = document.getElementById('archivos').files.length;
- if(totalfiles > 0 ){
- var formData = new FormData();
- //Leer los archivos seleccionados
- for (var index = 0; index < totalfiles; index++) {
- formData.append("archivos[]", document.getElementById('archivos').files[index]);
- }
- var xhttp = new XMLHttpRequest();
- //Enviar $POST a la función cargarXmlControlador.php
- xhttp.open("POST", "./Controllers/cargarXmlControlador.php", true);
- //Mostrar los cambios de estado
- xhttp.onreadystatechange = function() {
- if (this.readyState == 4 && this.status == 200) {
- var response = this.responseText;
- alert(response + " Archivos cargados");
- }
- };
- //Enviar solicitud de datos
- xhttp.send(formData);
- }else{
- alert("Por favor seleccione archivos");
- }
- }*/
-
-
-
 /* --------------------------------  -----------------------*/
 var inputFileXml = $("#inputFileXml");
 var inputFilePdf = $("#inputFilePdf");
@@ -70,6 +43,7 @@ inputFileXml.on('change', function (e) {
     actualizarListaDeArchivos(1);
     $(this).val('');
 });
+
 inputFilePdf.on('change', function (e) {
     filePdf = [];
     

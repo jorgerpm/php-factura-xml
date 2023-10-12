@@ -19,7 +19,7 @@ function agregarFila() {
  */
     tbody.insertRow().innerHTML = '<td><input id="' + index + '" type="button" value="x" onclick="eliminarFila(this);" /></td>'
             + '<td><input type="number" id="txtCantidad' + index + '" style="width: 100%" required onkeyup="calcularTotalDetalles()"/></td>'
-            + '<td><input id="txtDetalle' + index + '" style="width: 100%; text-transform: uppercase;" required pattern="^[a-zA-Z0-9]([a-zA-Z0-9 ]*)" minlength="4" /></td>'
+            + '<td><input id="txtDetalle' + index + '" style="width: 100%; text-transform: uppercase;" required pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4" /></td>'
     
             + '<td><input type="number" step="any" id="txtValorUnitario'+index+'" required style="width: 100%" onkeyup="calcularTotalDetalles()"/></td>'
             + '<td><input type="number" step="any" id="txtDescuento'+index+'" required style="width: 100%" onkeyup="calcularTotalDetalles()"/></td>'

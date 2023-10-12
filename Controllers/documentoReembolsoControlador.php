@@ -26,12 +26,8 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
 
     public function aprobar_documento_reembolso_controlador() {
         //aqui se necesita el archivo en base64.
-        //    echo $_SERVER['HTTP_HOST']; //localhost:9090
-    //    print_r($_SERVER);
-        $urlDocRemb = $_POST['txtUrlDocReembolso'];
-        $nombreSistema = explode("/", $_SERVER["REQUEST_URI"])[1]; //de esta manera se puede obtener el contexto del sistema
-        $pathArchivo = ".." .explode($nombreSistema, $urlDocRemb)[1];
-        //str_replace("/Controllers", "", __DIR__)
+        
+        $pathArchivo = "../". str_replace($_SESSION['URL_SISTEMA'], "", $_POST['txtUrlDocReembolso']); //aqui toda la url desde el http...
         $ifp = file_get_contents($pathArchivo);
         $fileBase64 = base64_encode($ifp);
         
@@ -56,14 +52,7 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
             else{
                 $arrPath = explode("/", $pathArchivo);
                 
-                $nuevoPath = str_replace($arrPath[count($arrPath)-1], "", $pathArchivo);
-                
-                if($_POST['txtTerceraFirma'] == true){
-//                    $arrPath1 = explode("/", $nuevoPath);
-                    $nuevoPath = str_replace("APROBADO", "", $nuevoPath);
-                }
-
-                $nuevoPath = $nuevoPath . $_POST["selectEstado"];
+                $nuevoPath = "../".str_replace($arrPath[count($arrPath)-1], "", $respuesta->pathArchivo);
 
                 if (is_dir($nuevoPath)) {
                     chmod($nuevoPath, 0777);
@@ -72,10 +61,15 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
                     chmod($nuevoPath, 0777);
                 }
 
-                $output_file = $nuevoPath . "/" . $arrPath[count($arrPath)-1];
+                $output_file = "../".$respuesta->pathArchivo;//$nuevoPath . "/" . $arrPath[count($arrPath)-1];
+                
                 $ifp = fopen($output_file, 'wb' );
                 fwrite( $ifp, base64_decode( $respuesta->archivoBase64 ) );
-                fclose( $ifp ); 
+                fclose( $ifp );
+                
+                //eliminar el archivo anterior qe esta en $pathArchivo
+                unlink($pathArchivo);
+                
 
                 return '<script>swal("", "Datos almacenados correctamente", "success")
                         .then((value) => {

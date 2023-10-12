@@ -3,6 +3,11 @@
 date_default_timezone_set('America/Guayaquil');
 
 session_start();
+//este sirve para obtener la url que se pone en el internet
+//esto forma de la siguiente manera
+//http://ip:puerto/nombreSistema
+$_SESSION['URL_SISTEMA'] = $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"].$_SERVER["CONTEXT_PREFIX"]."/";
+
 //esta seccion es para verificar el tiempo de inacntividad en la pagina, 
 //se controla con la sesion, si ya pasa el tiempo configurado se termina la session y
 //se redirecciona a la pagina de login

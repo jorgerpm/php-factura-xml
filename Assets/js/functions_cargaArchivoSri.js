@@ -410,6 +410,7 @@ function ejecutarReporteFirma(ids) {
                         'fondoEntregado': document.querySelector('#txtValorEntregado').value,
                         'observaciones': document.querySelector('#txtObservaciones').value,
                         'seleccion': document.querySelector('#txtSeleccion').value,
+                        'numeroRC': document.querySelector('#txtNumeroRC').value,
 //                        'claveFirma': document.querySelector('#txtClaveFirma').value
                     },
                     success: function (data) {
@@ -481,6 +482,8 @@ function validarForm(){
     if(document.querySelector('#txtPeriodoViaje').value.length === 0)
         return false;
     if(document.querySelector('#txtLugarViaje').value.length === 0)
+        return false;
+    if(document.querySelector('#txtNumeroRC').value.length === 0)
         return false;
         
     const tipoR = document.querySelector('#txtTipoPdf').value;
@@ -566,7 +569,8 @@ function enviarFirmar(ids) {
             'fondoEntregado': document.querySelector('#txtValorEntregado').value,
             'observaciones': document.querySelector('#txtObservaciones').value,
             'seleccion': document.querySelector('#txtSeleccion').value,
-            'claveFirma': document.querySelector('#txtClaveFirma').value
+            'claveFirma': document.querySelector('#txtClaveFirma').value,
+            'numeroRC': document.querySelector('#txtNumeroRC').value,
         },
         success: function (data) {
             LOADING.style.display='none';

@@ -11,9 +11,10 @@
         </ul>
     </div>
     <!-- Cargar archivo txt -->
-    <div class="container tile espacio">		
-        <div class="panel panel-primary">
-            <div class="panel-body">
+    <div class="row espacio">
+        <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
                 <form class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" action="" method="POST">
                     <div class="form-group">
                         <div class="row">
@@ -177,6 +178,7 @@
                     </div>
                     <div class="RespuestaAjax"></div>
                 </form>
+            </div>
             </div>
         </div>
     </div>

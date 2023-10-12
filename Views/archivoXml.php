@@ -119,6 +119,7 @@
                                     <option value="APROBADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "APROBADO") ? 'selected' : ''); ?> >APROBADO</option>
                                     <option value="CARGADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "CARGADO") ? 'selected' : ''); ?> >CARGADO</option>
                                     <option value="POR_AUTORIZAR" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "POR_AUTORIZAR") ? 'selected' : ''); ?> >POR_AUTORIZAR</option>
+                                    <option value="PROCESADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "PROCESADO") ? 'selected' : ''); ?> >PROCESADO</option>
                                     <option value="RECHAZADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "RECHAZADO") ? 'selected' : ''); ?> >RECHAZADO</option>
                                     
                                 </select>
@@ -217,7 +218,7 @@
                                     <?php } ?>
                                     </tr>
                                 </thead>
-                                <tbody id='bodyData'>
+                                <tbody id='bodyDataXml'>
 <?php
 if (count($respuesta) > 0) {
     
@@ -281,7 +282,7 @@ if (count($respuesta) > 0) {
                                         
                                     }
                                 } else {
-                                    echo '<tr><td colspan="15">No existen registros.</td></tr>';
+                                    echo '<tr><td colspan="16">No existen registros.</td></tr>';
                                 }
                                 ?>
                                 </tbody>
@@ -295,7 +296,7 @@ if (count($respuesta) > 0) {
                                 <button style="/*width: 100%;position:absolute; right:0;bottom:0;*/" class="btn btn-primary btn-sm fa" type="button" onclick="pruebaUno('facturas-data', false)"><i class="fa fa-file-excel-o"></i><span id="btnText">Exportar todos</span></button>
                             </div>
                             <div class="col-md-2">
-                                <button style="/*width: 100%;position:absolute; right:0;bottom:0;*/" class="btn btn-primary btn-sm fa" type="button" onclick="exportarSeleccionados()"><i class="fa fa-file-excel-o"></i><span id="btnText">Exportar seleccionados</span></button>
+                                <button style="/*width: 100%;position:absolute; right:0;bottom:0;*/" class="btn btn-primary btn-sm fa" type="button" onclick="exportarSeleccionados(0)"><i class="fa fa-file-excel-o"></i><span id="btnText">Exportar seleccionados</span></button>
                             </div>
                             <div class="col-md-8" >
                                 <input type="checkbox" id="txtConDetalles" /> Exportar con detalles
@@ -314,6 +315,8 @@ if (count($respuesta) > 0) {
 <!-- Data table plugin-->
 <script type="text/javascript" src="./Assets/js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="./Assets/js/plugins/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript" src="./Assets/js/functions_archivosxml.js"></script>
 
 <script type="text/javascript">
     var table = $('#sampleTableXml1').DataTable({
@@ -350,206 +353,24 @@ if (count($respuesta) > 0) {
         console.log("numcol: ", numCol);
         
         for(let i=0;i<tableXml.rows.length;i++){
-            if(tableXml.rows[i].cells[numCol].style.display !== "none"){
+            if(tableXml.rows[i].cells[numCol] && tableXml.rows[i].cells[numCol].style.display !== "none"){
                 tableXml.rows[i].cells[numCol].style.display="none";
                 inputCheck.style.color = "yellow";
                 inputCheck.className = "fa fa-times";
             }
             else{
-                tableXml.rows[i].cells[numCol].style.display="table-cell";
+                if(tableXml.rows[i].cells[numCol])
+                    tableXml.rows[i].cells[numCol].style.display="table-cell";
+                
                 inputCheck.style.color = "white";
                 inputCheck.className = "fa fa-check";
             }
         }
     });
     
-
-
-function pruebaUno(filename, seleccionados){
-        
-        //const form = document.forms[0];
-        const form = document.getElementById('formEstado');
-        
-        const conDetalles = document.getElementById('txtConDetalles');
-        
-        console.log("es con detalle>: ", conDetalles.checked);
-        //alert(form);
-        
-//        var accion = form.attr('action');
-//    var metodo = form.attr('method');
-//        alert(metodo);
-        
-        var formdata = new FormData(form);
-        formdata.append("seleccionados", seleccionados);
-        formdata.append("conDetalles", conDetalles.checked);
-        
-
-    $.ajax({
-        type: 'POST',
-        url: 'acciones/listarArchivos.php',
-        data: formdata ? formdata : form.serialize(),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            var csv = [];
-
-//data = JSON.stringify(data);
-
-            data = data.replaceAll("[", "").replaceAll("]", "").replaceAll('"', '').replaceAll(',', '').replaceAll('Array', '').replaceAll('(', '').replaceAll(')', '').replaceAll('\n', '');
-            console.log(data);
-            
-            csv = data.split("~");
-
-            for(var i=0;i<csv.length;i++){
-                csv[i] = csv[i].toString().replaceAll(i+" => ", "").replaceAll("  ", "");
-            }
-            
-            //comprobar las columnas
-            //se utiliza con el ocultar columnas
-            var tableXml = document.getElementById('sampleTableXml');
-            var tbody = document.getElementById('bodyData');
-                        
-            console.log("el csv ", csv[0]);
-
-            var arrayCols = [];
-            
-//            if(conDetalles && conDetalles.checked === true){//si esta marcado el con detalles
-//                for(let i=0;i<csv[0].split(';').length;i++){
-//                    var nomCol = csv[0].split(';')[i];
-//                    var datascv = csv[0].split(';');
-//                    
-//                    for(let j=0;j<datascv.length;j++){
-//                        if(datascv[j] == nomCol){
-//                            arrayCols.push(j);
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//            else{
-                
-                for(i=0;i<tableXml.rows[0].cells.length-1;i++){
-                    if(tableXml.rows[0].cells[i+1].style.display !== "none"){
-//                        for(j=0;j<csv[0].length;j++){ noooo
-                        var nomCol = tableXml.rows[0].cells[i+1].innerHTML;
-                        var datascv = csv[0].split(';');
-
-                        for(let j=0;j<datascv.length;j++){
-                            if(datascv[j] == nomCol){
-    //                            console.log(nomCol);
-                                arrayCols.push(j);
-                                break;
-                            }
-                        }
-                    }
-                }
-                //se agrega  mas columnas por el tema de los detalles
-                if(conDetalles && conDetalles.checked === true){//si esta marcado el con detalles
-                    arrayCols.push(datascv.length-10);
-                    arrayCols.push(datascv.length-9);
-                    arrayCols.push(datascv.length-8);
-                    arrayCols.push(datascv.length-7);
-                    arrayCols.push(datascv.length-6);
-                    arrayCols.push(datascv.length-5);
-                    arrayCols.push(datascv.length-4);
-                    
-                    arrayCols.push(datascv.length-3);
-                    arrayCols.push(datascv.length-2);
-                }
-//            }
-            
-            let csvFinal = [];
-            
-            for(let i=0;i<csv.length;i++){
-                let filaAux = [];
-                let csvAux = csv[i].split(";");
-                console.log("csv[i]: ", csv[i]);
-                for(let j=0;j<csvAux.length;j++){
-//                    console.log("comparativo", arrayCols.find(a=>a===j));
-                    if(arrayCols.find(a=>a===j) >= 0){
-                        filaAux.push(csvAux[j]);
-//                        console.log(csvAux[j]);
-                    }
-                }
-                
-                if(seleccionados === true){
-                    console.log("si ha estado seleccc: ", seleccionados);
-                
-                console.log("filaAux[7]: ", filaAux);
-                
-                    if(i === 0){
-                        csvFinal.push(filaAux.join(";"));
-                    }
-                    else{
-                        console.log("posicionxxx: ", (i-1));
-//                        if((i-1) < tbody.rows.length){
-                            for(let k=0;k<tbody.rows.length;k++){
-    //                            console.log("es en el for: ", k);
-                                if(tbody.rows[k].cells[0].children[0].checked === true){
-    //                                console.log("esta checked:: ", tbody.rows[k].cells[0].children[0]);
-    //                                console.log("1: ", tbody.rows[k].cells[8].innerText);
-    //                                console.log("2: ", tbody.rows[k].cells[0].children[0].id);
-                                    if(filaAux[5] === tbody.rows[k].cells[0].children[0].id){
-                                        console.log("filaAux:: ", filaAux);
-                                        //console.log("seleccionado ", filaAux);
-                                        csvFinal.push(filaAux.join(";"));
-                                    }
-                                }
-                            }
-//                        }
-                    }
-                }
-                else{
-                    csvFinal.push(filaAux.join(";"));
-                }
-
-                    
-            }
-//            console.log("success, ", csv);
-            
-            // Download CSV file
-    downloadCSV(csvFinal.join("\n"), filename);
-//downloadCSV(csv, filename);
-            conDetalles.checked = false;
-        },
-        error: function (error) {
-            console.log("error: ", error);
-        }
-    });
-        
-    }
     
     
-function exportarSeleccionados(){
-    var tbody = document.getElementById('bodyData');
-    
-    console.log("long: ", tbody.rows.length);
 
-    if (tbody.rows.length > 0 && tbody.rows[0].cells[0].children[0]) {
-        var existen = false;
-        for (let i = 0; i < tbody.rows.length; i++) {
-            const select = tbody.rows[i].cells[0].children[0].checked;
-            if (select === true) {
-                existen = true;
-                break;
-            }
-            console.log(select);
-        }
-
-        if (existen === true) {
-            console.log("si estan selecciopnados");
-            pruebaUno('facturas-data', true);
-        }
-        else{
-            swal("", "Seleccione al menos un registro.", "warning");
-        }
-    }
-    else{
-            swal("", "No existen registros.", "warning");
-        }
-
-}
 
 </script>
 
