@@ -175,6 +175,8 @@
                                     
                                     <?php if($_SESSION['Rol']->bFactura == true) {?>
                                         <option value="01" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "01") ? 'selected' : ''); ?> >FACTURA</option>
+                                        <option value="NV" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "NV") ? 'selected' : ''); ?> >NOTA_VENTA</option>
+                                        <option value="MS" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "MS") ? 'selected' : ''); ?> >MISCELÁNEO</option>
                                     <?php } if($_SESSION['Rol']->bGuiaRemision) {?>
                                         <option value="06" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "06") ? 'selected' : ''); ?> >GUIA_REMISION</option>
                                     <?php } if($_SESSION['Rol']->bNotaCredito) {?>
@@ -267,12 +269,12 @@ if (count($respuesta) > 0) {
                                         
                                         <td style="white-space: nowrap;">
                                             <?php if ($listaArchivoXml->nombreArchivoXml != null) { ?>
-                                            <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "XML";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml*/ ?></a>
+                                            <a target="_blank" href="<?php echo $_SESSION['URL_SISTEMA'] . $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "XML";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml*/ ?></a>
                                             <?php } ?>
                                         </td>
                                         <td style="white-space: nowrap;">
                                 <?php if ($listaArchivoXml->nombreArchivoPdf != null) { ?>
-                                                <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "RIDE";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf*/ ?></a>
+                                                <a target="_blank" href="<?php echo $_SESSION['URL_SISTEMA'] . $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "RIDE";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf*/ ?></a>
                                     <?php } ?>
                                         </td>
 

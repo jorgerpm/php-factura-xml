@@ -99,7 +99,7 @@ class archivoXmlControlador extends archivoXmlModelo {
         }
     }
     
-
+    
     public function crear_columnas($respuesta) {
 
 

@@ -47,9 +47,17 @@
                             <?php } ?>
                             <div class="col-sm-2">
                                 <button class="btn btn-primary btn-sm" id="btnBuscaXmlCargados" name="btnBuscaXmlCargados">
-                                    <i class="fa fa-upload1"></i> Buscar</button>
+                                    <i class="fa fa-search"></i> Buscar</button>
                             </div>
-                            <div class="col-sm-7"></div>
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary btn-sm" onclick="abrirModalMiscelaneo();" type="button">
+                                    <i class="fa fa-file"></i> Miscel&aacute;neos</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary btn-sm" onclick="window.location.replace('facturasFisicas');" type="button">
+                                    <i class="fa fa-file"></i> Ingresar f&iacute;sico</button>
+                            </div>
                         </div>
 
                     </div>
@@ -65,6 +73,7 @@
                                         <th>
                                             <!--input id="chkTodos" type="checkbox" class="" onchange="selectTodos(this)"/ -->
                                         </th>
+                                        <th style="text-align: center"></th>
                                         <th>TIPO DE GASTO</th>
                                         <th style="min-width: 200px">ASISTENTES/DETALLE</th>
                                         <th>ESTADO_SISTEMA</th>
@@ -84,32 +93,37 @@
                                 <tbody id="dataSri">
                                     <?php 
                                     $archiCont = new archivoXmlControlador();
-                    if (isset($_POST['btnBuscaXmlCargados'])) {
-                        $respuesta = $archiCont->listar_xml_cargados_controlador($_POST, 300);
-                    } else {
-                        $respuesta = $archiCont->listar_xml_cargados_controlador(null, 300);
-                    }
-                                    
-                            if(isset($respuesta)){
-                            foreach ($respuesta as $xml) {
-                                $listvarj = json_decode($xml->comprobante);
-                                $docum = null;
-                                if (isset($listvarj->factura)) {
-                                    $docum = $listvarj->factura;
+                                if (isset($_POST['btnBuscaXmlCargados'])) {
+                                    $respuesta = $archiCont->listar_xml_cargados_controlador($_POST, 300);
+                                } else {
+                                    $respuesta = $archiCont->listar_xml_cargados_controlador(null, 300);
                                 }
-                                if (isset($listvarj->comprobanteRetencion)) {
-                                    $docum = $listvarj->comprobanteRetencion;
-                                }
-                                if (isset($listvarj->notaCredito)) {
-                                    $docum = $listvarj->notaCredito;
-                                }
-                                ?>
+
+                                if(isset($respuesta)){
+                                foreach ($respuesta as $xml) {
+                                    $listvarj = json_decode($xml->comprobante);
+                                    $docum = null;
+                                    if (isset($listvarj->factura)) {
+                                        $docum = $listvarj->factura;
+                                    }
+                                    if (isset($listvarj->comprobanteRetencion)) {
+                                        $docum = $listvarj->comprobanteRetencion;
+                                    }
+                                    if (isset($listvarj->notaCredito)) {
+                                        $docum = $listvarj->notaCredito;
+                                    }
+                                    ?>
                                     <tr>
                                     <!--td><php echo $xml->id ?></td-->
                                     <td>
                                         <?php if($xml->esFisica === true){ ?>
                                             <script>listaClavesAcceso.push(<?php echo "'".$xml->id."'"; ?>);
-                                            listaTiposGasto.push(<?php echo "'".$xml->id.":ALIMENTACION'"; ?>);</script>
+                                                <?php if($xml->tipoDocumento == "MS"){//si es miscelaneos se agrega el tipo  ?>
+                                                listaTiposGasto.push(<?php echo "'".$xml->id.":MISCELÁNEOS'"; ?>);
+                                                <?php }else{ //para los que no son misce se pone alimentacion, ?>
+                                                listaTiposGasto.push(<?php echo "'".$xml->id.":ALIMENTACION'"; ?>);
+                                                <?php } ?>
+                                            </script>
 
                                             <input type="checkbox" checked="" onchange="seleccionarParaEnvio(this, <?php echo $xml->id; ?>);" />
                                         <?php } else { ?>
@@ -117,13 +131,19 @@
                                         <?php } ?>
                                     </td>
                                     <td>
+                                        <button class="btn btn-info fa fa-trash" type="button" style="border: none"
+                                                onclick="eliminarXmlCargado(<?php echo $xml->id ?>)">
+                                        </button>
+                                    </td>
+                                    <td>
                                         <select style="width: 135px" class="form-control disable-selection btn-sm" 
                                                 id="txtTipoGasto<?php echo $xml->id; ?>" name="txtTipoGasto<?php echo $xml->id; ?>" 
-                                                onchange="cambiarTipoReembolso(<?php echo $xml->id; ?>)">
+                                                onchange="cambiarTipoReembolso(<?php echo $xml->id; ?>)"
+                                                <?php echo $xml->tipoDocumento == "MS" ? 'disabled' : ''; ?>>
                                             
                                             <option value="ALIMENTACION">ALIMENTACIÓN</option>
                                             <option value="HOSPEDAJE">HOSPEDAJE</option>
-                                            <option value="MISCELÁNEOS">MISCELÁNEOS</option>
+                                            <option value="MISCELÁNEOS" <?php echo $xml->tipoDocumento == "MS" ? 'selected' : ''; ?> >MISCELÁNEOS</option>
                                             <option value="VARIOS">VARIOS</option>
                                         </select>
                                     </td>
@@ -185,7 +205,9 @@
 </main>
 
 <?php require_once 'Template/Modals/modalPdf.php'; ?>
-
 <?php require_once 'Template/Modals/modalDatosReembolsos.php'; ?>
-
 <?php require_once 'Template/Modals/modalClaveFirma.php'; ?>
+
+<?php require_once 'Template/Modals/modalMiscelaneo.php'; ?>
+
+<script type="text/javascript" src="./Assets/js/functions_xmlCargados.js"></script>

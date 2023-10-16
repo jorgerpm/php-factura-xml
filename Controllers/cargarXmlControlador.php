@@ -141,5 +141,116 @@ class cargarXmlControlador extends cargarXmlModelo {
             }
         }
     }
+    
+    
+    public function eliminar_xmlcargado_controlador(){
+        $respuesta = cargarXmlModelo::eliminar_xmlcargado_modelo($_POST["idXml"]);
+        //se debe eliminar el archivo del disco del path que corresponde
+        if(isset($respuesta->urlArchivo) && $respuesta->urlArchivo != null){
+            $pathArchivo = "../" . str_replace($_SESSION['URL_SISTEMA'], "", $respuesta->urlArchivo) . "/";
+            
+            if(isset($respuesta->nombreArchivoXml) && $respuesta->nombreArchivoXml != null){
+                $pathArchivoXml = $pathArchivo . $respuesta->nombreArchivoXml;
+            }
+            if(isset($respuesta->nombreArchivoPdf) && $respuesta->nombreArchivoPdf != null){
+                $pathArchivoPdf = $pathArchivo . $respuesta->nombreArchivoPdf;
+            }
+
+            if(isset($pathArchivoXml) && is_file($pathArchivoXml)){
+                unlink($pathArchivoXml);
+            }
+            if(isset($pathArchivoPdf) && is_file($pathArchivoPdf)){
+                unlink($pathArchivoPdf);
+            }
+        }
+    }
+    
+    public function guardar_miscelaneo_controlador(){
+        
+//        print_r($_FILES['inputFileXml']);
+        //aunque no se seleccione un archivo aca si llega el objeto $_FILES['inputFileXml']
+        $countfiles = $_FILES['inputFileXml']['size']; //tamanio del archivo
+        if($countfiles > 0){
+            $file_extension = pathinfo($_FILES['inputFileXml']['name'], PATHINFO_EXTENSION);
+            
+            $nombreArchivo = str_replace(".".$file_extension, "", $_FILES['inputFileXml']['name']) ."_". strtotime("now") . "." . $file_extension;
+        }
+        
+        $claveAcceso = $_SESSION['Usuario']->cedula . strtotime("now");
+        
+        $data = array(
+            'tipoDocumento' => "MS",
+            'estadoSri' => "AUTORIZADO",
+            'numeroAutorizacion' => $claveAcceso,
+            'fechaAutorizacion' => $_POST['txtFecha'],
+            'fechaEmision' => $_POST['txtFecha'],
+            'ambiente' => "PRODUCCIÓN",
+            'idUsuarioCarga' => $_SESSION['Usuario']->id,
+            'fechaCarga' => date('Y-m-d'),
+            'claveAcceso' => $claveAcceso,
+            'estadoSistema' => "CARGADO",
+            'esFisica' => true,
+            'razonSocial' => $_SESSION['Usuario']->nombre,
+            'nombreArchivoPdf' => isset($nombreArchivo) ? $nombreArchivo : null,
+            'comprobante' => '{"factura":{"infoTributaria":{"claveAcceso":"'.$claveAcceso.'","ambiente":2,"ruc":"'.$_SESSION['Usuario']->cedula.'",'
+            . '"razonSocial":"'.$_SESSION['Usuario']->nombre
+            . '","estab":"001","ptoEmi":"001","secuencial":"'.strtotime($_POST["txtFecha"]).'","codDoc":"MS","tipoEmision":1,"dirMatriz":"DIRECCION"},'
+            . '"infoFactura":{"pagos":{"pago":[{"total":'.$_POST["txtValor"].',"plazo":1,"formaPago":"01","unidadTiempo":""}]},'
+            . '"totalConImpuestos":{"totalImpuesto":[{"codigoPorcentaje":"0","tarifa":"0","codigo":2,"valor":0.0,"baseImponible":'.$_POST["txtValor"].'}]},'
+            . '"identificacionComprador":"'.$_SESSION['Usuario']->cedula.'","razonSocialComprador":"'.$_SESSION['Usuario']->nombre.'",'
+            . '"obligadoContabilidad":"NO","fechaEmision":"'.$_POST["txtFecha"].'","tipoIdentificacionComprador":"05","importeTotal":'.$_POST["txtValor"].','
+            . '"totalDescuento":0.0,"moneda":"DOLAR","totalSinImpuestos":'.$_POST["txtValor"].'},'
+            . '"detalles":{"detalle":[{"descripcion":"'.$_POST["txtConcepto"].'","precioUnitario":'.$_POST["txtValor"].','
+            . '"precioTotalSinImpuesto":'.$_POST["txtValor"].',"descuento":0.0,"codigoPrincipal":"'.substr($_POST["txtConcepto"], 0, 3).'",'
+            . '"cantidad":1,"impuestos":{"impuesto":[{"codigoPorcentaje":"0","tarifa":0,"codigo":"2","valor":0,"baseImponible":'.$_POST["txtValor"].'}]}}]}}}',
+        );
+        $respuesta = cargarXmlModelo::guardar_miscelaneo_modelo($data);
+        
+        if(isset($respuesta) && $respuesta->respuesta == "OK"){
+            
+            //tomar el archivo cargado, pero solo si si cargaron un archivo y 
+            //guardarlo en la carpeta que corresponde
+            if($countfiles > 0){
+                $path_file = "../" . $respuesta->ubicacionArchivo;
+                
+                if (is_dir($path_file)) {
+//                    echo "SIIII existe";
+                } else {
+                    $raux = explode("/", $respuesta->ubicacionArchivo);
+                    //dar los permisos cuando no existe
+                    $pathsArray = "../".$raux[0];
+                
+                    for ($i = 1; $i < count($raux); $i++) {
+                        $pathsArray = $pathsArray . "/" .$raux[$i];
+                        //echo $pathsArray . PHP_EOL;
+
+                        if (is_dir($pathsArray)) {
+                            chmod($pathsArray, 0777);
+                        } else {
+                            mkdir($pathsArray, 0777, true);
+                            chmod($pathsArray, 0777);
+                        }
+                    }
+                }
+                
+                $path = "../".$respuesta->ubicacionArchivo . "/" . $nombreArchivo;//aqui donde se debe guardar + el nombre del archivo
+                
+                if (move_uploaded_file($_FILES['inputFileXml']['tmp_name'], $path)) { //Cargar archivos
+                    //exito
+                }
+            }
+            
+            return '<script>swal("", "Documentos almacenados correctamente", "success")
+                    .then((value) => {
+                        $(`#btnBuscaXmlCargados`).click();
+                    });</script>';
+        }
+        else if(isset($respuesta)){
+            return '<script>swal("", "'.$respuesta->respuesta.'", "error");</script>';
+        }
+        else {
+            return '<script>swal("", "Error al guardar los datos.", "error");</script>';
+        }
+    }
 
 }
