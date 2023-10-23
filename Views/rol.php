@@ -27,7 +27,7 @@
                                 <tr>
                                     <th>Código</th>
                                     <th>Nombre</th>
-                                    <th>Consultar todas las facturas</th>
+                                    <th>Listar de todos los usuarios</th>
                                     <th>Aprobador</th>
                                     <th>Estado</th>
                                     <th></th>

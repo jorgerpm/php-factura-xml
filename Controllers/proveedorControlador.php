@@ -72,5 +72,31 @@ class proveedorControlador extends proveedorModelo {
             return '<script>swal("", "Complete los campos requeridos del formulario.", "error");</script>';
         }
     }
+    
+    
+    public function buscar_proveedor_porruc_controlador() {
+        
+        if(isset($_POST["txtRuc"])){
+            $respuesta = proveedorModelo::buscar_proveedor_porruc_modelo($_POST["txtRuc"]);
+            if(isset($respuesta)){
+                return $respuesta;
+            }
+            else{
+                $respuesta = array(
+                    "nombre" => null,
+                    "direccion" => null,
+                );
+                return $respuesta;
+            }
+        }
+        else{
+            $respuesta = array(
+                "nombre" => null,
+                "direccion" => null,
+            );
+            return $respuesta;
+        }
+        
+    }
 
 }

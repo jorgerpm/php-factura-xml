@@ -139,7 +139,7 @@
                                         <th>Ver doc. reembolso</th>
                                         <th>Cargar justific.</th>
                                         <th>Ver justificativo</th>
-                                        <!--th>Ver documentos</th-->
+                                        <th>Ver documentos</th>
                                         <th>Estado Sistema</th>
                                         <th>Tipo reembolso</th>
                                         <th>Usuario carga</th>
@@ -239,11 +239,11 @@
                                                 </td>
 
                                                 
-                                                <!--td>
+                                                <td>
                                                     <button class="btn btn-info fa fa-file-code-o" type="button" style="border: none"
-                                                        onclick="mostrarFacturasXml(<php echo $docReembolso->id ?>)">
+                                                        onclick="mostrarFacturasXml(<?php echo $docReembolso->id ?>)">
                                                     </button>
-                                                </td-->
+                                                </td>
                                                 
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->estado; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo ($docReembolso->tipoReembolso == "VIAJES" ? "LIQUIDACION DE GASTO DE VIAJES" : ($docReembolso->tipoReembolso == "GASTOS" ? "REEMBOLSO DE GASTOS" : $docReembolso->tipoReembolso)); ?></td>
@@ -280,6 +280,7 @@
                     
                     <?php require_once 'Template/Modals/modalClaveFirmaAprobacion.php'; ?>
 <?php require_once 'Template/Modals/modalFacturasReembolso.php'; ?>
+                    <script type="text/javascript" src="./Assets/js/functions_descargaMasiva.js"></script>
 
                 </div>
             </div>

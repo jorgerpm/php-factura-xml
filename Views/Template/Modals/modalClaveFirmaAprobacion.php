@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formClaveFirmaAprobacion" class="login-form" action="" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
+                <form id="formClaveFirmaAprobacion" class="login-form" autocomplete="off">
                     
                     <div class="form-group row">
                         <div class="col-md-6">
@@ -20,8 +20,7 @@
                     
                     <div class="tile-footer" style="text-align: end;">
                         <button class="btn btn-primary" type="button" onclick="firmarGuardar()">
-                            <i class="fa fa-fw fa-lg
-                               fa-check-circle"></i><span id="btnText">Firmar</span>
+                            <i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Firmar</span>
                         </button>
                         &nbsp;&nbsp;&nbsp;
                         <a class="btn btn-secondary" href="#" data-dismiss="modal" onclick="document.getElementById('txtClaveFirma').value='';">
@@ -33,3 +32,13 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    
+$('#formClaveFirmaAprobacion').submit(function (e) {
+    console.log('submit del formClaveFirmaAprobacion');
+    e.preventDefault(); //no se envíe el submit todavía
+    firmarGuardar();
+});
+
+</script>

@@ -215,6 +215,9 @@
                                 <thead>
                                     <tr>
                                         <th></th>
+                                        <th style="text-align: center">Descargar
+                                            <input type="checkbox" onclick="marcarTodosXml(this);"/>
+                                        </th>
 <?php foreach ($columns as $col) { ?>
                                         <th class="<?php echo $col['col']; ?>" style="width: <?php echo $col['wid']; ?>;"><?php echo $col['col']; ?></th>
                                     <?php } ?>
@@ -230,6 +233,15 @@ if (count($respuesta) > 0) {
                                         <td>
                                             <input class="form-control" type="checkbox" id="<?php echo $listaArchivoXml->claveAcceso; ?>" />
                                         </td>
+                                        
+                                        <!-- para la descarga -->
+                                        <td style="text-align: center;">
+                                            <?php if($listaArchivoXml->nombreArchivoXml != null){?>
+                                            <input class="agregarXml" type="checkbox" 
+                                                   onclick="addArchivoXml('<?php echo $listaArchivoXml->urlArchivo."/".$listaArchivoXml->nombreArchivoXml; ?>', this);" />
+                                            <?php } ?>
+                                        </td>
+                                        
                                         <td style="white-space: nowrap;"><?php echo $listaArchivoXml->estadoSistema; ?></td>
                                         <td style="white-space: nowrap;"><?php echo $listaArchivoXml->nombreUsuario; ?></td>
                                         <td style="white-space: nowrap;"><?php echo date("d/m/Y", $listaArchivoXml->fechaEmision / 1000); ?></td>
@@ -300,8 +312,12 @@ if (count($respuesta) > 0) {
                             <div class="col-md-2">
                                 <button style="/*width: 100%;position:absolute; right:0;bottom:0;*/" class="btn btn-primary btn-sm fa" type="button" onclick="exportarSeleccionados(0)"><i class="fa fa-file-excel-o"></i><span id="btnText">Exportar seleccionados</span></button>
                             </div>
-                            <div class="col-md-8" >
+                            <div class="col-md-6" >
                                 <input type="checkbox" id="txtConDetalles" /> Exportar con detalles
+                            </div>
+                            <div class="col-md-2" >
+                                <button class="btn btn-primary btn-sm fa" type="button" onclick="crearZipDescargar()">
+                                    <i class="fa fa-download"></i><span>Descargar xml seleccionados</span></button>
                             </div>
                         </div>
                         
@@ -319,6 +335,7 @@ if (count($respuesta) > 0) {
 <script type="text/javascript" src="./Assets/js/plugins/dataTables.bootstrap.min.js"></script>
 
 <script type="text/javascript" src="./Assets/js/functions_archivosxml.js"></script>
+<script type="text/javascript" src="./Assets/js/functions_descargaMasiva.js"></script>
 
 <script type="text/javascript">
     var table = $('#sampleTableXml1').DataTable({

@@ -8,12 +8,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formClaveFirma" class="login-form" action="" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
+                <form id="formClaveFirma" class="login-form" autocomplete="off" >
                     
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Clave:</label>
-                            <input class="form-control" id="txtClaveFirma" name="txtClaveFirma" type="password" autofocus required autocomplete="false">
+                            <input class="form-control" id="txtClaveFirma" name="txtClaveFirma" type="password" autofocus required autocomplete="false"/>
                         </div>
                     </div>
                     
@@ -33,3 +33,13 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    
+$('#formClaveFirma').submit(function (e) {
+    console.log('submit del formClaveFirma');
+    e.preventDefault(); //no se envíe el submit todavía
+    enviarFirmar(listaClavesAcceso);
+});
+
+</script>

@@ -8,4 +8,10 @@ else{
 
 $control = new firmaDigitalControlador();
 $respuesta = $control->guardar_firma_digital_controlador();
-echo $respuesta . "<script>$('#modalFirmaDigital').modal('hide');</script>";
+
+if(strpos($respuesta, "success") === true){
+    echo $respuesta . "<script>$('#modalFirmaDigital').modal('hide');</script>";
+}
+else{
+    echo $respuesta;
+}

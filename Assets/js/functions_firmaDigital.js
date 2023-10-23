@@ -3,6 +3,7 @@ function openModal(val_datos) {
     console.log("json::: " + val_datos);
     
     document.querySelector('#formFirmaDigital').reset();
+    document.getElementById('btnGuardarFirma').disabled = true;
     
     if (val_datos !== null) {
         document.querySelector('#idFirmaDigital').value = val_datos.id;
@@ -45,6 +46,7 @@ inputFile.on('change', function (e) {
                 if(uu.type.includes("pkcs12")){
                     fileXml.push(uu);
         //            $(this).val(files);
+                    document.getElementById('txtFecha').value = null;
                 }
                 else{
                     swal("", "Debe seleccionar un archivo de tipo .P12", "warning");
@@ -80,13 +82,54 @@ function cambioTipoFirma(){
         document.getElementById('txtFecha').value = new Date().toISOString().split('T')[0];
         
 //        document.getElementById('txtClave').readOnly = true;
-        document.getElementById('txtFecha').readOnly = true;
+//        document.getElementById('txtFecha').readOnly = true;
     }
     if(tipoFirma === "0"){//es imagen
 //        document.getElementById('txtClave').value = "";
-        document.getElementById('txtFecha').value = "";
+        document.getElementById('txtFecha').value = null;
         
 //        document.getElementById('txtClave').readOnly = false;
-        document.getElementById('txtFecha').readOnly = false;
+//        document.getElementById('txtFecha').readOnly = false;
     }
+}
+
+function validarFirmaNueva(){
+    const LOADING = document.querySelector('.loader');
+    LOADING.style = 'display: flex;';
+    
+    var respuesta = $('.RespuestaAjax');
+    var form = document.querySelector('#formFirmaDigital');
+    var formData = new FormData(form);
+    
+    $.ajax({
+        type: 'POST',
+        url: 'acciones/validarFirmaDigital.php',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            
+            console.log("dataaa;;;:: ", data);
+            
+            if(data.includes("fechaCaducaLong")){
+                var dataJson = JSON.parse(data);
+                console.log("es un json::: ", dataJson);
+                swal('','Validación correcta','info');
+                document.getElementById('txtFecha').value = new Date(dataJson.fechaCaducaLong).toISOString().split('T')[0];
+                document.getElementById('btnGuardarFirma').disabled = false;
+            }
+            else{
+                console.log("nooo json");
+                respuesta.html(data);
+            }
+            
+            LOADING.style = 'display: none;';
+        },
+        error: function (error) {
+            LOADING.style = 'display: none;';
+            console.log("error: ", error);
+            swal('',error,'error');
+        }
+    });
 }

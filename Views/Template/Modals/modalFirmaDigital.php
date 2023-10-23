@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form id="formFirmaDigital" class="FormularioAjax login-form" action="acciones/guardarFirmaDigital.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
                     <input type="hidden" id="idFirmaDigital" name="idFirmaDigital" value="">
-                    <p class="text-danger">Todos los campos son obligatorios.*</p>
+                    <p class="text-danger">Todos los campos son obligatorios.</p>
                     
                     <div class="form-row">
                         <div class="form-group col-md-6 col-12">
@@ -30,10 +30,27 @@
                     </div>
                     
                     
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-12">
+                            <label class="control-label">Clave de la firma:</label>
+                            <input class="form-control" id="txtClave" name="txtClave" type="password" >
+                        </div>
+                        <div class="form-group col-md-6 col-12">
+                            <button class="btn btn-primary" type="button" onclick="validarFirmaNueva();">
+                                <i class="fa fa-fw fa-lg fa-check-circle"></i>
+                                <span id="btnText">Validar firma</span>
+                            </button>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                    
                     <div class="form-row">
                         <div class="form-group col-md-6 col-12">
                             <label class="control-label">Fecha caduca:</label>
-                            <input class="form-control" id="txtFecha" name="txtFecha" type="date" placeholder="Fecha" required="">
+                            <input class="form-control" id="txtFecha" name="txtFecha" type="date" placeholder="Fecha" required readonly value="" />
                         </div>
                         <div class="form-group col-md-6 col-12">
                             <label for="cbxListaEstado">Estado:</label>
@@ -75,9 +92,9 @@
                     </div>
                     <?php } ?>
                     
-                    
+                    <p class="text-danger">Antes de guardar se debe validar la firma.</p>
                     <div class="tile-footer" style="text-align: end;">
-                        <button class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit" disabled id="btnGuardarFirma">
                             <i class="fa fa-fw fa-lg fa-check-circle"></i>
                             <span id="btnText">Guardar</span>
                         </button>&nbsp;&nbsp;&nbsp;

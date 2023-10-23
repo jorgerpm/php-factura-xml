@@ -347,3 +347,55 @@ function ponerGuion(input, event){
         }
     }
 }
+
+function traerDatosProveedor(datosRuc){
+    if(datosRuc.value !== null && datosRuc.value !== ''){
+        if(datosRuc.value.length !== 13){
+            swal("","El número de ruc debe tener 13 dígitos.","warning");
+            return;
+        }
+    }
+    
+    const LOADING = document.querySelector('.loader');
+    LOADING.style = 'display: flex;';
+    
+    $.ajax({
+        type: 'POST',
+        url: './acciones/traerDatosProveedor.php',
+        data: {txtRuc: datosRuc.value},
+        cache: false,
+        success: function (data) {
+            LOADING.style = 'display: none;';
+            console.log('fiiiinnn   successss', data);
+            if(data.includes("window.location.replace")){
+                window.location.replace("index");
+            }
+            var dataJson = JSON.parse(data);
+            document.querySelector('#txtProveedor').value = dataJson.nombre;
+//            document.querySelector('#txtDirecProv').value = dataJson.direccion;
+            
+        },
+        error: function (error) {
+            LOADING.style = 'display: none;';
+            console.log('fiiiinnn   errrroooorr: ', error);
+            if(error.includes("window.location.replace")){
+                window.location.replace("index");
+            }
+            swal("",error,"error");
+        },
+        statusCode: {
+            404: function () {
+//              alert( "page not found" );
+            }
+        }
+    }).done(function (data) {
+//        console.log("se hixxoooo", data);//tambien
+    })
+    .fail(function () {
+//    alert( "error" );
+    })
+    .always(function () {
+//    alert( "complete" );
+    });
+    
+}

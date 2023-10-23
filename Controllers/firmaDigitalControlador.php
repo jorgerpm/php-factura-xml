@@ -18,7 +18,9 @@ class firmaDigitalControlador extends firmaDigitalModelo {
         $txtFecha = $_POST['txtFecha'];
         $cbxListaEstado = $_POST['cbxListaEstado'];
 
-        if (isset($txtFecha) && /*isset($txtClave) &&*/ isset($cbxListaEstado)) {
+        
+        
+        if (isset($txtFecha) && $txtFecha != null && /*isset($txtClave) &&*/ isset($cbxListaEstado)) {
             
             //echo $_FILES["txtArchivo"]["name"];
             
@@ -49,8 +51,10 @@ class firmaDigitalControlador extends firmaDigitalModelo {
                 return '<script>swal("", "Error al almacenar los datos.", "error");</script>';
             }
             
-        } else {
-            return '<script>swal("", "Complete los campos requeridos del formulario.", "error");</script>';
+        } elseif($txtFecha == null || $txtFecha == "") { 
+            return '<script>swal("", "No existe datos en la fecha de la firma. Primero debe validar la firma.", "warning");</script>';
+        }else {
+            return '<script>swal("", "Complete los campos requeridos del formulario.", "warning");</script>';
         }
     }
     
@@ -59,6 +63,32 @@ class firmaDigitalControlador extends firmaDigitalModelo {
         $respuesta = firmaDigitalModelo::solicitar_clave_firma_modelo($_SESSION['Usuario']->id);
         
         return $respuesta;
+    }
+    
+    public function validar_firma_nueva_controlador() {
+
+        if($_FILES['txtArchivo']['size'] > 0 && isset($_POST['txtClave'])){
+        
+            
+            $fileP12 = file_get_contents($_FILES['txtArchivo']['tmp_name']);
+            $archivoB64 = base64_encode($fileP12);
+            
+            $datos = [
+                "archivo" => $archivoB64,
+                "clave" => $_POST['txtClave'],
+            ];
+
+            $respuesta = firmaDigitalModelo::validar_firma_nueva_modelo($datos);
+
+            if (isset($respuesta) && $respuesta->respuesta == "OK") {
+                return json_encode($respuesta);
+            } elseif(isset($respuesta)) {
+                return '<script>swal("", "Error al validar la firma. '.$respuesta->respuesta.'", "error");</script>';
+            }
+            
+        } else {
+            return '<script>swal("", "Debe seleccionar el archivo .p12 y también ingresar la clave de la firma.", "warning");</script>';
+        }
     }
 
 }

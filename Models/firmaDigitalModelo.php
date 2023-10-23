@@ -18,4 +18,9 @@ class firmaDigitalModelo extends serviciosWebModelo {
         $respuesta = self::invocarGet('firmadigital/solicitarClaveFirma?idUsuario='.$idUsuario, $array);
         return $respuesta;
     }
+    
+    protected function validar_firma_nueva_modelo($datos){
+        $respuesta = self::invocarPost('firmadigital/validarFirmaNueva', $datos);
+        return $respuesta;
+    }
 }

@@ -12,4 +12,10 @@ class proveedorModelo extends serviciosWebModelo {
         $listaProveedores = self::invocarGet('proveedor/listarProveedores?desde='.$start.'&hasta='.$length.'&valBusq='.$valBusq, $array);
         return $listaProveedores;
     }
+    
+    protected function buscar_proveedor_porruc_modelo($numeroRuc){
+        $array = [];
+        $listaProveedores = self::invocarGet('proveedor/buscarProveedorPorRuc?ruc='.$numeroRuc, $array);
+        return $listaProveedores;
+    }
 }

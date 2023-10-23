@@ -11,42 +11,49 @@
                 <form id="formRol" class="FormularioAjax login-form" action="acciones/guardarRol.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
                     <input type="hidden" id="idRol" name="idRol" value="">
                     <p class="text-danger">Todos los campos son obligatorios.*</p>
-                    <div class="form-group">
-                        <label class="control-label">Nombre:</label>
-                        <input class="form-control" id="txtNombre" name="txtNombre" type="text" placeholder="Nombre del rol" required="" style="text-transform: uppercase;">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Nombre:</label>
+                            <input class="form-control" id="txtNombre" name="txtNombre" type="text" placeholder="Nombre del rol" required="" style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleSelect1">Estado:</label>
+                            <?php require_once './acciones/listarEstados.php'; ?>
+                            <select class="form-control" id="listStatus" name="listStatus" required="">
+                                <?php
+                                foreach ($listaEstados as $estado) {
+                                    echo '<option value="' . $estado->id . '">' . $estado->nombre . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleSelect1">Estado:</label>
-                        <?php require_once './acciones/listarEstados.php'; ?>
-                        <select class="form-control" id="listStatus" name="listStatus" required="">
-                            <?php
-                            foreach ($listaEstados as $estado) {
-                                echo '<option value="' . $estado->id . '">' . $estado->nombre . '</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Listar todos los usuarios:</label>
-                        <div class="toggle">
-                            <label>
-                                <input type="checkbox" name="chkPrincipal" id="chkPrincipal"><span class="button-indecator"></span>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Listar de todos los usuarios:</label>
+                            <div class="toggle">
+                                <label>
+                                    <input type="checkbox" name="chkPrincipal" id="chkPrincipal"><span class="button-indecator"></span>
                                 </label>
                             </div>
                         </div>
-                    
-                    
-                    <div class="form-group">
-                        <label class="control-label">Aprobador?:</label>
-                        <div class="toggle">
-                            <label>
-                                <input type="checkbox" name="chkAutorizador" id="chkAutorizador" checked=""/><span class="button-indecator"></span>
-                            </label>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Aprobador?:</label>
+                            <div class="toggle">
+                                <label>
+                                    <input type="checkbox" name="chkAutorizador" id="chkAutorizador" checked=""/><span class="button-indecator"></span>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    
-                    
-                    <div class="row">
+
+                    <div class="form-group">
+                        <label>Seleccione los tipos documentos a consultar:</label>
+                    </div>
+
+                    <div class="form-row">
                         <div class="col-md-2"> 
                             <label class="control-label">Factura:</label>
                             <div class="toggle" style="margin-top: 20px">
@@ -88,11 +95,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <br/>
                     <div class="tile-footer" style="text-align: end;">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg
-                                                                                            fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;<a class="btn
+                                                                         fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;<a class="btn
                                                                                              btn-secondary" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
                     </div>
                     <div class="RespuestaAjax"></div>

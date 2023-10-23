@@ -1,9 +1,3 @@
-<?php
-//if(isset($_GET['numeroRC'])){
-//    $solCont = new solicitudControlador();
-//    $solicitudGet = $solCont->buscar_solicitud_por_numero($_GET['numeroRC']);
-//} 
-?>
 <main class="app-content">
     <div class="app-title" style="height: 50px">
         <div>
@@ -19,34 +13,29 @@
             <div class="tile">
                 <div class="tile-body">
 
-                    <?php
-//                    $contr1sol = new solicitudControlador();
-//                    $numSolicitud = $contr1sol->getUltimoCodigoSolicitud();
-                    ?>
-
                     <form id="formFacturaFisica" autocomplete="off">
                         <div class="row" style="padding-bottom: 5px">
-                            <input type="hidden" value="<?php echo isset($solicitudGet) ? $solicitudGet->id : "0" ?>" id="txtId" name="txtId">
+                            <input type="hidden" id="txtId" name="txtId"/>
 
                             <div class="col-md-2 col-sm-2 col-12">
                                 <label>RUC:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <input id="txtRuc" name="txtRuc" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->codigoRC : ""; ?>" required="" 
-                                       pattern="^[a-zA-Z0-9]*" minlength="5" maxlength="13"/>
+                                <input id="txtRuc" name="txtRuc" class="form-control btn-sm" style="text-transform: uppercase;" required
+                                       pattern="^[a-zA-Z0-9]*" minlength="13" maxlength="13" onblur="traerDatosProveedor(this);"/>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <label>Proveedor:</label>
+                                <label>Raz&oacute;n social:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <input id="txtProveedor" name="txtProveedor" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($numSolicitud) ? $numSolicitud->codigoSolicitud : (isset($solicitudGet) ? $solicitudGet->codigoSolicitud : "") ?>" required=""
+                                <input id="txtProveedor" name="txtProveedor" class="form-control btn-sm" style="text-transform: uppercase;" required
                                        pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4"/>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <label>Fecha documento:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <input id="txtFechaFactura" name="txtFechaFactura" class="form-control btn-sm" type="date" value="<?php echo isset($solicitudGet) ? date("Y-m-d", $solicitudGet->fechaSolicitud / 1000) : date("Y-m-d"); ?>" required="">
+                                <input id="txtFechaFactura" name="txtFechaFactura" class="form-control btn-sm" type="date" required/>
                             </div>
                         </div>
                         
@@ -55,14 +44,14 @@
                                 <label class="control-label">Direcci&oacute;n:</label>
                             </div>
                             <div class="col-md-6 col-sm-6 col-12">
-                                <input id="txtDirecProv" name="txtDirecProv" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->montoAprobado : "" ?>" required=""
+                                <input id="txtDirecProv" name="txtDirecProv" class="form-control btn-sm" style="text-transform: uppercase;" required
                                        minlength="4" type="text"/>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <label class="control-label">N&uacute;mero documento:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <input id="txtNumeroFactura" name="txtNumeroFactura" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->estadoRC : "" ?>" required=""
+                                <input id="txtNumeroFactura" name="txtNumeroFactura" class="form-control btn-sm" style="text-transform: uppercase;" required
                                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{9}" placeholder="000-000-000000000" onkeyup="ponerGuion(this, event)">
                             </div>
                         </div>
@@ -103,14 +92,14 @@
                                 <label class="control-label">Identificaci&oacute;n cliente:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <input id="txtIdentCliente" name="txtIdentCliente" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->solicitadoPorRC : "" ?>" required=""
+                                <input id="txtIdentCliente" name="txtIdentCliente" class="form-control btn-sm" style="text-transform: uppercase;" required
                                        pattern="^[a-zA-Z0-9]*" />
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <label class="control-label">Nombre cliente:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <input id="txtCliente" name="txtCliente" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->unidadNegocioRC : "" ?>" required=""
+                                <input id="txtCliente" name="txtCliente" class="form-control btn-sm" style="text-transform: uppercase;" required
                                        pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4" />
                             </div>
                         </div>
@@ -121,7 +110,7 @@
                                 <label class="control-label">Direcci&oacute;n cliente:</label>
                             </div>
                             <div class="col-md-6 col-sm-6 col-12">
-                                <input id="txtDirCliente" name="txtDirCliente" class="form-control btn-sm" style="text-transform: uppercase;" value="<?php echo isset($solicitudGet) ? $solicitudGet->autorizadoPorRC : ""; ?>" required=""
+                                <input id="txtDirCliente" name="txtDirCliente" class="form-control btn-sm" style="text-transform: uppercase;" required
                                         minlength="4" type="text"/>
                             </div>
                             
@@ -173,19 +162,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tbodySol">
-                                    <?php
-                                    if (isset($solicitudGet)) {
-                                        for ($i = 0; $i < count($solicitudGet->listaDetalles); $i++) {
-                                            echo '<tr>';
-                                            echo '<td><input type="number" id="txtCantidad' . ($i + 1) . '" style="width: 100%" value="' . $solicitudGet->listaDetalles[$i]->cantidad . '"></td>'
-                                            . '<td><input id="txtDetalle' . ($i + 1) . '" style="width: 100%; text-transform: uppercase;" value="' . $solicitudGet->listaDetalles[$i]->detalle . '" type="text"></td>'
-                                            . '<td>aqui archivo</td>'
-                                            . '<td><input id="' . ($i + 1) . '" type="button" value="x" onclick="eliminarFila(this);">';
-                                            echo '<input type="hidden" id="txtIdDetalle' . ($i + 1) . '" name="txtIdDetalle' . ($i + 1) . '" value="' . $solicitudGet->listaDetalles[$i]->id . '"></td>';
-                                            echo '</tr>';
-                                        }
-                                    }
-                                    ?>
+                                    
                                     
                                 </tbody>
                             </table>
@@ -247,12 +224,22 @@
                             </table>
                         </div>
                         
+                        <div class="form-row">
+                            <div class="col-md-6 col-sm-6"></div>
+                            <div class="col-md-2 col-sm-2">
+                                <label class="control-label" style="text-align: right;">Cargar archivo de respaldo:</label>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <input id="txtArchivoFisica" name="txtArchivoFisica" type="file" class="form-control btn-primary" accept="image/*,.pdf"/>
+                            </div>
+                        </div>
 
                         <br>
                         <div style="text-align: center">
                             <button class="btn btn-primary" type="submit" id="btnGuardaSolic">
                                 <i class="fa fa-floppy-o"></i> Guardar</button>
-                                <button id="lkCancel" class="btn btn-secondary" onclick="window.location.href = './facturasFisicas';" data-dismiss="modal">
+                                &nbsp;&nbsp;&nbsp;
+                            <button id="lkCancel" class="btn btn-secondary" onclick="window.location.reload();" data-dismiss="modal">
                                 <i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</button>
                         </div>
                         <div class="RespuestaAjax" ></div>
