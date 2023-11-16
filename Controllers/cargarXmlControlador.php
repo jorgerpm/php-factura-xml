@@ -147,7 +147,7 @@ class cargarXmlControlador extends cargarXmlModelo {
         $respuesta = cargarXmlModelo::eliminar_xmlcargado_modelo($_POST["idXml"]);
         //se debe eliminar el archivo del disco del path que corresponde
         if(isset($respuesta->urlArchivo) && $respuesta->urlArchivo != null){
-            $pathArchivo = "../" . str_replace($_SESSION['URL_SISTEMA'], "", $respuesta->urlArchivo) . "/";
+            $pathArchivo = "../" . $respuesta->urlArchivo . "/";
             
             if(isset($respuesta->nombreArchivoXml) && $respuesta->nombreArchivoXml != null){
                 $pathArchivoXml = $pathArchivo . $respuesta->nombreArchivoXml;

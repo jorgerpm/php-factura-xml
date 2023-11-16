@@ -206,7 +206,7 @@
                                             <tr>
                                                 <td>
                                                     <?php if ($listaArchivoXml->estadoSri != "ANULADO") { ?>
-                                                        <input class="form-control" type="checkbox" id="<?php echo $listaArchivoXml->id; ?>" />
+                                                        <input type="checkbox" id="<?php echo $listaArchivoXml->id; ?>" />
                                                     <?php } ?>
                                                 </td>
                                                 <td>

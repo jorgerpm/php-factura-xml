@@ -110,10 +110,45 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-2">
-                                <button class="btn btn-primary btn-sm fa" id="btnSearch" name="btnSearch" type="submit" ><i class="fa fa-search"></i><span id="btnText">Buscar</span></button>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;">
+                                        <label class="btn-sm control-label" for="txtNumeroReembolso">N&uacute;mero reembolso:</label>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <input id="txtNumeroReembolso" name="txtNumeroReembolso" class="form-control btn-sm" value="<?php echo isset($_POST["txtNumeroReembolso"]) ? $_POST["txtNumeroReembolso"] : ''; ?>" 
+                                               type="search"/>
+                                    </div>
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;">
+                                        <label class="btn-sm control-label" for="txtTipoReembolso">Tipo reembolso:</label>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <select id="txtTipoReembolso" name="txtTipoReembolso" class="form-control disable-selection btn-sm" >
+                                            <option value="">Seleccione</option>
+                                            <?php 
+                                            $control1 = new tipoReembolsoControlador();
+                                            $lista1 = $control1->listar_tiporeembolso_controlador(null);
+                                            foreach ($lista1 as $tipoReembolso) {
+                                                echo '<option value="'.$tipoReembolso->id.'"'. (isset($_POST['txtTipoReembolso']) && $_POST['txtTipoReembolso'] == $tipoReembolso->id ? 'selected' : '').' >'.$tipoReembolso->tipo.'</option>';
+                                            } ?>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;">
+                                        <label class="btn-sm control-label" for="txtNumeroRC">N&uacute;mero RC:</label>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <input id="txtNumeroRC" name="txtNumeroRC" class="form-control btn-sm" value="<?php echo isset($_POST["txtNumeroRC"]) ? $_POST["txtNumeroRC"] : ''; ?>" 
+                                               type="search"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-primary btn-sm fa" id="btnSearch" name="btnSearch" type="submit" ><i class="fa fa-search"></i><span id="btnText">Buscar</span></button>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
                             </div>
                         </div>
 
@@ -130,9 +165,11 @@
                                         <th>Aprobar/ rechazar</th>
                                         <?php } ?>
                                         
-                                        <?php //para el contador o para el auxiliar
-                                        if($_SESSION['Rol']->id == 1 || $_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5){ ?>
+                                        <?php 
+                                        if($_SESSION['Rol']->datosContable == 1){ ?>
                                         <th>Datos conta.</th>
+                                        <?php } //para el contador o para el auxiliar
+                                        if($_SESSION['Rol']->id == 1 || $_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5){ ?>
                                         <th>Solicitar justificativo</th>
                                         <?php } ?>
                                         
@@ -141,6 +178,7 @@
                                         <th>Ver justificativo</th>
                                         <th>Ver documentos</th>
                                         <th>Estado Sistema</th>
+                                        <th>N&uacute;mero reembolso</th>
                                         <th>Tipo reembolso</th>
                                         <th>Usuario carga</th>
                                         <th>Fecha de carga</th>
@@ -161,38 +199,30 @@
                                             ?>
                                             <tr>
                                                 <?php
-//                                                $nuevoPath = $docReembolso->pathArchivo;
-//                                                if ($docReembolso->estado == "APROBADO" || $docReembolso->estado == "RECHAZADO" || $docReembolso->estado == "PROCESADO") {
-//                                                    $pathArchivo = $docReembolso->pathArchivo;
-//                                                    $arrPath = explode("/", $pathArchivo);
-//
-//                                                    $nuevoPath = str_replace($arrPath[count($arrPath) - 1], "", $pathArchivo) . $docReembolso->estado . "/" . $arrPath[count($arrPath) - 1];
-//                                                }
-                                                $nuevoPath = $_SESSION['URL_SISTEMA'] . $docReembolso->pathArchivo;
                                                 ?>
                                                 
                                                 
                                                 <?php if($_SESSION['Rol']->autorizador == 1){ ?>
                                                 <td>
-                                                    <?php /*echo $_SESSION['URL_SISTEMA']; echo "<br/>";*/
+                                                    <?php 
                                                     if ($docReembolso->estado == "POR_AUTORIZAR") { //APROBADO" && $docReembolso->estado != "RECHAZADO" && $docReembolso->estado != "PROCESADO
                                                         //si es un gasto solo debe aprobar el admin o la persona a quien se le asigno para aprobar (aprobador)
-                                                            if ($docReembolso->tipoReembolso == "GASTOS"){
+                                                            if ($docReembolso->tipoReembolso != "4"){
                                                                 //si es admin muestra el boton para aprobar
                                                                 //si es el mismo usuario al que le dijeron que apruebe tambien muestra el boton
                                                                 if($_SESSION['Rol']->id == 1 || $_SESSION['Usuario']->id == $docReembolso->idAprobador){ ?>
-                                                                    <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $nuevoPath/*$docReembolso->pathArchivo*/ . "'"; ?>, false, <?php echo "'".$docReembolso->tipoReembolso."','".$docReembolso->estado."'"?>)"></button>
+                                                                    <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>, false, <?php echo "'".$docReembolso->tipoReembolso."','".$docReembolso->estado."'"?>)"></button>
                                                           <?php }
                                                             }elseif($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5 || $_SESSION['Rol']->id == 1){ 
                                                                 //solo para contador, auxiliar y admin ?>
-                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $nuevoPath/*$docReembolso->pathArchivo*/ . "'"; ?>, false, <?php echo "'".$docReembolso->tipoReembolso."','".$docReembolso->estado."'"?>)"></button>
+                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>, false, <?php echo "'".$docReembolso->tipoReembolso."','".$docReembolso->estado."'"?>)"></button>
                                                            <?php }
                                                         }else{
-                                                            if ($docReembolso->estado == "APROBADO" && $docReembolso->tipoReembolso == "GASTOS" && $docReembolso->tresFirmas == 0
+                                                            if ($docReembolso->estado == "APROBADO" && $docReembolso->tipoReembolso != "4" && $docReembolso->tresFirmas == 0
                                                                 && ($_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5 || $_SESSION['Rol']->id == 1)){ 
                                                                 //solo para contador, auxiliar y admin 
                                                                 ?>
-                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $nuevoPath . "'"; ?>, true, <?php echo "'".$docReembolso->tipoReembolso."','".$docReembolso->estado."'"?>)"></button>
+                                                                <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick="abrirModal(<?php echo $docReembolso->id . ",'" . $docReembolso->pathArchivo . "'"; ?>, true, <?php echo "'".$docReembolso->tipoReembolso."','".$docReembolso->estado."'"?>)"></button>
                                                         <?php }
                                                         } ?>
                                                 </td>
@@ -202,18 +232,21 @@
                                                 
                                                     
                                                 
-                                                <?php //para el contador o para el auxiliar
-                                                if($_SESSION['Rol']->id == 1 || $_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5){ ?>
+                                                <?php 
+                                                if($_SESSION['Rol']->datosContable == 1){ ?>
                                                 <td>
                                                     <button class="btn btn-info fa fa-edit btn-sm" type="button" onclick='abrirDatosContador(<?php echo str_replace("'","",json_encode($docReembolso)); ?>)'></button>
                                                 </td>
+                                                <?php } 
+                                                //para el contador o para el auxiliar
+                                                if($_SESSION['Rol']->id == 1 || $_SESSION['Rol']->id == 4 || $_SESSION['Rol']->id == 5){ ?>
                                                 <td>
-                                                    <button class="btn btn-link fa fa-lg fa-envelope-o" type="button" onclick="enviarEmailDevolucion('<?php echo $docReembolso->usuario->nombre; ?>', <?php echo $docReembolso->id; ?>, '<?php echo $nuevoPath ;?>')"></button>
+                                                    <button class="btn btn-link fa fa-lg fa-envelope-o" type="button" onclick="enviarEmailDevolucion('<?php echo $docReembolso->usuario->nombre; ?>', <?php echo $docReembolso->id; ?>, '<?php echo $docReembolso->pathArchivo ;?>')"></button>
                                                 </td>
                                                 <?php }  ?>    
                                                     
                                                 <td>
-                                                    <a href="<?php echo $nuevoPath; ?>" target="_blank"><i class="fa fa-fw fa-lg fa-download"></i></a>
+                                                    <a href="<?php echo $docReembolso->pathArchivo; ?>" target="_blank"><i class="fa fa-fw fa-lg fa-download"></i></a>
                                                 </td>
                                                 
                                                 <td>
@@ -246,7 +279,8 @@
                                                 </td>
                                                 
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->estado; ?></td>
-                                                <td style="white-space: nowrap;"><?php echo ($docReembolso->tipoReembolso == "VIAJES" ? "LIQUIDACION DE GASTO DE VIAJES" : ($docReembolso->tipoReembolso == "GASTOS" ? "REEMBOLSO DE GASTOS" : $docReembolso->tipoReembolso)); ?></td>
+                                                <td style="white-space: nowrap;"><?php echo $docReembolso->numeroReembolso; ?></td>
+                                                <td style="white-space: nowrap;"><?php echo $docReembolso->tipoReembolsoNombre; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->usuario->nombre; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo date("d/m/Y", $docReembolso->fechaCargaLong / 1000); ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $docReembolso->numeroRC; ?></td>
@@ -276,10 +310,10 @@
 
 <?php require_once 'Template/Modals/modalAprobarReembolso.php'; ?>
 <?php require_once 'Template/Modals/modalDatosContador.php'; ?>
-<?php require_once 'Template/Modals/modalCargaArchivo.php'; ?>
-                    
-                    <?php require_once 'Template/Modals/modalClaveFirmaAprobacion.php'; ?>
+<?php require_once 'Template/Modals/modalCargaArchivo.php'; ?>                    
+<?php require_once 'Template/Modals/modalClaveFirmaAprobacion.php'; ?>
 <?php require_once 'Template/Modals/modalFacturasReembolso.php'; ?>
+                    
                     <script type="text/javascript" src="./Assets/js/functions_descargaMasiva.js"></script>
 
                 </div>
@@ -315,9 +349,9 @@ function abrirModal(idDoc, urlArchivo, terceraFirma, tipoReembolso, estadoReembo
     cmbEstados.innerHTML='';    
     var option = document.createElement("option");
     option.text = "Seleccione estado";
-    option.value = null;
+    option.value = "";
     cmbEstados.add(option);
-    if(tipoReembolso === "GASTOS"){
+    if(tipoReembolso !== "4"){//todos diferentes al codigo 4
         if(estadoReembolso === "POR_AUTORIZAR"){
             var option = document.createElement("option");
             option.text = "APROBADO";
@@ -350,7 +384,7 @@ function abrirModal(idDoc, urlArchivo, terceraFirma, tipoReembolso, estadoReembo
 }
 
 function validarSeleccion() {
-    console.log("es el id: ", document.querySelector('#txtIdDocReembolso').value);
+    console.log("es el id: ", document.querySelector('#selectEstado').value !== "");
 
     if (document.querySelector('#selectEstado').value !== "") {
         if (document.querySelector('#selectEstado').value === "RECHAZADO") {
@@ -360,7 +394,7 @@ function validarSeleccion() {
                 solicitarClaveFirma();
                 //firmarGuardar();
             } else {
-                swal('', 'Ingrese la raz\u00f3n del rechazo', 'warning');
+                swal('', 'Seleccione la raz\u00f3n del rechazo', 'warning');
             }
         } else {
             //se envia a firmar y guardar
@@ -378,9 +412,9 @@ function mostrarRazonRechazo() {
     document.querySelector('#txtRazonRechazo').value = '';
     console.log("--: ", document.querySelector('#selectEstado').value);
     if (document.querySelector('#selectEstado').value === "RECHAZADO") {
-        document.querySelector('#txtRazonRechazo').type = "text";
+        document.querySelector('#txtRazonRechazo').hidden = false;
     } else {
-        document.querySelector('#txtRazonRechazo').type = "hidden";
+        document.querySelector('#txtRazonRechazo').hidden = true;
     }
 }
 
@@ -426,35 +460,57 @@ function firmarGuardar() {
 
 function abrirDatosContador(reembolso){
 
+    const LOADING = document.querySelector('.loader');
+    LOADING.style = 'display: flex;';
+    
 console.log("reembolco, ", reembolso);
 
     document.querySelector('#formDatosConta').reset();
 
     document.querySelector('#idReemb').value = reembolso.id;
     
-    
-    document.querySelector('#batchIngresoLiquidacion').value = reembolso.batchIngresoLiquidacion;
-    document.querySelector('#batchDocumentoInterno').value = reembolso.batchDocumentoInterno;
-    document.querySelector('#p3').value = reembolso.p3;
-    document.querySelector('#p4').value = reembolso.p4;
-    document.querySelector('#p5').value = reembolso.p5;
-    document.querySelector('#phne').value = reembolso.phne;
-    document.querySelector('#cruce1').value = reembolso.cruce1;
-    document.querySelector('#cruce2').value = reembolso.cruce2;
-    
-    document.querySelector('#divTipoGastos').style.display = "none";
-    
-    if(reembolso.tipoReembolso === "GASTOS"){
-        document.querySelector('#justificativos').value = reembolso.justificativos;
-        document.querySelector('#tipoDocumento').value = reembolso.tipoDocumento;
-        document.querySelector('#numeroDocumento').value = reembolso.numeroDocumento;
-        document.querySelector('#numeroRetencion').value = reembolso.numeroRetencion;
-        
-        document.querySelector('#divTipoGastos').style.display = "";
-        
-    }
+    //aqui se debe buscar los datos contables desde la base con el idreembolso
+    $.ajax({
+        type: 'POST',
+        url: 'acciones/buscarDatoContableReembolso.php',
+        data: {idReembolso: reembolso.id},
+        cache: false,
+        success: function (data) {
+            console.log("respuets: ", (data));
+            LOADING.style = 'display: none;';
 
-    $('#modalDatosConta').modal('show');    
+            var contablereembolso = JSON.parse(data);
+            
+            document.querySelector('#batchIngresoLiquidacion').value = contablereembolso.batchIngresoLiquidacion;
+            document.querySelector('#batchDocumentoInterno').value = contablereembolso.batchDocumentoInterno;
+            document.querySelector('#p3').value = contablereembolso.p3;
+            document.querySelector('#p4').value = contablereembolso.p4;
+            document.querySelector('#p5').value = contablereembolso.p5;
+            document.querySelector('#phne').value = contablereembolso.phne;
+            document.querySelector('#cruce1').value = contablereembolso.cruce1;
+            document.querySelector('#cruce2').value = contablereembolso.cruce2;
+
+            document.querySelector('#divTipoGastos').style.display = "none";
+
+            if(reembolso.tipoReembolso !== "4"){
+                document.querySelector('#justificativos').value = contablereembolso.justificativos;
+                document.querySelector('#tipoDocumento').value = contablereembolso.tipoDocumento;
+                document.querySelector('#numeroDocumento').value = contablereembolso.numeroDocumento;
+                document.querySelector('#numeroRetencion').value = contablereembolso.numeroRetencion;
+
+                document.querySelector('#divTipoGastos').style.display = "";
+
+            }
+
+            $('#modalDatosConta').modal('show');
+            
+        },
+        error: function (error) {
+            LOADING.style = 'display: none;';
+            console.log("error: ", error);
+        }
+    });
+      
 }
 
 

@@ -8,9 +8,9 @@ class razonRechazoModelo extends serviciosWebModelo {
     }
     
     
-    protected function listar_razones_rechazo_modelo() {
+    protected function listar_razones_rechazo_modelo($estado) {
         $array = [];
-        $listaParametros = self::invocarGet('razonRechazo/listarRazonesRechazo', $array);
+        $listaParametros = self::invocarGet('razonRechazo/listarRazonesRechazo?estado='.$estado, $array);
         return $listaParametros;
     }
     

@@ -29,7 +29,9 @@
                                     <th>Nombre</th>
                                     <th>Listar de todos los usuarios</th>
                                     <th>Aprobador</th>
+                                    <th>Ver datos contabilidad</th>
                                     <th>Estado</th>
+                                    <th>Usuario modifica</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -47,8 +49,14 @@
                                         <td>
                                             <label><?php echo ($rol->autorizador == 1) ? "SÍ" : "NO" ?></label>
                                         </td>
+                                        <td>
+                                            <label><?php echo ($rol->datosContable == 1) ? "SÍ" : "NO" ?></label>
+                                        </td>
                                         
                                         <td><?php echo ($rol->idEstado == 1) ? "ACTIVO" : "INACTIVO"; ?></td>
+                                        <td><?php echo $rol->usuario->nombre; ?></td>
+                                        
+                                        
                                         <td>
                                             <div class="btn-group mr-2" role="group" aria-label="First group">
                                                 <button class="btn btn-info fa fa-edit" type="button" onclick='openModalRol(variableRol = <?php echo json_encode($rol); ?>);'></button>

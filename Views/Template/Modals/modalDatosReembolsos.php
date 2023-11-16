@@ -52,9 +52,12 @@
                         <select class="form-control" id="txtSeleccion" name="txtSeleccion" required="" onchange="cambiarValor()">
                                 
                                 <option value="">- seleccione -</option>
-                                <option value="REEMBOLSO DE GASTOS DE VIAJE">REEMBOLSO DE GASTOS DE VIAJE</option>
-                                <option value="REEMBOLSO DE ATENCIONES">REEMBOLSO DE ATENCIONES</option>
-                                <option value="JUSTIFICACIÓN FONDOS DE ATENCIÓN">JUSTIFICACIÓN FONDOS DE ATENCIÓN</option>
+                                <?php 
+                                $control = new tipoReembolsoControlador();
+                                $lista2 = $control->listar_tiporeembolso_controlador("false");
+                                foreach ($lista2 as $tipoReembolso) {
+                                    echo '<option value="'.$tipoReembolso->id.'">'.$tipoReembolso->tipo.'</option>';
+                                } ?>
                                 
                             </select>
                         

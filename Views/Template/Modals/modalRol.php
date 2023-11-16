@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label class="control-label">Listar de todos los usuarios:</label>
                             <div class="toggle">
                                 <label>
@@ -39,11 +39,19 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label class="control-label">Aprobador?:</label>
                             <div class="toggle">
                                 <label>
-                                    <input type="checkbox" name="chkAutorizador" id="chkAutorizador" checked=""/><span class="button-indecator"></span>
+                                    <input type="checkbox" name="chkAutorizador" id="chkAutorizador" /><span class="button-indecator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Ver datos contador?:</label>
+                            <div class="toggle">
+                                <label>
+                                    <input type="checkbox" name="chkDatosContable" id="chkDatosContable" /><span class="button-indecator"></span>
                                 </label>
                             </div>
                         </div>
@@ -95,6 +103,38 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Empresas:</label>
+                            <table style="width: 100%" class="table table-bordered">
+                                <thead><tr>
+                                <th>Selec.</th>
+                                <th>RUC</th>
+                                <th>Raz&oacute;n social</th>
+                                </tr></thead>
+                                <tbody>
+                            <?php
+                            $contEm = new empresaControlador();
+                            $listEmp = $contEm->listar_empresas_controlador();
+                            
+                            foreach ($listEmp as $empresa) {
+                                echo '<tr>';
+                                echo '<td style="text-align: center;"><input id="'.$empresa->id,'" type="checkbox" name="'.$empresa->id.'" '
+                                        . 'onclick="ingresarEmpresaLista(this);" /></td>';
+                                //para que funcion enel echo debe estar encerrado entre ".." (comillas dobles, no simples)
+                                //sin concatenar con punto
+                                echo "<td>$empresa->ruc</td>";
+                                echo "<td>$empresa->razonSocial</td>";
+                                echo '</tr>';
+                            }
+                            ?>
+                                </tbody>
+                            </table>
+                            <input id="txtListaEmpresas" name="txtListaEmpresas" type="hidden" />
+                        </div>
+                    </div>
+                    
 
                     <br/>
                     <div class="tile-footer" style="text-align: end;">

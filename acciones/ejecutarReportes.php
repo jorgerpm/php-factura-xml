@@ -24,7 +24,7 @@ echo $resp;
 //
 //foreach ($params as $param) {
 ////    echo $param->nombre;
-//    if ($param->nombre == "URL_SISTEMA") {
+//    if ($param->nombre == "URL_SIsSTEMA") {
 ////        echo $param->valor.PHP_EOL;
 //        //        echo $_SERVER['HTTP_HOST'].PHP_EOL;
 //

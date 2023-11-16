@@ -2,15 +2,14 @@
 
 class generarTablaControlador {
     
-    const COL_INI = 7;
-//    const COL_FIN = 7; este se pone abajo con la condicion de detalles
+    const COL_INI = 7; //son las columnas estaticas iniciales, si se aumente al inicio se aumenta aqui
 
     public function generarTabla($listvarj, $columns) {
         
-        $COL_FIN = 7;
+        $COL_FIN = 9; //es la cantidad de columnas finales estaticas, si se aumenta al final se aumenta aqui
         
         if(isset($_POST['conDetalles']) && $_POST['conDetalles'] == true){
-            $COL_FIN = 16;
+            $COL_FIN = 18; //si se aumanta al final o en detalles aqui se aumenta en 1
         }
 
         $valores = [];

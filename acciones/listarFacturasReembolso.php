@@ -12,6 +12,7 @@ if (isset($_POST['btnSearch'])) {
 } 
 $columns = $archiCont->crear_columnas($respuesta);
 ?>
+
 <a  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     Columnas a mostrar:
 </a>
@@ -19,7 +20,7 @@ $columns = $archiCont->crear_columnas($respuesta);
     <div class="btn-group" data-toggle="buttons">
         <?php
         foreach ($columns as $index => $col) {
-            echo '<label class="toggle-vis btn btn-primary active" data-column="' . ($index+1) . '">';
+            echo '<label class="toggle-vis-fr btn btn-primary active" data-column="' . ($index+2) . '" onclick="ocultarColumna(this, '.($index+2).');">';
             //echo '<input id="' . $col['col'] . '" type="checkbox" checked />';
             echo '<label style="color: white;" class="fa fa-check"></label><br/>';
             echo '<a >' . $col['col'] . '</a>';
@@ -30,7 +31,7 @@ $columns = $archiCont->crear_columnas($respuesta);
 </div>
 
 
-<form id="formEstado" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="width: 100%; padding: 0px"
+<form id="formFacturasReembolso" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="width: 100%; padding: 0px"
       action="" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 
     <div class="RespuestaAjax"></div>
@@ -63,7 +64,7 @@ foreach ($respuesta as $listaArchivoXml) {
                     </td>
                     <!-- para la descarga -->
                     <td style="text-align: center;">
-                        <?php if($listaArchivoXml->urlArchivo != null){?>
+                        <?php if($listaArchivoXml->nombreArchivoXml != null){?>
                         <input class="agregarXml" type="checkbox" 
                                onclick="addArchivoXml('<?php echo $listaArchivoXml->urlArchivo."/".$listaArchivoXml->nombreArchivoXml; ?>', this);" />
                         <?php } ?>
@@ -107,7 +108,9 @@ foreach ($respuesta as $listaArchivoXml) {
                     <td style="white-space: nowrap;"><?php echo $listaArchivoXml->razonAnulacion; ?></td>
 
                     <td style="white-space: nowrap;">
-                        <?php if ($listaArchivoXml->nombreArchivoXml != null) { ?>
+                        <?php if ($listaArchivoXml->nombreArchivoXml != null) { 
+                            //no es necesario todo el link el tag <a /> del html completa la url con el http.../contexto/ 
+                            //poqr eso aqui solo se pon en el href desde archivos_subidos/....  y lo demas se completa autmaticamente ?>
                         <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "XML";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml*/ ?></a>
                         <?php } ?>
                     </td>
@@ -148,4 +151,3 @@ foreach ($respuesta as $listaArchivoXml) {
     </div>
 
 </form>
-

@@ -8,23 +8,20 @@ class documentoReembolsoModelo extends serviciosWebModelo {
     }
     
     
-    protected function listar_documentos_modelo($fechaIni, $fechaFin, $idUser, $estadoSistema, $desde, $hasta) {
+    protected function listar_documentos_modelo($fechaIni, $fechaFin, $idUser, $estadoSistema, $desde, $hasta,
+            $numeroRC, $tipoReembolso, $numeroReembolso) {
 //        $dateIni = strtotime($fechaIni) * 1000;
 //        $dateFin = strtotime($fechaFin) * 1000;
         $array = [];
         $listaArchivos = self::invocarGet('documentoreembolsos/listarDocumentos?fechaInicio='.$fechaIni.'&fechaFinal='.$fechaFin.'&idUsuarioCarga='.$idUser.
-                '&estadoSistema='.$estadoSistema.'&desde='.$desde.'&hasta='.$hasta, $array);
+                '&estadoSistema='.$estadoSistema.'&desde='.$desde.'&hasta='.$hasta."&numeroRC=".$numeroRC."&tipoReembolso=".$tipoReembolso.
+                '&numeroReembolso='.$numeroReembolso, $array);
         return $listaArchivos;
     }
     
     
     protected function aprobar_documento_reembolso_modelo($data){
         $respuesta = self::invocarPost('documentoreembolsos/aprobarDocumentoReembolsos', $data);
-        return $respuesta;
-    }
-    
-    protected function guardar_datos_contabilidad_modelo($data){
-        $respuesta = self::invocarPost('documentoreembolsos/guardarDatosContabilidad', $data);
         return $respuesta;
     }
     

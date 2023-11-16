@@ -34,7 +34,7 @@
                         <div class="btn-group" data-toggle="buttons">
                             <?php
                             foreach ($columns as $index => $col) {
-                                echo '<label class="toggle-vis btn btn-primary active" data-column="' . ($index+1) . '">';
+                                echo '<label class="toggle-vis btn btn-primary active" data-column="' . ($index+2) . '">';
                                 //echo '<input id="' . $col['col'] . '" type="checkbox" checked />';
                                 echo '<label style="color: white;" class="fa fa-check"></label><br/>';
                                 echo '<a >' . $col['col'] . '</a>';
@@ -50,164 +50,203 @@
                         
                         <div class="row" style="/*padding-top: 10px*/">
                             <div class="col-md-6">
-                        <div class="row">
-                             
-                            <div class="col-md-3" style="/*padding: 0px 5px 0px 8px*/">
-                                <label class="btn-sm" for="listUsers">Usuario:</label>
-                            </div>
-                            <div class="col-md-3 col-12" style="/*padding: 0px 5px 0px 8px*/">
-                                <?php require_once './acciones/listarUsuariosActivos.php'; ?>
-                                <select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" id="listUsers" name="listUsers" <?php echo ($_SESSION['Rol']->principal == 0) ? "" : "" ?>>
-                                    <?php if ($_SESSION['Rol']->principal == 1) { ?>
-                                        <option value="">Seleccione</option>;
-                                    <?php } ?>
-                                    <?php
-                                    foreach ($listaUsuarios as $user) {
-                                        if ($_SESSION['Rol']->principal == 1) {
-                                            echo '<option value="' . $user->id . '" ' . ((isset($_POST['listUsers']) && $_POST['listUsers'] == $user->id) ? 'selected' : '') . '>' . $user->nombre . '</option>';
-                                        } else {
-                                            if ($_SESSION['Usuario']->id == $user->id) {
-                                                echo '<option value="' . $user->id . '" ' . ((isset($_POST['listUsers']) && $_POST['listUsers'] == $user->id) ? 'selected' : '') . '>' . $user->nombre . '</option>';
+                                <div class="row">
+
+                                    <div class="col-md-3" style="padding-right: 0px;">
+                                        <label class="btn-sm" for="listUsers">Usuario:</label>
+                                    </div>
+                                    <div class="col-md-3 col-12" style="/*padding: 0px 5px 0px 8px*/">
+                                        <?php require_once './acciones/listarUsuariosActivos.php'; ?>
+                                        <select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" id="listUsers" name="listUsers" <?php echo ($_SESSION['Rol']->principal == 0) ? "" : "" ?>>
+                                            <?php if ($_SESSION['Rol']->principal == 1) { ?>
+                                                <option value="">Seleccione</option>;
+                                            <?php } ?>
+                                            <?php
+                                            foreach ($listaUsuarios as $user) {
+                                                if ($_SESSION['Rol']->principal == 1) {
+                                                    echo '<option value="' . $user->id . '" ' . ((isset($_POST['listUsers']) && $_POST['listUsers'] == $user->id) ? 'selected' : '') . '>' . $user->nombre . '</option>';
+                                                } else {
+                                                    if ($_SESSION['Usuario']->id == $user->id) {
+                                                        echo '<option value="' . $user->id . '" ' . ((isset($_POST['listUsers']) && $_POST['listUsers'] == $user->id) ? 'selected' : '') . '>' . $user->nombre . '</option>';
+                                                    }
+                                                }
                                             }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3" style="padding-right: 0px;">
+                                        <label class="control-label btn-sm" for="dtFechaIni">Fecha emisi&oacute;n desde:</label>
+                                    </div>
+                                    <div class="col-md-3 col-12" style="/*padding: 0px 5px 0px 5px*/">
+                                        <input id="dtFechaIni" name="dtFechaIni" class="form-control btn-sm" type="date" value="<?php
+                                        if (isset($_POST['dtFechaIni'])) {
+                                            echo $_POST['dtFechaIni'];
+                                        } else {
+                                            echo date("Y-m-d");
                                         }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col-md-3" style="/*padding: 0px 0px 0px 0px*/">
-                                <label class="control-label btn-sm" for="dtFechaIni">Fecha emisi&oacute;n desde:</label>
-                            </div>
-                            <div class="col-md-3 col-12" style="/*padding: 0px 5px 0px 5px*/">
-                                <input id="dtFechaIni" name="dtFechaIni" class="form-control btn-sm" type="date" value="<?php
-                                if (isset($_POST['dtFechaIni'])) {
-                                    echo $_POST['dtFechaIni'];
-                                } else {
-                                    echo date("Y-m-d");
-                                }
-                                ?>">
-                            </div>
-                                
-                        </div>
+                                        ?>">
+                                    </div>
+                                </div>
                             </div>
                                 
                             
                             <div class="col-md-6">
-                        <div class="row">
-                            
-                            <div class="col-md-3" style="/*padding: 0px 0px 0px 0px*/">
-                                <label class="btn-sm" for="dtFechaFin">Fecha emisi&oacute;n hasta:</label>
+                                <div class="row">
+
+                                    <div class="col-md-3" style="padding-right: 0px;">
+                                        <label class="btn-sm" for="dtFechaFin">Fecha emisi&oacute;n hasta:</label>
+                                    </div>
+                                    <div class="col-md-3 col-12" style="/*padding: 0px 5px 0px 0px*/">
+                                        <input id="dtFechaFin" name="dtFechaFin" class="form-control btn-sm" type="date" value="<?php
+                                        if (isset($_POST['dtFechaFin'])) {
+                                            echo $_POST['dtFechaFin'];
+                                        } else {
+                                            echo date("Y-m-d");
+                                        }
+                                        ?>">
+                                    </div>
+                                    <div class="col-md-3" style="padding-right: 0px;">
+                                        <label class="btn-sm" for="txtEstadoSistema">Estado sistema:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" 
+                                                id="txtEstadoSistema" name="txtEstadoSistema">
+
+                                            <option value="">Seleccione</option>
+
+                                            <option value="ANULADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "ANULADO") ? 'selected' : ''); ?> >ANULADO</option>
+                                            <option value="APROBADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "APROBADO") ? 'selected' : ''); ?> >APROBADO</option>
+                                            <option value="CARGADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "CARGADO") ? 'selected' : ''); ?> >CARGADO</option>
+                                            <option value="POR_AUTORIZAR" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "POR_AUTORIZAR") ? 'selected' : ''); ?> >POR_AUTORIZAR</option>
+                                            <option value="PROCESADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "PROCESADO") ? 'selected' : ''); ?> >PROCESADO</option>
+                                            <option value="RECHAZADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "RECHAZADO") ? 'selected' : ''); ?> >RECHAZADO</option>
+
+                                        </select>
+                                    </div>
+
+                                </div>
                             </div>
-                            <div class="col-md-3 col-12" style="/*padding: 0px 5px 0px 0px*/">
-                                <input id="dtFechaFin" name="dtFechaFin" class="form-control btn-sm" type="date" value="<?php
-                                if (isset($_POST['dtFechaFin'])) {
-                                    echo $_POST['dtFechaFin'];
-                                } else {
-                                    echo date("Y-m-d");
-                                }
-                                ?>">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="btn-sm" for="txtEstadoSistema">Estado sistema:</label>
-                            </div>
-                            <div class="col-md-3">
-                                <select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" 
-                                        id="txtEstadoSistema" name="txtEstadoSistema">
-                                    
-                                    <option value="">Seleccione</option>
-                                    
-                                    <option value="ANULADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "ANULADO") ? 'selected' : ''); ?> >ANULADO</option>
-                                    <option value="APROBADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "APROBADO") ? 'selected' : ''); ?> >APROBADO</option>
-                                    <option value="CARGADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "CARGADO") ? 'selected' : ''); ?> >CARGADO</option>
-                                    <option value="POR_AUTORIZAR" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "POR_AUTORIZAR") ? 'selected' : ''); ?> >POR_AUTORIZAR</option>
-                                    <option value="PROCESADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "PROCESADO") ? 'selected' : ''); ?> >PROCESADO</option>
-                                    <option value="RECHAZADO" <?php echo ((isset($_POST['txtEstadoSistema']) && $_POST['txtEstadoSistema'] == "RECHAZADO") ? 'selected' : ''); ?> >RECHAZADO</option>
-                                    
-                                </select>
-                            </div>
-                            
-                            </div>
-                            </div>
-                            
                         </div>
                         
                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+
+                                    <div class="col-md-3" style="padding-right: 0px;">
+                                        <label class="btn-sm" for="txtClaveAcceso">Clave de acceso:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input id="txtClaveAcceso" name="txtClaveAcceso" class="form-control btn-sm" type="search" value="<?php
+                                        if (isset($_POST['txtClaveAcceso'])) {
+                                            echo $_POST['txtClaveAcceso'];
+                                        }
+                                        ?>">
+                                    </div>
+                                    <div class="col-md-3" style="padding-right: 0px;">
+                                        <label class="btn-sm" for="txtRuc">Proveedor:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input id="txtRuc" name="txtRuc" class="form-control btn-sm" type="search" value="<?php
+                                        if (isset($_POST['txtRuc'])) {
+                                            echo $_POST['txtRuc'];
+                                        }
+                                        ?>" style="text-transform: uppercase">
+                                    </div>
+                                </div>
+                            </div>
                             
                             <div class="col-md-6">
-                        <div class="row">
-                            
-                            <div class="col-md-3" style="padding-right: 0px;">
-                                <label class="btn-sm" for="txtClaveAcceso">Clave de acceso:</label>
+                                <div class="row">
+
+                                    <div class="col-md-3" style="padding-right: 0px;">
+                                        <label class="btn-sm" for="txtTipoDoc">Tipo documento:</label>
+                                    </div>
+                                    <div class="col-md-3">
+
+
+                                        <select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" 
+                                                id="txtTipoDoc" name="txtTipoDoc">
+
+                                            <option value="">Seleccione</option>
+
+                                            <?php if($_SESSION['Rol']->bFactura == true) {?>
+                                                <option value="01" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "01") ? 'selected' : ''); ?> >FACTURA</option>
+                                                <option value="NV" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "NV") ? 'selected' : ''); ?> >NOTA_VENTA</option>
+                                                <option value="MS" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "MS") ? 'selected' : ''); ?> >MISCELÁNEO</option>
+                                            <?php } if($_SESSION['Rol']->bGuiaRemision) {?>
+                                                <option value="06" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "06") ? 'selected' : ''); ?> >GUIA_REMISION</option>
+                                            <?php } if($_SESSION['Rol']->bNotaCredito) {?>
+                                                <option value="04" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "04") ? 'selected' : ''); ?> >NOTA_CREDITO</option>
+                                            <?php } if($_SESSION['Rol']->bNotaDebito) {?>
+                                                <option value="05" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "05") ? 'selected' : ''); ?> >NOTA_DEBITO</option>
+                                            <?php } if($_SESSION['Rol']->bRetencion) {?>
+                                                <option value="07" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "07") ? 'selected' : ''); ?> >RETENCION</option>
+                                            <?php }?>
+
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;">
+                                        <label class="btn-sm control-label" for="txtDescargados">Descargados:</label>
+                                    </div>
+                                    <div class="col-md-3 col-12" >
+                                        <select class="form-control disable-selection btn-sm" id="txtDescargados" name="txtDescargados">
+                                            <option value="">Seleccione</option>
+                                            <option value="false" <?php echo ((isset($_POST['txtDescargados']) && $_POST['txtDescargados'] == "false") ? 'selected' : ''); ?>>NO</option>
+                                            <option value="true" <?php echo ((isset($_POST['txtDescargados']) && $_POST['txtDescargados'] == "true") ? 'selected' : ''); ?>>SI</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <input id="txtClaveAcceso" name="txtClaveAcceso" class="form-control btn-sm" type="search" value="<?php
-                                if (isset($_POST['txtClaveAcceso'])) {
-                                    echo $_POST['txtClaveAcceso'];
-                                }
-                                ?>">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="btn-sm" for="txtRuc">Proveedor:</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input id="txtRuc" name="txtRuc" class="form-control btn-sm" type="search" value="<?php
-                                if (isset($_POST['txtRuc'])) {
-                                    echo $_POST['txtRuc'];
-                                }
-                                ?>" style="text-transform: uppercase">
-                            </div>
-                            
                         </div>
-                            </div>
-                            
+                        
+                        <div class="row" style="padding-top: 10px;">
                             <div class="col-md-6">
-                        <div class="row">
-                            
-                            <div class="col-md-3" style="padding-right: 0px;">
-                                <label class="btn-sm" for="txtTipoDoc">Tipo documento:</label>
+                                <div class="row">
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;">
+                                        <label class="btn-sm control-label" for="txtListaEmpresas">Empresa emisora:</label>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <select id="txtListaEmpresas" name="txtListaEmpresas" class="form-control disable-selection btn-sm" >
+                                            <?php 
+                                            $contrEmp = new empresaControlador();
+                                            $listEmpAux = $contrEmp->listar_empresas_controlador();
+                                            $rle = explode(",", $_SESSION["Rol"]->listaIdEmpresas);
+                                            if(count($listEmpAux) == count($rle)){
+                                                echo '<option value="">Seleccione</option>';
+                                            }
+                                            //$listEmp = $contrEmp->listar_empresas_rol_controlador();
+                                            foreach($listEmpAux as $empresa){
+                                                foreach ($rle as $idEmp){
+                                                    if($empresa->id == $idEmp){
+                                                        echo '<option value="'.$empresa->ruc.'" '.(isset($_POST["txtListaEmpresas"]) && $_POST["txtListaEmpresas"] == $empresa->ruc ? 'selected' : '') .'>'.$empresa->razonSocial.'</option>';
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;"></div>
+                                    <div class="col-md-3 col-12" ></div>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                
-                                
-                                <select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" 
-                                        id="txtTipoDoc" name="txtTipoDoc">
-                                    
-                                    <option value="">Seleccione</option>
-                                    
-                                    <?php if($_SESSION['Rol']->bFactura == true) {?>
-                                        <option value="01" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "01") ? 'selected' : ''); ?> >FACTURA</option>
-                                        <option value="NV" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "NV") ? 'selected' : ''); ?> >NOTA_VENTA</option>
-                                        <option value="MS" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "MS") ? 'selected' : ''); ?> >MISCELÁNEO</option>
-                                    <?php } if($_SESSION['Rol']->bGuiaRemision) {?>
-                                        <option value="06" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "06") ? 'selected' : ''); ?> >GUIA_REMISION</option>
-                                    <?php } if($_SESSION['Rol']->bNotaCredito) {?>
-                                        <option value="04" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "04") ? 'selected' : ''); ?> >NOTA_CREDITO</option>
-                                    <?php } if($_SESSION['Rol']->bNotaDebito) {?>
-                                        <option value="05" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "05") ? 'selected' : ''); ?> >NOTA_DEBITO</option>
-                                    <?php } if($_SESSION['Rol']->bRetencion) {?>
-                                        <option value="07" <?php echo ((isset($_POST['txtTipoDoc']) && $_POST['txtTipoDoc'] == "07") ? 'selected' : ''); ?> >RETENCION</option>
-                                    <?php }?>
-                                    
-                                </select>
-                                
-                                
-                                
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;"></div>
+                                    <div class="col-md-3 col-12" ></div>
+                                    <div class="col-md-3 col-12" style="/*padding: 0px 0px 0px 0px*/">
+                                        <button style="/*width: 100%; position:absolute; right:0;bottom:0;*/" class="btn btn-primary btn-sm fa" id="btnSearch" name="btnSearch" type="submit" ><i class="fa fa-search"></i><span id="btnText">Buscar</span></button>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-3 col-12" style="/*padding: 0px 0px 0px 0px*/">
-                                <button style="/*width: 100%; position:absolute; right:0;bottom:0;*/" class="btn btn-primary btn-sm fa" id="btnSearch" name="btnSearch" type="submit" ><i class="fa fa-search"></i><span id="btnText">Buscar</span></button>
-                            </div>
-                            <div class="col-md-3" ></div>
-                            
-                            </div>
-                            </div>
-                            
                         </div>
                         
                         
                         <div class="RespuestaAjax"></div>
                         
-
                         <br>
-                        
 
 
                         <div class="table-responsive">
@@ -215,7 +254,8 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th style="text-align: center">Descargar
+                                        <th style="text-align: center">
+                                            Descargar
                                             <input type="checkbox" onclick="marcarTodosXml(this);"/>
                                         </th>
 <?php foreach ($columns as $col) { ?>
@@ -231,7 +271,7 @@ if (count($respuesta) > 0) {
         ?>
                                     <tr style="<?php echo $listaArchivoXml->exportado === true ? 'color: blue;' : '' ?>">
                                         <td>
-                                            <input class="form-control" type="checkbox" id="<?php echo $listaArchivoXml->claveAcceso; ?>" />
+                                            <input class="orm-control" type="checkbox" id="<?php echo $listaArchivoXml->claveAcceso; ?>" />
                                         </td>
                                         
                                         <!-- para la descarga -->
@@ -278,15 +318,17 @@ if (count($respuesta) > 0) {
                                         <td style="white-space: nowrap;"><?php echo $listaArchivoXml->usuarioAnula; ?></td>
                                         <td style="white-space: nowrap;"><?php echo $listaArchivoXml->fechaAnula != null ? date("d/m/Y H:i:s", $listaArchivoXml->fechaAnula / 1000) : ""; ?></td>
                                         <td style="white-space: nowrap;"><?php echo $listaArchivoXml->razonAnulacion; ?></td>
+                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->numeroReembolso; ?></td>
+                                        <td style="white-space: nowrap;"><?php echo $listaArchivoXml->tipoReembolso; ?></td>
                                         
                                         <td style="white-space: nowrap;">
                                             <?php if ($listaArchivoXml->nombreArchivoXml != null) { ?>
-                                            <a target="_blank" href="<?php echo $_SESSION['URL_SISTEMA'] . $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "XML";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml*/ ?></a>
+                                            <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "XML";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml*/ ?></a>
                                             <?php } ?>
                                         </td>
                                         <td style="white-space: nowrap;">
                                 <?php if ($listaArchivoXml->nombreArchivoPdf != null) { ?>
-                                                <a target="_blank" href="<?php echo $_SESSION['URL_SISTEMA'] . $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "RIDE";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf*/ ?></a>
+                                                <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "RIDE";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf*/ ?></a>
                                     <?php } ?>
                                         </td>
 
@@ -296,7 +338,7 @@ if (count($respuesta) > 0) {
                                         
                                     }
                                 } else {
-                                    echo '<tr><td colspan="16">No existen registros.</td></tr>';
+                                    echo '<tr><td colspan="'.count($columns).'">No existen registros.</td></tr>';
                                 }
                                 ?>
                                 </tbody>
@@ -365,26 +407,34 @@ if (count($respuesta) > 0) {
         var tableXml = document.getElementById('sampleTableXml');
 //        alert(tableXml.rows[0].cells[0]);
         var numCol = $(this).attr('data-column');
-        const inputCheck = $(this).children(0)[0];
+        var inputCheck1 = $(this).children(0)[0];
         
-        console.log("$(this).children(0);", inputCheck);
+        console.log("$(this).children(0);", inputCheck1);
         
         console.log("numcol: ", numCol);
         
         for(let i=0;i<tableXml.rows.length;i++){
             if(tableXml.rows[i].cells[numCol] && tableXml.rows[i].cells[numCol].style.display !== "none"){
                 tableXml.rows[i].cells[numCol].style.display="none";
-                inputCheck.style.color = "yellow";
-                inputCheck.className = "fa fa-times";
+                inputCheck1.style.color = "yellow";
+                inputCheck1.className = "fa fa-times";
+                
+                console.log("entrra i: ", i);
+                break;
             }
             else{
                 if(tableXml.rows[i].cells[numCol])
                     tableXml.rows[i].cells[numCol].style.display="table-cell";
                 
-                inputCheck.style.color = "white";
-                inputCheck.className = "fa fa-check";
+                inputCheck1.style.color = "white";
+                inputCheck1.className = "fa fa-check";
+                
+                console.log("entrra else i: ", i);
+                break;
             }
         }
+        
+        console.log("$(this).children(0);", inputCheck1);
     });
     
     

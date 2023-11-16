@@ -30,7 +30,7 @@ if (isset($_SESSION['Usuario'])) {
 //        echo "estado:" . $zip->status . "\n";
         $zip->close();
         
-        echo $_SESSION["URL_SISTEMA"] . $filename;
+        echo $filename;
     }
     
 }

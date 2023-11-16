@@ -9,5 +9,6 @@ class listasBlancasUtil {
         "facturasFisicas",
         "listaRazonesRechazo",
         "listaEmpresas",
+        "listaTipoReembolso",
         ];
 }

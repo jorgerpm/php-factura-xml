@@ -7,12 +7,11 @@ if (is_file('./Utils/configUtil.php')) {
 }
 
 if (isset($_SESSION['Usuario'])) {
-    $control = new datoContableReembolsoControlador();
-    $respuesta = $control->guardar_datos_contabilidad_controlador();
+    $contrl = new tipoReembolsoControlador();
+    $respuesta = $contrl->guardar_tiporeembolso_controlador();
     echo $respuesta;
 }
 else{
-    header("Location: index");
     echo '<script>window.location.replace("index");</script>';
 }
 

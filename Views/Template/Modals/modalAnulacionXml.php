@@ -12,7 +12,19 @@
                     <input type="hidden" id="idsxml" name="idsxml" value="">
                     <div class="form-group">
                         <label class="control-label">Raz&oacute;n de anulaci&oacute;n</label>
-                        <input class="form-control" id="txtRazon" name="txtRazon" type="text" required="" style="text-transform: uppercase;">
+                        
+                        <?php $control = new razonRechazoControlador();
+                        $listaRazones = $control->listar_razones_rechazo_controlador(true);
+                         ?>
+                        <select id="txtRazon" name="txtRazon" class="form-control" required="">
+                            <option value="">Seleccione</option>
+                            <?php
+                            foreach ($listaRazones as $razonRechazo) {
+                                echo '<option value="' . str_replace("\"","", $razonRechazo->razon) . '">' . str_replace("\"","", $razonRechazo->razon) . '</option>';
+                            }
+                            ?>
+                        </select>
+                        
                     </div>
                     <div class="tile-footer" style="text-align: end;">
                         <button class="btn btn-primary" type="submit">

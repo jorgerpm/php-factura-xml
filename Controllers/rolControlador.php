@@ -31,6 +31,9 @@ class rolControlador extends rolModelo {
                 "bNotaCredito" => (isset($_POST['bNotaCredito']) ? true : false),
                 "bNotaDebito" => (isset($_POST['bNotaDebito']) ? true : false),
                 "bGuiaRemision" => (isset($_POST['bGuiaRemision']) ? true : false),
+                "datosContable" => (isset($_POST['chkDatosContable']) ? true : false),
+                "idUsuarioModifica" => $_SESSION["Usuario"]->id,
+                "listaIdEmpresas" => $_POST["txtListaEmpresas"],
             ];
 
             $respuesta = rolModelo::guardar_rol_modelo($datos);

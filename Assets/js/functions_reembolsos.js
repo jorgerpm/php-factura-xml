@@ -35,13 +35,12 @@ function mostrarFacturasXml(idReembolso){
     $('#modalFacturasReembolso').modal('show');
 }
 
-$('.toggle-vis').on('click', function (e) {
-    e.preventDefault();
-    // Get the column API object
+function ocultarColumna(toggle, numCol){
+    console.log("toggletoggle:: ", toggle);
+    
     var tableXml = document.getElementById('tableFacturasReembolso');
-//        alert(tableXml.rows[0].cells[0]);
-    var numCol = $(this).attr('data-column');
-    const inputCheck = $(this).children(0)[0];
+
+    var inputCheck = toggle.children[0];
 
     console.log("$(this).children(0);", inputCheck);
 
@@ -52,6 +51,7 @@ $('.toggle-vis').on('click', function (e) {
             tableXml.rows[i].cells[numCol].style.display="none";
             inputCheck.style.color = "yellow";
             inputCheck.className = "fa fa-times";
+            break;
         }
         else{
             if(tableXml.rows[i].cells[numCol])
@@ -59,7 +59,8 @@ $('.toggle-vis').on('click', function (e) {
 
             inputCheck.style.color = "white";
             inputCheck.className = "fa fa-check";
+            break;
         }
     }
-});
+}
 

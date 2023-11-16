@@ -74,15 +74,7 @@
                             <button class="btn btn-primary" type="button" onclick="enviarFacturasServer(<?php echo $_SESSION['Usuario']->id; ?>)">CARGAR COMPROBANTES</button>
                         </div>
                         <div class="col-md-2">
-                            <!-- select style="/*position:absolute; right:0;bottom:0;*/" class="form-control disable-selection btn-sm" 
-                                        id="txtTipoPdf" name="txtTipoPdf">
-                                    
-                                    <option value="">Seleccione</option>
-                                    
-                                    <option value="01" <php echo ((isset($_POST['txtTipoPdf']) && $_POST['txtTipoPdf'] == "01") ? 'selected' : ''); ?> >LIQUIDACION DE GASTO DE VIAJES</option>
-                                    <option value="02" ?php echo ((isset($_POST['txtTipoPdf']) && $_POST['txtTipoPdf'] == "02") ? 'selected' : ''); ?> >REEMBOLSO DE GASTOS</option>
-                                    
-                                </select -->
+                           
                         </div>
                         <div class="col-md-3">
                             <!-- button class="btn btn-primary" type="button" 

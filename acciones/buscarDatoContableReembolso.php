@@ -8,7 +8,7 @@ if (is_file('./Utils/configUtil.php')) {
 
 if (isset($_SESSION['Usuario'])) {
     $control = new datoContableReembolsoControlador();
-    $respuesta = $control->guardar_datos_contabilidad_controlador();
+    $respuesta = $control->buscar_dato_contable_controlador();
     echo $respuesta;
 }
 else{

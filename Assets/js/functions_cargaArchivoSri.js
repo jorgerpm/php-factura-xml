@@ -348,7 +348,7 @@ function mostrarModalDatosReembolso(){
 
         if(tipoR){
 
-            if(tipoR === "GASTOS"){
+            if(tipoR === "5"){
                 document.querySelector('#lblSeleccion').style.display= "";
                 document.querySelector('#txtSeleccion').style.display= "";
 
@@ -438,7 +438,7 @@ function ejecutarReporteFirma(ids) {
                             document.querySelector('#txtTipoReembolso').value = txtTipoPdf;
 
 
-                            if(txtTipoPdf !== "GASTOS" /*&& document.querySelector('#lblAprobador')*/){
+                            if(txtTipoPdf !== "5" /*&& document.querySelector('#lblAprobador')*/){
     //                            document.querySelector('#uno').removeChild(document.querySelector('#lblAprobador'));
     //                            document.querySelector('#dos').removeChild(document.querySelector('#txtAprobador'));
                                 document.querySelector('#lblAprobador').style.display = "none";
@@ -488,14 +488,15 @@ function validarForm(){
         
     const tipoR = document.querySelector('#txtTipoPdf').value;
     
-    if(tipoR === "GASTOS"){
+    if(tipoR === "5"){
         console.log("tipoR: ", tipoR);
         if(document.querySelector('#txtSeleccion').value.length === 0)
             return false;
         
-        if(document.querySelector('#txtSeleccion').value === "JUSTIFICACIÓN FONDOS DE ATENCIÓN")
+        if(document.querySelector('#txtSeleccion').value === "3"){
             if(document.querySelector('#txtValorEntregado').value.length === 0)
                 return false;
+        }
         
     }
     else{  
@@ -509,7 +510,7 @@ function validarForm(){
 }
 
 function cambiarValor(){
-    if(document.querySelector('#txtSeleccion').value === "JUSTIFICACIÓN FONDOS DE ATENCIÓN"){
+    if(document.querySelector('#txtSeleccion').value === "3"){
         document.querySelector('#txtValorEntregado').style.display = "";
         document.querySelector('#lblValorEntregado').style.display= "";
     }
@@ -536,7 +537,7 @@ function enviarFirmar(ids) {
     console.log("txtAprobador: ", txtAprobador);
     console.log("txtTipoPdf: ", txtTipoPdf);
     
-    if(txtTipoPdf === "GASTOS"){
+    if(txtTipoPdf === "5"){
         if(txtAprobador){
         //continua
         }

@@ -28,8 +28,19 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" id="txtRazonRechazo" name="txtRazonRechazo" placeholder="RAZ&Oacute;N RECHAZO"
-                                       style="text-transform: uppercase;" type="hidden"/>
+                                
+                                <?php $control = new razonRechazoControlador();
+                                $listaRazones = $control->listar_razones_rechazo_controlador(true);
+                                 ?>
+                                <select id="txtRazonRechazo" name="txtRazonRechazo" class="form-control" hidden="">
+                                    <option value="">Seleccione</option>
+                                    <?php
+                                    foreach ($listaRazones as $razonRechazo) {
+                                        echo '<option value="' . str_replace("\"","", $razonRechazo->razon) . '">' . str_replace("\"","", $razonRechazo->razon) . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                                
                             </div>
                             <div class="col-md-4">
                                 <button class="btn btn-primary" type="button" onclick="validarSeleccion()">

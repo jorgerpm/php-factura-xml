@@ -14,4 +14,10 @@ class empresaModelo extends serviciosWebModelo {
         return $listaParametros;
     }
     
+    protected function listar_empresas_rol_modelo($idRol){
+        $array = [];
+        $lista = self::invocarGet("empresa/listarEmpresasPorRol?idRol=".$idRol, $array);
+        return $lista;
+    }
+    
 }

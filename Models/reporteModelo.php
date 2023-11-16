@@ -15,16 +15,7 @@ class reporteModelo extends serviciosWebModelo {
     }
     
     protected function ejecutar_reportefirma_modelo($reporte, $ids, $tiposGasto, $tipoReembolso, $idUsuario, $idAprobador, $listaAsistentes,
-            
-            $motivoViaje,
-                $periodoViaje,
-                $lugarViaje,
-                $fondoEntregado,
-                $observaciones,
-                $seleccion,
-            $claveFirma, $numeroRC
-            
-            ) {
+            $motivoViaje,$periodoViaje,$lugarViaje,$fondoEntregado,$observaciones,$seleccion,$claveFirma, $numeroRC) {
         $array = [];
         $reporteDto = self::invocarGet('reportes/reporteFirma?reporte=' . $reporte . '&ids=' . $ids.'&idUsuario='.$idUsuario."&tiposGasto="
                 .urlencode($tiposGasto)."&tipoReembolso=".$tipoReembolso."&idAprobador=".$idAprobador."&listaAsistentes=".urlencode($listaAsistentes)

@@ -2,9 +2,9 @@
 
 class razonRechazoControlador extends razonRechazoModelo {
 
-    public function listar_razones_rechazo_controlador() {
+    public function listar_razones_rechazo_controlador($estado) {
 
-        $listaParametros = razonRechazoModelo::listar_razones_rechazo_modelo();
+        $listaParametros = razonRechazoModelo::listar_razones_rechazo_modelo($estado);
         if(!isset($listaParametros)) {
             $listaParametros = [];
         }
@@ -40,6 +40,5 @@ class razonRechazoControlador extends razonRechazoModelo {
             return '<script>swal("", "Complete los campos requeridos del formulario.", "error");</script>';
         }
     }
-    
 
 }

@@ -14,10 +14,13 @@ class archivoXmlControlador extends archivoXmlModelo {
                             isset($post['txtEstadoSistema']) ? $post['txtEstadoSistema'] : null,
                             isset($post['seleccionados']) ? $post['seleccionados'] : false,
                     isset($post['conDetalles']) ? $post['conDetalles'] : false,
-                    isset($post['idReembolso']) ? $post['idReembolso'] : null);
+                    isset($post['idReembolso']) ? $post['idReembolso'] : null,
+                    isset($post['txtDescargados']) ? $post['txtDescargados'] : null,
+                    isset($post['txtListaEmpresas']) ? $post['txtListaEmpresas'] : null,
+                );
         } else {
             $respuesta = archivoXmlModelo::listar_archivos(date("Y-m-d"), date("Y-m-d"), ($_SESSION['Rol']->principal == 0) ? $_SESSION['Usuario']->id : null,
-                            null, null, null, 0, $regsPagina, null, false, false, null);
+                            null, null, null, 0, $regsPagina, null, false, false, null, null, null);
         }
 
         if (!isset($respuesta)) {
@@ -62,7 +65,7 @@ class archivoXmlControlador extends archivoXmlModelo {
          $respuesta = archivoXmlModelo::listar_archivos($nuevafecha, date("Y-m-d"), 
                  //($_SESSION['Rol']->principal == 0) ? $_SESSION['Usuario']->id : null,
                  isset($_POST['cbxListUser']) ? $_POST['cbxListUser'] : ($_SESSION['Rol']->id == 1 ? null : $_SESSION['Usuario']->id),
-                            null, null, null, 0, $regsPagina, "CARGADO", false, false, null);
+                            null, null, null, 0, $regsPagina, "CARGADO", false, false, null, null, null);
         
 
         if (!isset($respuesta)) {
@@ -102,7 +105,7 @@ class archivoXmlControlador extends archivoXmlModelo {
     
     public function crear_columnas($respuesta) {
 
-
+        //si aqui se aumentan columnas, se debe cambiar la constante en el archivo generarTablaControlador.php
         $columns = [];
         array_push($columns, ['col' => 'Estado sistema', 'wid' => '100px']);
         array_push($columns, ['col' => 'Usuario carga', 'wid' => '100px']);
@@ -246,18 +249,22 @@ class archivoXmlControlador extends archivoXmlModelo {
             $ind++;
         }
 
+        //si aqui se aumentan columnas, se debe cambiar la constante en el archivo generarTablaControlador.php
+        
         array_push($columns, ['col' => 'Tipo de documento', 'wid' => '100px']);
         array_push($columns, ['col' => 'Código JD proveedor', 'wid' => '100px']);
-        
         array_push($columns, ['col' => 'Usuario anula', 'wid' => '100px']);
         array_push($columns, ['col' => 'Fecha anula', 'wid' => '100px']);
         array_push($columns, ['col' => 'Razón anulación', 'wid' => '100px']);
-                                        
+        array_push($columns, ['col' => 'Número de reembolso', 'wid' => '100px']);
+        array_push($columns, ['col' => 'Tipo reembolso', 'wid' => '100px']);
+        
         array_push($columns, ['col' => 'Archivo xml', 'wid' => '100px']);
         array_push($columns, ['col' => 'Archivo RIDE', 'wid' => '100px']);
         
         
         
+        //si aqui se aumentan columnas, se debe cambiar la constante en el archivo generarTablaControlador.php
         if(isset($_POST['conDetalles']) && $_POST['conDetalles'] == true){
             array_push($columns, ['col' => 'detalle', 'wid' => '100px']);
             array_push($columns, ['col' => 'precio_unitario', 'wid' => '100px']);

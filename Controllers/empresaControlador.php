@@ -27,7 +27,7 @@ class empresaControlador extends empresaModelo {
                 "nombreComercial" => isset($_POST['txtNombreComercial']) ? mb_strtoupper($_POST['txtNombreComercial'], 'utf-8') : null,
                 "direccion" => isset($_POST['txtDireccion']) ? mb_strtoupper($_POST['txtDireccion'], 'utf-8') : null,
                 "telefono" => isset($_POST['txtTelefono']) ? mb_strtoupper($_POST['txtTelefono'], 'utf-8') : null,
-                "email" => isset($_POST['txtEmail']) ? mb_strtoupper($_POST['txtEmail'], 'utf-8') : null,
+                "email" => isset($_POST['txtEmail']) ? mb_strtolower($_POST['txtEmail'], 'utf-8') : null,
                 
                 "idEstado" => mb_strtoupper($cbxEstado, 'utf-8'),
                 "idUsuarioModifica"=> $_SESSION['Usuario']->id,
@@ -48,6 +48,14 @@ class empresaControlador extends empresaModelo {
             return '<script>swal("", "Complete los campos requeridos del formulario.", "error");</script>';
         }
     }
-    
+
+    public function listar_empresas_rol_controlador() {
+
+        $listaEmp = empresaModelo::listar_empresas_rol_modelo($_SESSION["Rol"]->id);
+        if(!isset($listaEmp)) {
+            $listaEmp = [];
+        }
+        return $listaEmp;
+    }    
 
 }

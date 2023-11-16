@@ -182,10 +182,12 @@
                                         id="txtTipoPdf" name="txtTipoPdf">
 
                                     <option value="">Seleccione</option>
-
-                                    <option value="VIAJES" <?php echo ((isset($_POST['txtTipoPdf']) && $_POST['txtTipoPdf'] == "X") ? 'selected' : ''); ?> >LIQUIDACION DE GASTO DE VIAJES</option>
-                                    <option value="GASTOS" <?php echo ((isset($_POST['txtTipoPdf']) && $_POST['txtTipoPdf'] == "XX") ? 'selected' : ''); ?> >REEMBOLSO DE GASTOS</option>
-
+                                    <?php 
+                                    $control = new tipoReembolsoControlador();
+                                    $lista1 = $control->listar_tiporeembolso_controlador("true");
+                                    foreach ($lista1 as $tipoReembolso) {
+                                        echo '<option value="'.$tipoReembolso->id.'">'.$tipoReembolso->tipo.'</option>';
+                                    } ?>
                                 </select>
                             </div>
                             <div class="col-md-3">
