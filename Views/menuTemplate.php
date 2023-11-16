@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" translate="no">
     <head>
         <meta name="description" content="Sistema para carga de facturas xml">
         
@@ -15,7 +15,7 @@
         
         <script src="./Assets/js/jquery-3.3.1.min.js"></script>
     </head>
-    <body class="app sidebar-mini">
+    <body class="app sidebar-mini" lang="es" translate="no">
         <div class="loader"></div>
         <!-- Barra de navegaciój-->
         <header class="app-header"><a class="app-header__logo" href="home">Inicio</a>
