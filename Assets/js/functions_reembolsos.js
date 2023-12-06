@@ -36,30 +36,31 @@ function mostrarFacturasXml(idReembolso){
 }
 
 function ocultarColumna(toggle, numCol){
-    console.log("toggletoggle:: ", toggle);
+//    console.log("toggletoggle:: ", toggle);
     
     var tableXml = document.getElementById('tableFacturasReembolso');
 
     var inputCheck = toggle.children[0];
 
-    console.log("$(this).children(0);", inputCheck);
-
-    console.log("numcol: ", numCol);
+//    console.log("$(this).children(0);", inputCheck);
+//    console.log("numcol: ", numCol);
 
     for(let i=0;i<tableXml.rows.length;i++){
         if(tableXml.rows[i].cells[numCol] && tableXml.rows[i].cells[numCol].style.display !== "none"){
             tableXml.rows[i].cells[numCol].style.display="none";
-            inputCheck.style.color = "yellow";
-            inputCheck.className = "fa fa-times";
-            break;
+            if(i === 0){
+                inputCheck.style.color = "yellow";
+                inputCheck.className = "fa fa-times";
+            }
         }
         else{
             if(tableXml.rows[i].cells[numCol])
                 tableXml.rows[i].cells[numCol].style.display="table-cell";
 
-            inputCheck.style.color = "white";
-            inputCheck.className = "fa fa-check";
-            break;
+            if(i === 0){
+                inputCheck.style.color = "white";
+                inputCheck.className = "fa fa-check";
+            }
         }
     }
 }

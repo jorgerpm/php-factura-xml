@@ -343,8 +343,31 @@ function colocarAsistentes(){
 function mostrarModalDatosReembolso(){
     if(listaClavesAcceso.length > 0){
         document.querySelector('#formDatosReemb').reset();
+        
+        //VERIFICAR QUE los campos "asistente" esten llenos de todos los seleccionados
+        var tbody = document.getElementById('dataSri');
+        var cantDetalles = tbody.rows.length;
 
-        const tipoR = document.querySelector('#txtTipoPdf').value;
+        var valorAsistente = true;
+        for (let j = 0; j < cantDetalles; j++) {
+            //se debe tomar solo los que son input
+            for(const childInput of tbody.rows[j].cells[0].children){
+                //solo para los tipos input
+                if(childInput.tagName === "INPUT" && childInput.checked){
+                    var txtAsistentes = tbody.rows[j].cells[3].children[0].value;
+                    if(txtAsistentes === null || txtAsistentes === ''){
+                        valorAsistente = false;
+                    }
+                }
+            }
+        }
+        if(valorAsistente === false){
+            swal('','Debe completar todos los campos asistentes/detalle de los elementos marcados.','warning');
+            return;
+        }
+        
+        
+        var tipoR = document.querySelector('#txtTipoPdf').value;
 
         if(tipoR){
 

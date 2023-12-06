@@ -35,7 +35,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">N&uacute;mero RC:</label>
-                            <input class="form-control" id="txtNumeroRC" name="txtNumeroRC" type="text" required="" style="text-transform: uppercase;">
+                            <input class="form-control" id="txtNumeroRC" name="txtNumeroRC" type="number" required="" style="text-transform: uppercase;">
                         </div>
                         <div class="col-md-6">
                         </div>

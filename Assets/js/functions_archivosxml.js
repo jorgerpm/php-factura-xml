@@ -34,13 +34,13 @@ function exportarSeleccionados(idReembolso){
 }
 
 function pruebaUno(filename, seleccionados){
-    const form = document.getElementById('formEstado');
+    const form = document.getElementById('formListaDocsXml');
     var formdata = new FormData(form);
     exportaXmlCsv(filename, seleccionados, formdata, "sampleTableXml");
 }
 
 function pruebaUnoModal(filename, seleccionados, idReembolso){
-    const form = document.getElementById('formEstado');
+    const form = document.getElementById('formListaDocsXml');
     var formdata = new FormData(form);
     
     formdata.append("btnSearch", true);
@@ -56,7 +56,7 @@ function exportaXmlCsv(filename, seleccionados, formdata, idTabla){
         const LOADING = document.querySelector('.loader');
             LOADING.style = 'display: flex;';
             
-//        const form = document.getElementById('formEstado');
+//        const form = document.getElementById('formListaDocsXml');
         
         const conDetalles = document.getElementById('txtConDetalles');
         
@@ -90,7 +90,7 @@ function exportaXmlCsv(filename, seleccionados, formdata, idTabla){
             
             //comprobar las columnas
             //se utiliza con el ocultar columnas
-            var tableXml = document.getElementById(idTabla);//'sampleTableXml');
+            var tableXml = document.getElementById(idTabla);
             var tbody = document.getElementById('bodyDataXml');
                         
 //            console.log("el csv ", csv[0]);

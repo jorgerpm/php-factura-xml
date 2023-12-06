@@ -35,6 +35,7 @@ if (isset($_POST['txtActivo'])) {
                 <option value="25" <?php echo $regsPagina==25 ? 'selected':'' ?>>25</option>
                 <option value="50" <?php echo $regsPagina==50 ? 'selected':'' ?>>50</option>
                 <option value="100" <?php echo $regsPagina==100 ? 'selected':'' ?>>100</option>
+                <option value="200" <?php echo $regsPagina==200 ? 'selected':'' ?>>200</option>
             </select>
         </div>
         <div class="col-8 col-sm-8 col-md-8" style="padding: 0px">

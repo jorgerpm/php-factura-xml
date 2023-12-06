@@ -146,8 +146,8 @@ class archivoXmlControlador extends archivoXmlModelo {
                             } elseif (isset($val->totalImpuesto)) {
                                 foreach ($val->totalImpuesto as $keyImp => $valImp) {
                                     if (isset($valImp->codigoPorcentaje)) {
-                                        array_push($columnsAux, ['col' => 'baseImponible codigoPorcentaje:' . $valImp->codigoPorcentaje, 'wid' => '100px']);
-                                        array_push($columnsAux, ['col' => 'valor codigoPorcentaje:' . $valImp->codigoPorcentaje, 'wid' => '100px']);
+                                        array_push($columnsAux, ['col' => 'baseImponible codigoPorcentaje:' . $valImp->codigoPorcentaje . ' codigo:'.$valImp->codigo, 'wid' => '100px']);
+                                        array_push($columnsAux, ['col' => 'valor codigoPorcentaje:' . $valImp->codigoPorcentaje . ' codigo:'.$valImp->codigo, 'wid' => '100px']);
                                     } elseif ($keyImp == 'codigoPorcentaje') {
                                         array_push($columnsAux, ['col' => 'baseImponible codigoPorcentaje:' . $valImp, 'wid' => '100px']);
                                         array_push($columnsAux, ['col' => 'valor codigoPorcentaje:' . $valImp, 'wid' => '100px']);

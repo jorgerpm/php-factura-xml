@@ -80,6 +80,7 @@
 
                                         <th>COMPROBANTE</th>
                                         <th>SERIE_COMPROBANTE</th>
+                                        <th>IMPORTE TOTAL</th>
                                         <th>RUC_EMISOR</th>
                                         <th>RAZON_SOCIAL_EMISOR</th>
                                         <th>FECHA_EMISION</th>
@@ -103,14 +104,18 @@
                                 foreach ($respuesta as $xml) {
                                     $listvarj = json_decode($xml->comprobante);
                                     $docum = null;
+                                    $importeTotal = 0;
                                     if (isset($listvarj->factura)) {
                                         $docum = $listvarj->factura;
+                                        $importeTotal = $docum->infoFactura->importeTotal;
                                     }
                                     if (isset($listvarj->comprobanteRetencion)) {
                                         $docum = $listvarj->comprobanteRetencion;
+                                        //no se puede sacar el totalretenido
                                     }
                                     if (isset($listvarj->notaCredito)) {
                                         $docum = $listvarj->notaCredito;
+                                        $importeTotal = $docum->infoNotaCredito->importeTotal;
                                     }
                                     ?>
                                     <tr>
@@ -143,7 +148,9 @@
                                             
                                             <option value="ALIMENTACION">ALIMENTACIÓN</option>
                                             <option value="HOSPEDAJE">HOSPEDAJE</option>
+                                            <?php if($xml->tipoDocumento == "MS"){ ?>
                                             <option value="MISCELÁNEOS" <?php echo $xml->tipoDocumento == "MS" ? 'selected' : ''; ?> >MISCELÁNEOS</option>
+                                            <?php } ?>
                                             <option value="VARIOS">VARIOS</option>
                                         </select>
                                     </td>
@@ -156,6 +163,8 @@
                                     <td><?php echo $xml->tipoDocumentoTexto ?></td>
                                     
                                     <td><?php echo $docum->infoTributaria->estab."-".$docum->infoTributaria->ptoEmi."-".$docum->infoTributaria->secuencial ?></td>
+                                    
+                                    <td><?php echo $importeTotal; ?></td>
                                     
                                     <td><?php echo $docum->infoTributaria->ruc ?></td>
                                     <td><?php echo $docum->infoTributaria->razonSocial ?></td>

@@ -31,7 +31,7 @@ $columns = $archiCont->crear_columnas($respuesta);
 </div>
 
 
-<form id="formFacturasReembolso" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="width: 100%; padding: 0px"
+<form id="formListaDocsXml" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="width: 100%; padding: 0px"
       action="" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 
     <div class="RespuestaAjax"></div>
@@ -43,8 +43,8 @@ $columns = $archiCont->crear_columnas($respuesta);
         <table id="tableFacturasReembolso" class="table table-hover table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th></th>
-                    <th style="text-align: center">Descargar
+                    <th>Exportar</th>
+                    <th style="text-align: center">Descargar xml
                         <input type="checkbox" onclick="marcarTodosXml(this);"/>
                     </th>
 <?php foreach ($columns as $col) { ?>
@@ -60,7 +60,7 @@ foreach ($respuesta as $listaArchivoXml) {
 ?>
                 <tr style="<?php echo $listaArchivoXml->exportado === true ? 'color: blue;' : '' ?>">
                     <td>
-                        <input class="form-control" type="checkbox" id="<?php echo $listaArchivoXml->claveAcceso; ?>" />
+                        <input type="checkbox" id="<?php echo $listaArchivoXml->claveAcceso; ?>" />
                     </td>
                     <!-- para la descarga -->
                     <td style="text-align: center;">
@@ -106,6 +106,8 @@ foreach ($respuesta as $listaArchivoXml) {
                     <td style="white-space: nowrap;"><?php echo $listaArchivoXml->usuarioAnula; ?></td>
                     <td style="white-space: nowrap;"><?php echo $listaArchivoXml->fechaAnula != null ? date("d/m/Y H:i:s", $listaArchivoXml->fechaAnula / 1000) : ""; ?></td>
                     <td style="white-space: nowrap;"><?php echo $listaArchivoXml->razonAnulacion; ?></td>
+                    <td style="white-space: nowrap;"><?php echo $listaArchivoXml->numeroReembolso; ?></td>
+                    <td style="white-space: nowrap;"><?php echo $listaArchivoXml->tipoReembolso; ?></td>
 
                     <td style="white-space: nowrap;">
                         <?php if ($listaArchivoXml->nombreArchivoXml != null) { 

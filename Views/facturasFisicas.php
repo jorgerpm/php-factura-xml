@@ -63,7 +63,8 @@
                                 <label class="control-label">Tipo documento:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <select class="form-control btn-sm" id="txtTipoDocumento" name="txtTipoDocumento" required="">
+                                <select class="form-control btn-sm" id="txtTipoDocumento" name="txtTipoDocumento" required=""
+                                        onchange="bloquearCampos(this);">
                                     <option value="">Seleccione</option>
                                     <option value="01">FACTURA</option>
                                     <option value="NV">NOTA DE VENTA</option>
@@ -81,8 +82,8 @@
                             <div class="col-md-2 col-sm-2 col-12">
                                 <select class="form-control btn-sm" id="txtTipoIdentCliente" name="txtTipoIdentCliente" required="">
                                     <option value="">Seleccione</option>
-                                    <option value="04">RUC</option>
-                                    <option value="05">CÉDULA</option>
+                                    <option value="04" <?php echo strlen($_SESSION['Usuario']->cedula) == 13 ? 'selected' : ''; ?> >RUC</option>
+                                    <option value="05" <?php echo strlen($_SESSION['Usuario']->cedula) == 10 ? 'selected' : ''; ?> >CÉDULA</option>
                                     <option value="06">PASAPORTE</option>
                                     <option value="07">VENTA A CONSUMIDOR FINAL</option>
                                     <option value="08">IDENTIFICACIÓN DELEXTERIOR</option>
@@ -93,14 +94,15 @@
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtIdentCliente" name="txtIdentCliente" class="form-control btn-sm" style="text-transform: uppercase;" required
-                                       pattern="^[a-zA-Z0-9]*" />
+                                       pattern="^[a-zA-Z0-9]*" value="<?php echo $_SESSION['Usuario']->cedula; ?>" />
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <label class="control-label">Nombre cliente:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtCliente" name="txtCliente" class="form-control btn-sm" style="text-transform: uppercase;" required
-                                       pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4" />
+                                       pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4" 
+                                       value="<?php echo $_SESSION['Usuario']->nombre; ?>"/>
                             </div>
                         </div>
 
@@ -212,7 +214,9 @@
                                             </select>
                                         </td>
                                         <!-- <td style="text-align: end"><label id="lblIva">0</label></td> -->
-                                        <td style="text-align: end"><input type="number" step="any" id="lblIva" name="lblIva" value="" required="" /></td>
+                                        <td style="text-align: end">
+                                            <input type="number" step="any" id="lblIva" name="lblIva" value="" required="" />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="3"></td>
@@ -230,7 +234,7 @@
                                 <label class="control-label" style="text-align: right;">Cargar archivo de respaldo:</label>
                             </div>
                             <div class="col-md-4 col-sm-4">
-                                <input id="txtArchivoFisica" name="txtArchivoFisica" type="file" class="form-control btn-primary" accept="image/*,.pdf"/>
+                                <input id="txtArchivoFisica" name="txtArchivoFisica" type="file" class="form-control btn-primary" accept="image/*,.pdf" required />
                             </div>
                         </div>
 

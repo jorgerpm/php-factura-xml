@@ -45,7 +45,7 @@
                     </div>
 
 
-                    <form id="formEstado" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="width: 100%; padding: 0px"
+                    <form id="formListaDocsXml" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="width: 100%; padding: 0px"
                           action="" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
                         
                         <div class="row" style="/*padding-top: 10px*/">
@@ -187,7 +187,7 @@
 
                                     </div>
                                     <div class="col-md-3 col-12" style="padding-right: 0px;">
-                                        <label class="btn-sm control-label" for="txtDescargados">Descargados:</label>
+                                        <label class="btn-sm control-label" for="txtDescargados">Exportados:</label>
                                     </div>
                                     <div class="col-md-3 col-12" >
                                         <select class="form-control disable-selection btn-sm" id="txtDescargados" name="txtDescargados">
@@ -204,7 +204,7 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 col-12" style="padding-right: 0px;">
-                                        <label class="btn-sm control-label" for="txtListaEmpresas">Empresa emisora:</label>
+                                        <label class="btn-sm control-label" for="txtListaEmpresas">Empresa:</label>
                                     </div>
                                     <div class="col-md-3 col-12">
                                         <select id="txtListaEmpresas" name="txtListaEmpresas" class="form-control disable-selection btn-sm" >
@@ -253,9 +253,10 @@
                             <table id="sampleTableXml" class="table table-hover table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th style="text-align: center">
-                                            Descargar
+                                        <!-- th style="resize: horizontal; overflow: auto;">Exportar</th -->
+                                        <th>Exportar</th>
+                                        <th style="text-align: center;">
+                                            Descargar xml
                                             <input type="checkbox" onclick="marcarTodosXml(this);"/>
                                         </th>
 <?php foreach ($columns as $col) { ?>
@@ -271,7 +272,7 @@ if (count($respuesta) > 0) {
         ?>
                                     <tr style="<?php echo $listaArchivoXml->exportado === true ? 'color: blue;' : '' ?>">
                                         <td>
-                                            <input class="orm-control" type="checkbox" id="<?php echo $listaArchivoXml->claveAcceso; ?>" />
+                                            <input type="checkbox" id="<?php echo $listaArchivoXml->claveAcceso; ?>" />
                                         </td>
                                         
                                         <!-- para la descarga -->
@@ -380,26 +381,6 @@ if (count($respuesta) > 0) {
 <script type="text/javascript" src="./Assets/js/functions_descargaMasiva.js"></script>
 
 <script type="text/javascript">
-    var table = $('#sampleTableXml1').DataTable({
-//        scrollY: '34vh',
-//        scrollCollapse: true,
-        language: {
-            lengthMenu: 'Mostrar _MENU_ registros por p&aacute;gina',
-            zeroRecords: 'No existen registros',
-            info: 'Mostrando p&aacute;gina _PAGE_ de _PAGES_',
-            infoEmpty: 'No existen registros',
-            infoFiltered: '(filtrados de los _MAX_ registros totales)',
-            search: 'Filtrar',
-            paginate:{
-                previous: '&laquo',
-                next: '&raquo;',
-            },
-        },
-        lengthMenu: [
-            [10, 25, 50, 100],
-            [10, 25, 50, 100],
-        ],
-    });
     
     $('.toggle-vis').on('click', function (e) {
         e.preventDefault();
@@ -409,28 +390,27 @@ if (count($respuesta) > 0) {
         var numCol = $(this).attr('data-column');
         var inputCheck1 = $(this).children(0)[0];
         
-        console.log("$(this).children(0);", inputCheck1);
-        
-        console.log("numcol: ", numCol);
+//        console.log("$(this).children(0);", inputCheck1);
+//        console.log("numcol: ", numCol);
         
         for(let i=0;i<tableXml.rows.length;i++){
             if(tableXml.rows[i].cells[numCol] && tableXml.rows[i].cells[numCol].style.display !== "none"){
+                if(i === 0){//esto lo hace solo para la primera fila, y no cada vez que ingresa
+                    inputCheck1.style.color = "yellow";
+                    inputCheck1.className = "fa fa-times";
+                }
                 tableXml.rows[i].cells[numCol].style.display="none";
-                inputCheck1.style.color = "yellow";
-                inputCheck1.className = "fa fa-times";
-                
-                console.log("entrra i: ", i);
-                break;
+//                console.log("entrra i: ", i);
             }
             else{
                 if(tableXml.rows[i].cells[numCol])
                     tableXml.rows[i].cells[numCol].style.display="table-cell";
                 
-                inputCheck1.style.color = "white";
-                inputCheck1.className = "fa fa-check";
-                
-                console.log("entrra else i: ", i);
-                break;
+                if(i === 0){//esto lo hace solo para la primera fila, y no cada vez que ingresa
+                    inputCheck1.style.color = "white";
+                    inputCheck1.className = "fa fa-check";
+                }
+//                console.log("entrra else i: ", i);
             }
         }
         

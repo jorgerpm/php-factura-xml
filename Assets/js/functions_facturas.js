@@ -137,106 +137,128 @@ $('#formFacturaFisica').submit(function (e) {
     var tbody = document.getElementById('tbodySol');
     if (tbody.rows.length > 0) {
         
-        //ver que el numero de factura sea correcto
-        var txtNumeroFactura = document.getElementById('txtNumeroFactura').value;
-        if(txtNumeroFactura.split("-").length > 2){
+        //validar que el total sea la suma correcta
+        var numbDescuentoTotal = parseFloat(document.getElementById("lblDescuentoTotal").value);
+        var numbSubtotal = parseFloat(document.getElementById("lblSubtotal").value);
+        var numbSubtotalSinIva = parseFloat(document.getElementById("lblSubtotalSinIva").value);
+        var numbIva = parseFloat(document.getElementById("lblIva").value);
+        
+        var numbTotal = parseFloat(document.getElementById("lblTotal").value);
+        
+        var totalreal = (numbSubtotal + numbSubtotalSinIva + numbIva);// - numbDescuentoTotal;
+        
+        if(numbTotal !== totalreal){
+            swal('','El valor total no cuadra con los valores ingresados.','warning');
+            return;
+        }
+        //hasta aca
+        
+        
+        if(document.getElementById("txtArchivoFisica").value !== null && document.getElementById("txtArchivoFisica").value !== ''){
 
-            console.log('inicia la cargaaaaxxxxxxxxxxxx');
-            const LOADING = document.querySelector('.loader');
-            LOADING.style = 'display: flex;';
+            //ver que el numero de factura sea correcto
+            var txtNumeroFactura = document.getElementById('txtNumeroFactura').value;
+            if(txtNumeroFactura.split("-").length > 2){
 
-            var form = $(this);
-            var respuesta = form.children('.RespuestaAjax');
+                console.log('inicia la cargaaaaxxxxxxxxxxxx');
+                const LOADING = document.querySelector('.loader');
+                LOADING.style = 'display: flex;';
 
-            var formdata = new FormData(this);
+                var form = $(this);
+                var respuesta = form.children('.RespuestaAjax');
 
-
-            formdata.append('registrosTabla', tbody.rows.length);
-
-            const detaArray = [];
-
-            for (let i = 0; i < tbody.rows.length; i++) {
-                //alert(tabla.rows[i].cells[0].innerHTML);
-
-
-                let cant = document.getElementById('txtCantidad' + i).value;
-                let det = document.getElementById('txtDetalle' + i).value;
-
-                let valUnit = document.getElementById('txtValorUnitario' + i).value;
-                let valDesc = document.getElementById('txtDescuento' + i).value;
-                let valTot = document.getElementById('lblValorTotal' + i).value;
-
-                let idDetalle = document.getElementById('txtIdDetalle' + i).value;
-                //
-
-
-    //            formdata.append('txtCantidad' + i, cant);
-    //            formdata.append('txtDetalle' + i, det);
-    //            formdata.append('txtIdDetalle' + i, idDetalle);
-    //            formdata.append('txtValorUnitario' + i, valUnit);
-    //            formdata.append('txtDescuento' + i, valDesc);
-    //            formdata.append('lblValorTotal' + i, valTot);
-
-                const detalle = {
-                    cantidad: cant,
-                    descripcion: det.toUpperCase(),
-                    valorUnitario: valUnit,
-                    descuento: valDesc,
-                    valorTotal: valTot,
-                };
-
-                detaArray.push(detalle);
-            }
+                var formdata = new FormData(this);
 
 
-            const tipoIva = document.getElementById("txtTipoIva").value;
+                formdata.append('registrosTabla', tbody.rows.length);
 
-            formdata.append('txtTipoIva', tipoIva.split("-")[0]);
-            formdata.append('txtTarifa', tipoIva.split("-")[1]);
+                const detaArray = [];
+
+                for (let i = 0; i < tbody.rows.length; i++) {
+                    //alert(tabla.rows[i].cells[0].innerHTML);
 
 
-            formdata.append('listaDetalles', JSON.stringify(detaArray));
+                    let cant = document.getElementById('txtCantidad' + i).value;
+                    let det = document.getElementById('txtDetalle' + i).value;
 
-            $.ajax({
-                type: 'POST',
-                url: './acciones/guardarFacturaFisica.php',
-                data: formdata ? formdata : form.serialize(),
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    LOADING.style = 'display: none;';
-                    console.log('fiiiinnn   successss', data);
-                    if(data.includes("window.location.replace")){
-                        window.location.replace("index");
-                    }
-                    respuesta.html(data);
-                },
-                error: function (error) {
-                    LOADING.style = 'display: none;';
-                    console.log('fiiiinnn   errrroooorr: ', error);
-                    if(error.includes("window.location.replace")){
-                        window.location.replace("index");
-                    }
-                    respuesta.html(error);
-                },
-                statusCode: {
-                    404: function () {
-    //              alert( "page not found" );
-                    }
+                    let valUnit = document.getElementById('txtValorUnitario' + i).value;
+                    let valDesc = document.getElementById('txtDescuento' + i).value;
+                    let valTot = document.getElementById('lblValorTotal' + i).value;
+
+                    let idDetalle = document.getElementById('txtIdDetalle' + i).value;
+                    //
+
+
+        //            formdata.append('txtCantidad' + i, cant);
+        //            formdata.append('txtDetalle' + i, det);
+        //            formdata.append('txtIdDetalle' + i, idDetalle);
+        //            formdata.append('txtValorUnitario' + i, valUnit);
+        //            formdata.append('txtDescuento' + i, valDesc);
+        //            formdata.append('lblValorTotal' + i, valTot);
+
+                    const detalle = {
+                        cantidad: cant,
+                        descripcion: det.toUpperCase(),
+                        valorUnitario: valUnit,
+                        descuento: valDesc,
+                        valorTotal: valTot,
+                    };
+
+                    detaArray.push(detalle);
                 }
-            }).done(function (data) {
-    //        console.log("se hixxoooo", data);//tambien
-            })
-            .fail(function () {
-    //    alert( "error" );
-            })
-            .always(function () {
-    //    alert( "complete" );
-            });
-                    
+
+
+                const tipoIva = document.getElementById("txtTipoIva").value;
+
+                formdata.append('txtTipoIva', tipoIva.split("-")[0]);
+                formdata.append('txtTarifa', tipoIva.split("-")[1]);
+
+
+                formdata.append('listaDetalles', JSON.stringify(detaArray));
+
+                $.ajax({
+                    type: 'POST',
+                    url: './acciones/guardarFacturaFisica.php',
+                    data: formdata ? formdata : form.serialize(),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        LOADING.style = 'display: none;';
+                        console.log('fiiiinnn   successss', data);
+                        if(data.includes("window.location.replace")){
+                            window.location.replace("index");
+                        }
+                        respuesta.html(data);
+                    },
+                    error: function (error) {
+                        LOADING.style = 'display: none;';
+                        console.log('fiiiinnn   errrroooorr: ', error);
+                        if(error.includes("window.location.replace")){
+                            window.location.replace("index");
+                        }
+                        respuesta.html(error);
+                    },
+                    statusCode: {
+                        404: function () {
+        //              alert( "page not found" );
+                        }
+                    }
+                }).done(function (data) {
+        //        console.log("se hixxoooo", data);//tambien
+                })
+                .fail(function () {
+        //    alert( "error" );
+                })
+                .always(function () {
+        //    alert( "complete" );
+                });
+
+            } else {
+                swal("", "El número de la factura debe tener el formato 000-000-000000000.", "warning");
+            }
         } else {
-            swal("", "El número de la factura debe tener el formato 000-000-000000000.", "warning");
+            swal("", "Debe ingresar un archivo de respaldo.", "warning");
         }
     } else {
         swal("", "Ingrese los detalles a la factura.", "warning");
@@ -398,4 +420,23 @@ function traerDatosProveedor(datosRuc){
 //    alert( "complete" );
     });
     
+}
+
+function bloquearCampos(tipoDoc){
+    if(tipoDoc.value === "NV"){//cuando es una nota de venta se bloquea esos campos
+        document.getElementById("lblIva").value = 0;
+        document.getElementById("lblIva").disabled = true;
+
+        document.getElementById("lblDescuentoTotal").value = 0;
+        document.getElementById("lblDescuentoTotal").disabled = true;
+        
+        document.getElementById("lblSubtotal").value = 0;
+        document.getElementById("lblSubtotal").disabled = true;
+    }
+    else{
+        document.getElementById("lblIva").disabled = false;
+        document.getElementById("lblDescuentoTotal").disabled = false;
+        document.getElementById("lblSubtotal").disabled = false;
+        //lblTotal
+    }
 }

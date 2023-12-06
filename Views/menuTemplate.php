@@ -10,6 +10,9 @@
         <!-- Main CSS-->
         <link rel="stylesheet" type="text/css" href="./Assets/css/main-modificado.css">
         <link rel="stylesheet" type="text/css" href="./Assets/css/estilosExtra.css">
+        <!-- estilos para plugin datatable -->
+        <link rel="stylesheet" type="text/css" href="./Assets/css/jquery.dataTables.min.css1">
+        <link rel="stylesheet" type="text/css" href="./Assets/css/colReorder.dataTables.min.css">
         <!-- Font-icon css-->
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         

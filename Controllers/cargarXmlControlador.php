@@ -115,7 +115,7 @@ class cargarXmlControlador extends cargarXmlModelo {
                         }
                         //escribir el archivo pdf
 //                        echo PHP_EOL."Desde: ".$upload_location . $archivo_pdf." - Hasta: ".$carpetasPath . "/".$archivo_pdf.PHP_EOL;
-                        if (rename(($upload_location.$archivo_pdf), $carpetasPath ."/".$archivo_pdf)) {
+                        if (isset($archivo_pdf) && rename(($upload_location.$archivo_pdf), $carpetasPath ."/".$archivo_pdf)) {
                             chmod($carpetasPath . "/".$archivo_pdf, 0666);
 //                            echo "MOVIOOOOOO <br/>";
                         } else {
@@ -130,7 +130,7 @@ class cargarXmlControlador extends cargarXmlModelo {
                     if (is_file($upload_location . $archivo_xml)) {
                         unlink($upload_location . $archivo_xml);
                     }
-                    if (is_file($upload_location . $archivo_pdf)) {
+                    if (isset($archivo_pdf) && is_file($upload_location . $archivo_pdf)) {
                         unlink($upload_location . $archivo_pdf);
                     }
                 }
@@ -176,14 +176,20 @@ class cargarXmlControlador extends cargarXmlModelo {
             $nombreArchivo = str_replace(".".$file_extension, "", $_FILES['inputFileXml']['name']) ."_". strtotime("now") . "." . $file_extension;
         }
         
-        $claveAcceso = $_SESSION['Usuario']->cedula . strtotime("now");
+        //generar la clave de acceso de acuerdo a la ficha tecnica del sri
+        $seccdate = (new DateTime($_POST["txtFecha"]))->format('dmY');
+        $secmisc = strtotime("now");
+        $claveAcceso = $seccdate . "01" . $_SESSION['Usuario']->cedula . "2001001" . $secmisc . "0000000119";
+        
+        //para enviar la fecha de forma correcta
+        $fecIso = date("c", strtotime($_POST['txtFecha']));
         
         $data = array(
             'tipoDocumento' => "MS",
             'estadoSri' => "AUTORIZADO",
             'numeroAutorizacion' => $claveAcceso,
-            'fechaAutorizacion' => $_POST['txtFecha'],
-            'fechaEmision' => $_POST['txtFecha'],
+            'fechaAutorizacion' => $fecIso,
+            'fechaEmision' => $fecIso,
             'ambiente' => "PRODUCCIÓN",
             'idUsuarioCarga' => $_SESSION['Usuario']->id,
             'fechaCarga' => date('Y-m-d'),
@@ -194,7 +200,7 @@ class cargarXmlControlador extends cargarXmlModelo {
             'nombreArchivoPdf' => isset($nombreArchivo) ? $nombreArchivo : null,
             'comprobante' => '{"factura":{"infoTributaria":{"claveAcceso":"'.$claveAcceso.'","ambiente":2,"ruc":"'.$_SESSION['Usuario']->cedula.'",'
             . '"razonSocial":"'.$_SESSION['Usuario']->nombre
-            . '","estab":"001","ptoEmi":"001","secuencial":"'.strtotime($_POST["txtFecha"]).'","codDoc":"MS","tipoEmision":1,"dirMatriz":"DIRECCION"},'
+            . '","estab":"001","ptoEmi":"001","secuencial":"'.$secmisc.'","codDoc":"MS","tipoEmision":1,"dirMatriz":"DIRECCION"},'
             . '"infoFactura":{"pagos":{"pago":[{"total":'.$_POST["txtValor"].',"plazo":1,"formaPago":"01","unidadTiempo":""}]},'
             . '"totalConImpuestos":{"totalImpuesto":[{"codigoPorcentaje":"0","tarifa":"0","codigo":2,"valor":0.0,"baseImponible":'.$_POST["txtValor"].'}]},'
             . '"identificacionComprador":"'.$_SESSION['Usuario']->cedula.'","razonSocialComprador":"'.$_SESSION['Usuario']->nombre.'",'
@@ -204,6 +210,7 @@ class cargarXmlControlador extends cargarXmlModelo {
             . '"precioTotalSinImpuesto":'.$_POST["txtValor"].',"descuento":0.0,"codigoPrincipal":"'.substr($_POST["txtConcepto"], 0, 3).'",'
             . '"cantidad":1,"impuestos":{"impuesto":[{"codigoPorcentaje":"0","tarifa":0,"codigo":"2","valor":0,"baseImponible":'.$_POST["txtValor"].'}]}}]}}}',
         );
+        
         $respuesta = cargarXmlModelo::guardar_miscelaneo_modelo($data);
         
         if(isset($respuesta) && $respuesta->respuesta == "OK"){

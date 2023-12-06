@@ -13,8 +13,10 @@
 <!-- Data table plugin-->
 <script type="text/javascript" src="./Assets/js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="./Assets/js/plugins/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="./Assets/js/plugins/dataTables.colReorder.min.js"></script>
 <script type="text/javascript">
-        $('#sampleTable').DataTable({
+    
+        var tableex = $('#sampleTable').DataTable({
         //scrollY: '34vh',
         //scrollCollapse: true,
         language: {
@@ -30,10 +32,17 @@
             },
         },
         lengthMenu: [
-            [10, 25, 50, 100], //cantidad
-            [10, 25, 50, 100],//texto que se muestra
+            [10, 25, 50, 100, 200], //cantidad
+            [10, 25, 50, 100, 200],//texto que se muestra
         ],
+        //colReorder: true,
     });
+    
+    tableex.on('draw', function () {
+        console.log( 'Table redrawn' );
+    } );
+    
+    
     </script>
 <!-- Google analytics script-->
 <script type="text/javascript">

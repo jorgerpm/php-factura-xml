@@ -75,13 +75,13 @@ class generarTablaControlador {
                                     //$comprobar = array_search($valImp->baseImponible, $valores, false);
                                     //echo '{'.print_r($comprobar == false).'}';
                                     //if($comprobar == false){
-                                    if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:' . $valImp->codigoPorcentaje) {
+                                    if ($columns[$ind]['col'] == 'baseImponible codigoPorcentaje:' . $valImp->codigoPorcentaje.' codigo:'.$valImp->codigo) {
                                         array_push($valores, $valImp->baseImponible);
                                         //echo 'sii:: '.$valImp->baseImponible;
                                         $coincide = true;
                                         // break;
                                     }
-                                    if ($columns[$ind]['col'] == 'valor codigoPorcentaje:' . $valImp->codigoPorcentaje) {
+                                    if ($columns[$ind]['col'] == 'valor codigoPorcentaje:' . $valImp->codigoPorcentaje.' codigo:'.$valImp->codigo) {
                                         array_push($valores, $valImp->valor);
                                         //echo 'sii:: '.$valImp->baseImponible;
                                         $coincide = true;
