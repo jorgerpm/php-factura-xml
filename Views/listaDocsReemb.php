@@ -384,6 +384,18 @@
                         </div>
 <?php include 'Template/paginador.php'; ?>
 
+                        <div class="row">
+                            <div class="col-md-2">
+                                <button class="btn btn-primary btn-sm fa" type="button" onclick="exportarReembolsos()"><i class="fa fa-file-excel-o"></i><span id="btnText">Exportar</span></button>
+                            </div>
+                            <div class="col-md-2">
+                                <!-- <input type="checkbox" id="chkConDetallesR" /> Exportar con detalles -->
+                            </div>
+                            <div class="col-md-6" >
+                            </div>
+                            <div class="col-md-2" >
+                            </div>
+                        </div>
 
                     </form>
 
