@@ -13,11 +13,12 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
                     isset($post['txtNumeroRC']) ? $post['txtNumeroRC'] : null,
                     isset($post['txtTipoReembolso']) ? $post['txtTipoReembolso'] : null,
                     isset($post['txtNumeroReembolso']) ? $post['txtNumeroReembolso'] : null,
+                    isset($post['txtNumeroLC']) ? $post['txtNumeroLC'] : null,
                             );
         } else {
             $respuesta = documentoReembolsoModelo::listar_documentos_modelo(date("Y-m-d"), date("Y-m-d"), 
                     ($_SESSION['Rol']->principal == 0) ? $_SESSION['Usuario']->id : null,
-                            null, 0, $regsPagina, null, null, null);
+                            null, 0, $regsPagina, null, null, null, null);
         }
 
         if (!isset($respuesta)) {

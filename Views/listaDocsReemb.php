@@ -138,16 +138,53 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 col-12" style="padding-right: 0px;">
-                                        <label class="btn-sm control-label" for="txtNumeroRC">N&uacute;mero RC:</label>
+                                        <label class="btn-sm control-label" for="txtNumeroRC">N&uacute;mero R.C.:</label>
                                     </div>
                                     <div class="col-md-3 col-12">
                                         <input id="txtNumeroRC" name="txtNumeroRC" class="form-control btn-sm" value="<?php echo isset($_POST["txtNumeroRC"]) ? $_POST["txtNumeroRC"] : ''; ?>" 
-                                               type="search"/>
+                                               type="search" pattern="^[0-9]*" autocomplete="off"/>
                                     </div>
+                                    <div class="col-md-3">
+                                        <label class="btn-sm control-label" for="txtNumeroLC">N&uacute;mero L.C.:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input id="txtNumeroLC" name="txtNumeroLC" class="form-control btn-sm" value="<?php echo isset($_POST["txtNumeroLC"]) ? $_POST["txtNumeroLC"] : ''; ?>" 
+                                               type="search" pattern="^[0-9]*" autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;">
+                                        
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        
+                                    </div>
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;">
+                                        
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 col-12" style="padding-right: 0px;">
+                                        
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        
+                                    </div>
+                                    <div class="col-md-3"></div>
                                     <div class="col-md-3">
                                         <button class="btn btn-primary btn-sm fa" id="btnSearch" name="btnSearch" type="submit" ><i class="fa fa-search"></i><span id="btnText">Buscar</span></button>
                                     </div>
-                                    <div class="col-md-3"></div>
                                 </div>
                             </div>
                         </div>
@@ -176,6 +213,14 @@
                                         <th>Ver doc. reembolso</th>
                                         <th>Cargar justific.</th>
                                         <th>Ver justificativo</th>
+                                        
+                                        <?php if($_SESSION['Rol']->cargaliquidacion == 1){?>
+                                        <th>Cargar liq. compra</th>
+                                        <?php }?>
+                                        <th>Ver liq. compra</th>
+                                        <th>Estado liq. compra</th>
+                                        <th>N&uacute;mero liq. compra</th>
+                                        
                                         <th>Ver documentos</th>
                                         <th>Estado Sistema</th>
                                         <th>N&uacute;mero reembolso</th>
@@ -272,6 +317,41 @@
                                                 </td>
 
                                                 
+                                                <!-- para la liquidacion de compra -->
+                                                <?php if($_SESSION['Rol']->cargaliquidacion == 1){ ?>
+                                                <td>
+                                                    <button class="btn btn-link fa fa-lg fa-upload" type="button" style="border: none"
+                                                            onclick="abrirCargaLiquidacionCompra(<?php echo $docReembolso->id.',\''.$docReembolso->numeroReembolso.'\''; ?>)"></button>
+                                                </td>
+                                                <?php } ?>
+                                                <td>
+                                                    <!-- si todavia no firman muestra boton para que firmen -->
+                                                    <?php if($docReembolso->liquidacionCompra != null && $docReembolso->liquidacionCompra->estado == "PENDIENTE"){ 
+                                                        //se debe mostrar solo al usuario que cargo el reembolso, solo el lo puede firmar
+                                                        if($_SESSION['Usuario']->id == $docReembolso->usuarioCarga) { ?>
+                                                            <button class="btn btn-info fa fa-edit btn-sm" type="button" 
+                                                            onclick="abrirModalLiquidacion(<?php echo $docReembolso->id . ",'" . $docReembolso->liquidacionCompra->pathArchivo . "'"; ?>)"></button>
+                                                    <?php } 
+                                                        else{ ?>
+                                                            <a href="<?php echo $docReembolso->liquidacionCompra->pathArchivo; ?>" target="_blank">
+                                                                    <i class="fa fa-fw fa-lg fa-download"></i></a>
+                                                    <?php }
+                                                      }
+                                                    if($docReembolso->liquidacionCompra != null && $docReembolso->liquidacionCompra->estado == "FIRMADO"){ ?>
+                                                    <!--si ya esta firmado muestre solo para descarga -->
+                                                        <a href="<?php echo $docReembolso->liquidacionCompra->pathArchivo; ?>" target="_blank">
+                                                            <i class="fa fa-fw fa-lg fa-download"></i></a>
+                                                    <?php } ?>
+                                                </td>
+                                                <td style="white-space: nowrap;">
+                                                    <?php echo $docReembolso->liquidacionCompra != null ? $docReembolso->liquidacionCompra->estado : ""; ?>
+                                                </td>
+                                                <td style="white-space: nowrap;">
+                                                    <?php echo $docReembolso->liquidacionCompra != null ? $docReembolso->liquidacionCompra->numero : ""; ?>
+                                                </td>
+                                                <!-- hasta aca-->
+                                                
+                                                
                                                 <td>
                                                     <button class="btn btn-info fa fa-file-code-o" type="button" style="border: none"
                                                         onclick="mostrarFacturasXml(<?php echo $docReembolso->id ?>)">
@@ -310,9 +390,12 @@
 
 <?php require_once 'Template/Modals/modalAprobarReembolso.php'; ?>
 <?php require_once 'Template/Modals/modalDatosContador.php'; ?>
-<?php require_once 'Template/Modals/modalCargaArchivo.php'; ?>                    
+<?php require_once 'Template/Modals/modalCargaArchivo.php'; ?>
 <?php require_once 'Template/Modals/modalClaveFirmaAprobacion.php'; ?>
 <?php require_once 'Template/Modals/modalFacturasReembolso.php'; ?>
+
+<?php require_once 'Template/Modals/modalCargaLiquidacionCompra.php'; ?>
+<?php require_once 'Template/Modals/modalFirmaLiquidacionCompra.php'; ?>
                     
                     <script type="text/javascript" src="./Assets/js/functions_descargaMasiva.js"></script>
 
@@ -331,6 +414,10 @@
 <script type="text/javascript" src="./Assets/js/functions_reembolsos.js"></script>
 
 <script type="text/javascript" src="./Assets/js/functions_archivosxml.js"></script>
+
+<script type="text/javascript" src="./Assets/js/functions_liquidacionCompra.js"></script>
+
+
 
 <script type="text/javascript">
 

@@ -1,5 +1,5 @@
 <div class="modal fade" id="modalFormRol" tabindex="1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
                 <h5 class="modal-title" id="titleModal">Gesti&oacute;n de rol</h5>
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label class="control-label">Listar de todos los usuarios:</label>
                             <div class="toggle">
                                 <label>
@@ -39,7 +39,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label class="control-label">Aprobador?:</label>
                             <div class="toggle">
                                 <label>
@@ -47,11 +47,19 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label class="control-label">Ver datos contador?:</label>
                             <div class="toggle">
                                 <label>
                                     <input type="checkbox" name="chkDatosContable" id="chkDatosContable" /><span class="button-indecator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Ver carga liquidaci&oacute;n?:</label>
+                            <div class="toggle">
+                                <label>
+                                    <input type="checkbox" name="chkCargaLiquidacion" id="chkCargaLiquidacion" /><span class="button-indecator"></span>
                                 </label>
                             </div>
                         </div>

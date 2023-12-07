@@ -30,6 +30,7 @@
                                     <th>Listar de todos los usuarios</th>
                                     <th>Aprobador</th>
                                     <th>Ver datos contabilidad</th>
+                                    <th>Ver carga liquidaci&oacute;n</th>
                                     <th>Estado</th>
                                     <th>Usuario modifica</th>
                                     <th></th>
@@ -51,6 +52,9 @@
                                         </td>
                                         <td>
                                             <label><?php echo ($rol->datosContable == 1) ? "SÍ" : "NO" ?></label>
+                                        </td>
+                                        <td>
+                                            <label><?php echo ($rol->cargaliquidacion == 1) ? "SÍ" : "NO" ?></label>
                                         </td>
                                         
                                         <td><?php echo ($rol->idEstado == 1) ? "ACTIVO" : "INACTIVO"; ?></td>

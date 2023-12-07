@@ -9,13 +9,13 @@ class documentoReembolsoModelo extends serviciosWebModelo {
     
     
     protected function listar_documentos_modelo($fechaIni, $fechaFin, $idUser, $estadoSistema, $desde, $hasta,
-            $numeroRC, $tipoReembolso, $numeroReembolso) {
+            $numeroRC, $tipoReembolso, $numeroReembolso, $numeroLC) {
 //        $dateIni = strtotime($fechaIni) * 1000;
 //        $dateFin = strtotime($fechaFin) * 1000;
         $array = [];
         $listaArchivos = self::invocarGet('documentoreembolsos/listarDocumentos?fechaInicio='.$fechaIni.'&fechaFinal='.$fechaFin.'&idUsuarioCarga='.$idUser.
                 '&estadoSistema='.$estadoSistema.'&desde='.$desde.'&hasta='.$hasta."&numeroRC=".$numeroRC."&tipoReembolso=".$tipoReembolso.
-                '&numeroReembolso='.$numeroReembolso, $array);
+                '&numeroReembolso='.$numeroReembolso.'&numeroLC='.$numeroLC, $array);
         return $listaArchivos;
     }
     
