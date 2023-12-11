@@ -66,9 +66,17 @@ window.addEventListener('load', (event) => {
 </script>
 
 
-<?php if($_SESSION['Usuario']->alertaFD > 0){ ?>
+<?php 
+//para mostrar la alerta de la firma por caducar
+if($_SESSION['Usuario']->alertaFD > 0 && !isset($_SESSION['showAlertFD']) ){ 
+    $_SESSION['showAlertFD'] = 1;?>
         <script>swal('','<?php echo $_SESSION['Usuario']->textoAlertaFD; ?>','warning');</script>
-        <?php } ?>
+<?php }
+//para mostrar la alerta de cuando tenga una liquidacion pendiente por firmar
+if($_SESSION['Usuario']->alertaLC > 0 && !isset($_SESSION['showAlertLC']) ){ 
+    $_SESSION['showAlertLC'] = 1;?>
+    <script>swal('','<?php echo $_SESSION['Usuario']->textoAlertaLC; ?>','warning');</script>
+<?php } ?>
 
 </body>
 </html>

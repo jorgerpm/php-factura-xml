@@ -270,15 +270,22 @@ function enviarFacturasServer(idUsuarioSession) {
 
 
 function selectTodos(source) {
+    //soliictado por correo para que se marque todooo
     const tbody = document.getElementById('dataSri');
     const cantDetalles = tbody.rows.length;
 
-    for (let j = 1; j <= cantDetalles; j++) {
-        if(tbody.rows[j-1].style.display !== "none"){
-            var checkboxes = document.querySelectorAll('input[id="chk' + [j] + '"]');
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i] != source)
-                    checkboxes[i].checked = source.checked;
+    for (let j = 0; j < cantDetalles; j++) {
+        //se debe tomar solo los que son input
+        for(const childInput of tbody.rows[j].cells[0].children){
+            //solo para los tipos input
+            if(childInput.tagName === "INPUT"){
+                //esto es para cuando ya vienen marcados por defecto, no les debe volver a marcar
+                //y que no se dupliquen los valores
+                if(childInput.checked !== source.checked){
+                    childInput.checked = source.checked;
+                    seleccionarParaEnvio(childInput, childInput.id);
+                }
+                
             }
         }
     }

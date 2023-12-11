@@ -18,7 +18,7 @@ function agregarFila() {
             + '<input type="hidden" id="txtIdDetalle' + index + '" name="txtIdDetalle' + index + '" value="0" /></td>';
  */
     tbody.insertRow().innerHTML = '<td><input id="' + index + '" type="button" value="x" onclick="eliminarFila(this);" /></td>'
-            + '<td><input type="number" id="txtCantidad' + index + '" style="width: 100%" required onkeyup="calcularTotalDetalles()"/></td>'
+            + '<td><input type="number" step="any" id="txtCantidad' + index + '" style="width: 100%" required onkeyup="calcularTotalDetalles()"/></td>'
             + '<td><input id="txtDetalle' + index + '" style="width: 100%; text-transform: uppercase;" required pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4" /></td>'
     
             + '<td><input type="number" step="any" id="txtValorUnitario'+index+'" required style="width: 100%" onkeyup="calcularTotalDetalles()"/></td>'
@@ -323,11 +323,11 @@ function calcularTotalDetalles(){
 
     for(let i=0;i<index;i++){
         
-        const txtCantidad = document.getElementById("txtCantidad"+i);
-        const txtValorUnitario = document.getElementById("txtValorUnitario"+i);
-        const txtDescuento = document.getElementById("txtDescuento"+i);
-        const lblValorTotal = document.getElementById("lblValorTotal"+i);
-
+        var txtCantidad = document.getElementById("txtCantidad"+i);
+        var txtValorUnitario = document.getElementById("txtValorUnitario"+i);
+        var txtDescuento = document.getElementById("txtDescuento"+i);
+        var lblValorTotal = document.getElementById("lblValorTotal"+i);
+        
         if(!txtCantidad.value){
             txtCantidad.value = 0;
         }
@@ -425,18 +425,18 @@ function traerDatosProveedor(datosRuc){
 function bloquearCampos(tipoDoc){
     if(tipoDoc.value === "NV"){//cuando es una nota de venta se bloquea esos campos
         document.getElementById("lblIva").value = 0;
-        document.getElementById("lblIva").disabled = true;
+        document.getElementById("lblIva").readOnly = true;
 
         document.getElementById("lblDescuentoTotal").value = 0;
-        document.getElementById("lblDescuentoTotal").disabled = true;
+        document.getElementById("lblDescuentoTotal").readOnly = true;
         
         document.getElementById("lblSubtotal").value = 0;
-        document.getElementById("lblSubtotal").disabled = true;
+        document.getElementById("lblSubtotal").readOnly = true;
     }
     else{
-        document.getElementById("lblIva").disabled = false;
-        document.getElementById("lblDescuentoTotal").disabled = false;
-        document.getElementById("lblSubtotal").disabled = false;
+        document.getElementById("lblIva").readOnly = false;
+        document.getElementById("lblDescuentoTotal").readOnly = false;
+        document.getElementById("lblSubtotal").readOnly = false;
         //lblTotal
     }
 }

@@ -52,7 +52,7 @@
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtNumeroFactura" name="txtNumeroFactura" class="form-control btn-sm" style="text-transform: uppercase;" required
-                                       pattern="[0-9]{3}-[0-9]{3}-[0-9]{9}" placeholder="000-000-000000000" onkeyup="ponerGuion(this, event)">
+                                       pattern="[0-9]{3}-[0-9]{3}-[0-9]{9}" placeholder="000-000-000000000" onkeyup="ponerGuion(this, event)" minlength="17" maxlength="17">
                             </div>
                         </div>
                         
@@ -80,7 +80,7 @@
                                 <label class="control-label">Tipo Identificaci&oacute;n cliente:</label>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
-                                <select class="form-control btn-sm" id="txtTipoIdentCliente" name="txtTipoIdentCliente" required="">
+                                <select class="form-control btn-sm" id="txtTipoIdentCliente" name="txtTipoIdentCliente" required="" style="pointer-events: none" >
                                     <option value="">Seleccione</option>
                                     <option value="04" <?php echo strlen($_SESSION['Usuario']->cedula) == 13 ? 'selected' : ''; ?> >RUC</option>
                                     <option value="05" <?php echo strlen($_SESSION['Usuario']->cedula) == 10 ? 'selected' : ''; ?> >CÉDULA</option>
@@ -94,7 +94,7 @@
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtIdentCliente" name="txtIdentCliente" class="form-control btn-sm" style="text-transform: uppercase;" required
-                                       pattern="^[a-zA-Z0-9]*" value="<?php echo $_SESSION['Usuario']->cedula; ?>" />
+                                       pattern="^[a-zA-Z0-9]*" value="<?php echo $_SESSION['Usuario']->cedula; ?>" readonly=""/>
                             </div>
                             <div class="col-md-2 col-sm-2 col-12">
                                 <label class="control-label">Nombre cliente:</label>
@@ -102,7 +102,7 @@
                             <div class="col-md-2 col-sm-2 col-12">
                                 <input id="txtCliente" name="txtCliente" class="form-control btn-sm" style="text-transform: uppercase;" required
                                        pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4" 
-                                       value="<?php echo $_SESSION['Usuario']->nombre; ?>"/>
+                                       value="<?php echo $_SESSION['Usuario']->nombre; ?>" readonly/>
                             </div>
                         </div>
 
@@ -183,22 +183,29 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="3"></td>
-                                        <td style="font-weight: bold; text-align: end">DESCUENTO:</td>
-                                        <td style="text-align: end"><input type="number" step="any" id="lblDescuentoTotal" name="lblDescuentoTotal" value="" required="" /></td>
+                                        <td style="font-weight: bold; text-align: end;">DESCUENTO:</td>
+                                        <td style="text-align: end; width: 11%;">
+                                            <input class="form-control" type="number" step="any" id="lblDescuentoTotal" name="lblDescuentoTotal" value="" required="" 
+                                                   style="text-align: end;" />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="3"></td>
                                         <td style="font-weight: bold; text-align: end">SUBTOTAL APLICA IVA:</td>
                                         <!-- <td style="text-align: end"><label id="lblSubtotal">0</label></td> -->
                                         <td style="text-align: end">
-                                            <input type="number" step="any" id="lblSubtotal" name="lblSubtotal" value="" required="" onkeyup="calcularIvaTotales()"/>
+                                            <input class="form-control" type="number" step="any" id="lblSubtotal" name="lblSubtotal" value="" required="" onkeyup="calcularIvaTotales()"
+                                                   style="text-align: end;"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="3"></td>
                                         <td style="font-weight: bold; text-align: end">SUBTOTAL NO IVA:</td>
                                         <!-- <td style="text-align: end"><label id="lblSubtotalSinIva">0</label></td> -->
-                                        <td style="text-align: end"><input type="number" step="any" id="lblSubtotalSinIva" name="lblSubtotalSinIva" value="" required="" onkeyup="calcularIvaTotales()" /></td>
+                                        <td style="text-align: end">
+                                            <input class="form-control" type="number" step="any" id="lblSubtotalSinIva" name="lblSubtotalSinIva" value="" required="" onkeyup="calcularIvaTotales()" 
+                                                   style="text-align: end;"/>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="3"></td>
@@ -215,14 +222,18 @@
                                         </td>
                                         <!-- <td style="text-align: end"><label id="lblIva">0</label></td> -->
                                         <td style="text-align: end">
-                                            <input type="number" step="any" id="lblIva" name="lblIva" value="" required="" />
+                                            <input class="form-control" type="number" step="any" id="lblIva" name="lblIva" value="" required="" 
+                                                   style="text-align: end;"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="3"></td>
                                         <td style="font-weight: bold; text-align: end">TOTAL:</td>
                                         <!-- <td style="text-align: end"><label id="lblTotal">0</label></td> -->
-                                        <td style="text-align: end"><input type="number" step="any" id="lblTotal" name="lblTotal" value="" required="" /></td>
+                                        <td style="text-align: end">
+                                            <input class="form-control" type="number" step="any" id="lblTotal" name="lblTotal" value="" required="" readonly 
+                                                   style="text-align: end;"/>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

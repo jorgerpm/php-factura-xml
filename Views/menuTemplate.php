@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" translate="no">
+<html lang="en" translate="no">
     <head>
         <meta name="description" content="Sistema para carga de facturas xml">
         

@@ -84,7 +84,7 @@ function uploadFile() {
     //alert('seleccione al menos un archivo');
             swal("", "Debe seleccionar al menos el archivo xml del comprobante a cargar.", "warning");
         } else {
-
+try{
             const LOADING = document.querySelector('.loader');
             LOADING.style = 'display: flex;';
 
@@ -132,12 +132,24 @@ function uploadFile() {
 
                 } else {
                     LOADING.style = 'display: none;';
-                    swal("2", "Error en la carga del archivo. " + this.responseText, "error");
+                    console.log("this.responseText: ", this);
+                    console.log("this.readyState: ", this.readyState);
+                    console.log("this.status: ", this.status);
+                    if(this.status === 0){
+                        swal("", this.status+" No se puede acceder al archivo. Revise que la ubicación del archivo sea correcta.", "error");
+                    }
+                    else{
+                        swal("2", this.status+" Error en la carga del archivo. " + this.responseText, "error");
+                    }
                 }
             };
 
             // Send request with data
             xhttp.send(formData);
+                
+            }catch(err){
+                    console.log("exc:: ", err);
+            }
         }
     }
 

@@ -34,11 +34,11 @@ class facturaFisicaControlador extends facturaFisicaModelo {
             "formaPago" => $_POST['listFormaPago'],
 
             //los totales
-            "descuento" => $_POST['lblDescuentoTotal'],
-            "subtotalSinIva" => $_POST['lblSubtotalSinIva'],
-            "subtotal" => $_POST['lblSubtotal'],
+            "descuento" => $_POST['lblDescuentoTotal'] == null ? 0 : $_POST['lblDescuentoTotal'],
+            "subtotalSinIva" => $_POST['lblSubtotalSinIva'] == null ? 0 : $_POST['lblSubtotalSinIva'],
+            "subtotal" => $_POST['lblSubtotal'] == null ? 0 : $_POST['lblSubtotal'],
             "porcentajeIva" => $_POST['txtTipoIva'],
-            "iva" => $_POST['lblIva'],
+            "iva" => $_POST['lblIva'] == null ? 0 : $_POST['lblIva'],
             "total" => $_POST['lblTotal'],
             
             "tipoIva" => $_POST['txtTipoIva'],

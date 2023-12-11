@@ -19,6 +19,7 @@ function openModalRol(val_datos) {
         document.querySelector('#bGuiaRemision').checked = val_datos.bGuiaRemision;
         
         document.querySelector('#chkDatosContable').checked = val_datos.datosContable;
+        document.querySelector('#chkCargaLiquidacion').checked = val_datos.cargaliquidacion;
         document.querySelector('#txtListaEmpresas').value = val_datos.listaIdEmpresas;
         
         if(val_datos.listaIdEmpresas.length > 0){

@@ -71,7 +71,7 @@
 
                                         <!--th>#</th-->
                                         <th>
-                                            <!--input id="chkTodos" type="checkbox" class="" onchange="selectTodos(this)"/ -->
+                                            <input id="chkTodosXml" type="checkbox" onchange="selectTodos(this)"/>
                                         </th>
                                         <th style="text-align: center"></th>
                                         <th>TIPO DE GASTO</th>
@@ -130,9 +130,9 @@
                                                 <?php } ?>
                                             </script>
 
-                                            <input type="checkbox" checked="" onchange="seleccionarParaEnvio(this, <?php echo $xml->id; ?>);" />
+                                            <input id="<?php echo $xml->id; ?>" type="checkbox" checked="" onchange="seleccionarParaEnvio(this, <?php echo $xml->id; ?>);" />
                                         <?php } else { ?>
-                                            <input type="checkbox" onchange="seleccionarParaEnvio(this, <?php echo $xml->id; ?>);" />
+                                            <input id="<?php echo $xml->id; ?>" type="checkbox" onchange="seleccionarParaEnvio(this, <?php echo $xml->id; ?>);" />
                                         <?php } ?>
                                     </td>
                                     <td>

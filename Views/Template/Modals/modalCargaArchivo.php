@@ -62,7 +62,7 @@ console.log("cargadndododooo");
         contentType: false,
         processData: false,
         success: function (data) {
-            
+            console.log("en el seccess: ", data);
             LOADING.style = 'display: none;';
                 
             //if(!data.includes("window.location.href"))
@@ -71,6 +71,11 @@ console.log("cargadndododooo");
             respuesta.html(data);
         },
         error: function (error) {
+            
+            console.log("en el error: ", error);
+            console.log("en el error: ", error.state());
+            console.log("en el error: ", error.catch());
+            console.log("en el error: ", error.statusCode());
             LOADING.style = 'display: none;';
             
             respuesta.html(error);
