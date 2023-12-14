@@ -1,4 +1,4 @@
-<script src="./Assets/js/functions_cargaArchivoSri.js"></script>
+<script type="text/javascript" src="./Assets/js/functions_xmlCargados.js"></script>
 
 <main class="app-content">
     <div class="app-title" style="height: 50px">
@@ -221,4 +221,3 @@
 
 <?php require_once 'Template/Modals/modalMiscelaneo.php'; ?>
 
-<script type="text/javascript" src="./Assets/js/functions_xmlCargados.js"></script>

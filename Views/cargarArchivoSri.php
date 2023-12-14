@@ -45,7 +45,7 @@
                                 <tr>
                                     
                                     <th>#</th>
-                                    <th><input id="chkTodos" type="checkbox" class="" onchange="selectTodos(this)"/></th>
+                                    <th><input id="chkTodos" type="checkbox" class="" onchange="selectTodosXmlSri(this)"/></th>
                                     <th>RESULTADO</th>
                                     <th>Estado sistema</th>
                                     
@@ -92,7 +92,7 @@
     </div>
 </main>
 
-<?php require_once 'Template/Modals/modalPdf.php'; ?>
+
 
 <script src="./Assets/js/functions_cargaArchivoSri.js"></script>
 
