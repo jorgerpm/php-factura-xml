@@ -222,7 +222,7 @@
                                         </td>
                                         <!-- <td style="text-align: end"><label id="lblIva">0</label></td> -->
                                         <td style="text-align: end">
-                                            <input class="form-control" type="number" step="any" id="lblIva" name="lblIva" value="" required="" 
+                                            <input class="form-control" type="number" step="any" id="lblIva" name="lblIva" value="" required="" readonly=""
                                                    style="text-align: end;"/>
                                         </td>
                                     </tr>

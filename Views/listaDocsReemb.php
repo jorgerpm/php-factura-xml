@@ -129,7 +129,9 @@
                                             $control1 = new tipoReembolsoControlador();
                                             $lista1 = $control1->listar_tiporeembolso_controlador(null);
                                             foreach ($lista1 as $tipoReembolso) {
+                                                if($tipoReembolso->id != 5){
                                                 echo '<option value="'.$tipoReembolso->id.'"'. (isset($_POST['txtTipoReembolso']) && $_POST['txtTipoReembolso'] == $tipoReembolso->id ? 'selected' : '').' >'.$tipoReembolso->tipo.'</option>';
+                                                }
                                             } ?>
                                         </select>
                                     </div>
@@ -149,7 +151,8 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input id="txtNumeroLC" name="txtNumeroLC" class="form-control btn-sm" value="<?php echo isset($_POST["txtNumeroLC"]) ? $_POST["txtNumeroLC"] : ''; ?>" 
-                                               type="search" pattern="^[0-9]*" autocomplete="off" />
+                                               type="number" pattern="^[0-9]*" autocomplete="off" maxlength="15" 
+                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
                                     </div>
                                 </div>
                             </div>
@@ -320,8 +323,10 @@
                                                 <!-- para la liquidacion de compra -->
                                                 <?php if($_SESSION['Rol']->cargaliquidacion == 1){ ?>
                                                 <td>
+                                                    <?php if($docReembolso->estado != "RECHAZADO" && $docReembolso->tipoReembolso != 4){ ?>
                                                     <button class="btn btn-link fa fa-lg fa-upload" type="button" style="border: none"
                                                             onclick="abrirCargaLiquidacionCompra(<?php echo $docReembolso->id.',\''.$docReembolso->numeroReembolso.'\''; ?>)"></button>
+                                                    <?php } ?>
                                                 </td>
                                                 <?php } ?>
                                                 <td>

@@ -5,22 +5,27 @@ function exportarSeleccionados(idReembolso){
 
     if (tbody.rows.length > 0 && tbody.rows[0].cells[0].children[0]) {
         var existen = false;
+        var listaCheckClaves = [];
         for (let i = 0; i < tbody.rows.length; i++) {
-            const select = tbody.rows[i].cells[0].children[0].checked;
+            var select = tbody.rows[i].cells[0].children[0].checked;
+            //el id del check es la clave de acceso
+            var idCheckCA = tbody.rows[i].cells[0].children[0].id;
+            
             if (select === true) {
+                listaCheckClaves.push(idCheckCA);
                 existen = true;
-                break;
+                console.log('seelct: ',select);
+                //break;
             }
-            console.log('seelct: ',select);
         }
-
+//console.log('listaCheckClaves: ',listaCheckClaves);
         if (existen === true) {
             console.log("si estan selecciopnados");
             if(idReembolso > 0){
-                pruebaUnoModal('facturas-data', true, idReembolso);
+                pruebaUnoModal('facturas-data', true, idReembolso, listaCheckClaves);
             }
             else{
-                pruebaUno('facturas-data', true);
+                pruebaUno('facturas-data', true, listaCheckClaves);
             }
         }
         else{
@@ -33,13 +38,13 @@ function exportarSeleccionados(idReembolso){
 
 }
 
-function pruebaUno(filename, seleccionados){
+function pruebaUno(filename, seleccionados, listaCheckClaves){
     const form = document.getElementById('formListaDocsXml');
     var formdata = new FormData(form);
-    exportaXmlCsv(filename, seleccionados, formdata, "sampleTableXml");
+    exportaXmlCsv(filename, seleccionados, formdata, "sampleTableXml", listaCheckClaves);
 }
 
-function pruebaUnoModal(filename, seleccionados, idReembolso){
+function pruebaUnoModal(filename, seleccionados, idReembolso, listaCheckClaves){
     const form = document.getElementById('formListaDocsXml');
     var formdata = new FormData(form);
     
@@ -49,10 +54,10 @@ function pruebaUnoModal(filename, seleccionados, idReembolso){
     formdata.append("dtFechaFin", new Date().toISOString());
     formdata.append("idReembolso", idReembolso);
     
-    exportaXmlCsv(filename, seleccionados, formdata, "tableFacturasReembolso");
+    exportaXmlCsv(filename, seleccionados, formdata, "tableFacturasReembolso", listaCheckClaves);
 }
 
-function exportaXmlCsv(filename, seleccionados, formdata, idTabla){
+function exportaXmlCsv(filename, seleccionados, formdata, idTabla, listaCheckClaves){
         const LOADING = document.querySelector('.loader');
             LOADING.style = 'display: flex;';
             
@@ -65,7 +70,9 @@ function exportaXmlCsv(filename, seleccionados, formdata, idTabla){
 //        var formdata = new FormData(form);
         formdata.append("seleccionados", seleccionados);
         formdata.append("conDetalles", conDetalles.checked);
+        formdata.append("listaCheckClaves", listaCheckClaves);
         
+        console.log("listaCheckClaves:: ", listaCheckClaves);
 
     $.ajax({
         type: 'POST',

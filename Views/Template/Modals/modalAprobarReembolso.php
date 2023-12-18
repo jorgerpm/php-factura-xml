@@ -30,7 +30,7 @@
                             <div class="col-md-4">
                                 
                                 <?php $control = new razonRechazoControlador();
-                                $listaRazones = $control->listar_razones_rechazo_controlador(true);
+                                $listaRazones = $control->listar_razones_rechazo_controlador("true");
                                  ?>
                                 <select id="txtRazonRechazo" name="txtRazonRechazo" class="form-control" hidden="">
                                     <option value="">Seleccione</option>

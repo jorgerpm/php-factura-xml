@@ -2,29 +2,36 @@
 const CANT_DECIMALES = 2;
 
 function agregarFila() {
-    var tbody = document.getElementById('tbodySol');
-    var index = tbody.rows.length;
+    if(document.getElementById("txtTipoDocumento").value !== ""){
+        var tipdc = document.getElementById("txtTipoDocumento").value;
 
-//esta es para cuando se agrega con el calculo autmatico con las funciones en los input y con el aplica iva check
-/*
-    tbody.insertRow().innerHTML = '<td><input id="' + index + '" type="button" value="x" onclick="eliminarFila(this);" /></td>'
-            + '<td><input type="number" id="txtCantidad' + index + '" style="width: 100%" required /></td>'
-            + '<td><input id="txtDetalle' + index + '" style="width: 100%; text-transform: uppercase;" required /></td>'
-    
-            + '<td><input id="chkIva'+index+'" type="checkbox" onclick="valorTotal()"/></td>'
-    
-            + '<td><input type="number" id="txtValorUnitario'+index+'" onkeyup="valorTotalDetalle(' + index + ')" required style="width: 100%" /></td>'
-            + '<td><label id="lblValorTotal'+index+'" >0</label>'
-            + '<input type="hidden" id="txtIdDetalle' + index + '" name="txtIdDetalle' + index + '" value="0" /></td>';
- */
-    tbody.insertRow().innerHTML = '<td><input id="' + index + '" type="button" value="x" onclick="eliminarFila(this);" /></td>'
-            + '<td><input type="number" step="any" id="txtCantidad' + index + '" style="width: 100%" required onkeyup="calcularTotalDetalles()"/></td>'
-            + '<td><input id="txtDetalle' + index + '" style="width: 100%; text-transform: uppercase;" required pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4" /></td>'
-    
-            + '<td><input type="number" step="any" id="txtValorUnitario'+index+'" required style="width: 100%" onkeyup="calcularTotalDetalles()"/></td>'
-            + '<td><input type="number" step="any" id="txtDescuento'+index+'" required style="width: 100%" onkeyup="calcularTotalDetalles()"/></td>'
-            + '<td><input type="number" step="any" id="lblValorTotal'+index+'" required style="width: 100%" />'
-            + '<input type="hidden" id="txtIdDetalle' + index + '" name="txtIdDetalle' + index + '" value="0" /></td>';
+        var tbody = document.getElementById('tbodySol');
+        var index = tbody.rows.length;
+
+    //esta es para cuando se agrega con el calculo autmatico con las funciones en los input y con el aplica iva check
+    /*
+        tbody.insertRow().innerHTML = '<td><input id="' + index + '" type="button" value="x" onclick="eliminarFila(this);" /></td>'
+                + '<td><input type="number" id="txtCantidad' + index + '" style="width: 100%" required /></td>'
+                + '<td><input id="txtDetalle' + index + '" style="width: 100%; text-transform: uppercase;" required /></td>'
+
+                + '<td><input id="chkIva'+index+'" type="checkbox" onclick="valorTotal()"/></td>'
+
+                + '<td><input type="number" id="txtValorUnitario'+index+'" onkeyup="valorTotalDetalle(' + index + ')" required style="width: 100%" /></td>'
+                + '<td><label id="lblValorTotal'+index+'" >0</label>'
+                + '<input type="hidden" id="txtIdDetalle' + index + '" name="txtIdDetalle' + index + '" value="0" /></td>';
+     */
+        tbody.insertRow().innerHTML = '<td><input id="' + index + '" type="button" value="x" onclick="eliminarFila(this);" /></td>'
+                + '<td><input type="number" step="any" id="txtCantidad' + index + '" style="width: 100%" required onkeyup="calcularTotalDetalles()"/></td>'
+                + '<td><input id="txtDetalle' + index + '" style="width: 100%; text-transform: uppercase;" required pattern="^[a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC]([a-zA-Z0-9\u00f1\u00d1\u00E0-\u00FC ]*)" minlength="4" /></td>'
+
+                + '<td><input type="number" step="any" id="txtValorUnitario'+index+'" required style="width: 100%" onkeyup="calcularTotalDetalles()"/></td>'
+                + '<td><input type="number" step="any" id="txtDescuento'+index+'" required style="width: 100%" onkeyup="calcularTotalDetalles()" '+(tipdc === "NV" ? "readonly" : "")+'/></td>'
+                + '<td><input type="number" step="any" id="lblValorTotal'+index+'" required style="width: 100%" readonly />'
+                + '<input type="hidden" id="txtIdDetalle' + index + '" name="txtIdDetalle' + index + '" value="0" /></td>';
+        
+    }else{
+        swal("","Primero debe seleccionar el tipo de documento.","warning");
+    }
 }
 
 function eliminarFila(input) {
@@ -137,7 +144,7 @@ $('#formFacturaFisica').submit(function (e) {
     var tbody = document.getElementById('tbodySol');
     if (tbody.rows.length > 0) {
         
-        //validar que el total sea la suma correcta
+        //validar que el total sea la suma correcta, pedido por correo
         var numbDescuentoTotal = parseFloat(document.getElementById("lblDescuentoTotal").value);
         var numbSubtotal = parseFloat(document.getElementById("lblSubtotal").value);
         var numbSubtotalSinIva = parseFloat(document.getElementById("lblSubtotalSinIva").value);
@@ -154,11 +161,26 @@ $('#formFacturaFisica').submit(function (e) {
         //hasta aca
         
         
+        //validar que la suma entre los subtotales sea igual a la sumatoria de todos los totaldetalles
+        //pedido por email
+        var subtotaux = 0;
+        for(let i=0;i<tbody.rows.length;i++){
+            subtotaux = parseFloat(subtotaux) + parseFloat(tbody.rows[i].cells[5].children[0].value);
+        }
+        var sumasubs = parseFloat(numbSubtotalSinIva) + parseFloat(numbSubtotal);
+        sumasubs = parseFloat(sumasubs).toFixed(2);
+        subtotaux = parseFloat(subtotaux).toFixed(2);
+        if(subtotaux !== sumasubs){
+            swal('','La suma entre subtotales con iva y sin iva debe ser igual a la suma de los valores de los detalles.','warning');
+            return;
+        }
+        //hasta aca
+        
         if(document.getElementById("txtArchivoFisica").value !== null && document.getElementById("txtArchivoFisica").value !== ''){
 
             //ver que el numero de factura sea correcto
             var txtNumeroFactura = document.getElementById('txtNumeroFactura').value;
-            if(txtNumeroFactura.split("-").length > 2){
+            if(txtNumeroFactura.split("-").length === 3 && txtNumeroFactura.length === 17){
 
                 console.log('inicia la cargaaaaxxxxxxxxxxxx');
                 const LOADING = document.querySelector('.loader');
@@ -318,8 +340,9 @@ function calcularIvaTotales(){
 
 function calcularTotalDetalles(){
     var tbody = document.getElementById('tbodySol');
-    let index = tbody.rows.length;
-    let descTot = 0;
+    var index = tbody.rows.length;
+    var descTot = 0;
+    var total = 0;
 
     for(let i=0;i<index;i++){
         
@@ -344,8 +367,20 @@ function calcularTotalDetalles(){
         if(txtDescuento.value){
             descTot = parseFloat(parseFloat(descTot) + parseFloat(txtDescuento.value)).toFixed(2);
         }
+        
+        //aqui acumular los totales detalles para el total final, pero solo cuando sea NOTAVENTA
+        total = parseFloat(total) + parseFloat(lblValorTotal.value);
     }
     document.getElementById("lblDescuentoTotal").value = descTot;
+    
+    //solo cuando sea NOTAVENTA
+    if(document.getElementById("txtTipoDocumento").value === "NV"){
+        total = parseFloat(total).toFixed(2);
+        document.getElementById("lblTotal").value = total;
+    }
+    else{
+        document.getElementById("lblTotal").value = 0;
+    }
     
 }
 
@@ -423,20 +458,47 @@ function traerDatosProveedor(datosRuc){
 }
 
 function bloquearCampos(tipoDoc){
+    //si es NV se bloquea y pone 0 los descuentos de todos los detalles, esto de acuerdo a email enviado archivo word
+    var tbody = document.getElementById('tbodySol');
+    let index = tbody.rows.length;
+    
     if(tipoDoc.value === "NV"){//cuando es una nota de venta se bloquea esos campos
         document.getElementById("lblIva").value = 0;
-        document.getElementById("lblIva").readOnly = true;
+//        document.getElementById("lblIva").readOnly = true;
 
         document.getElementById("lblDescuentoTotal").value = 0;
         document.getElementById("lblDescuentoTotal").readOnly = true;
         
         document.getElementById("lblSubtotal").value = 0;
         document.getElementById("lblSubtotal").readOnly = true;
+        
+        document.getElementById("lblSubtotalSinIva").value = 0;
+        document.getElementById("lblSubtotalSinIva").readOnly = true;
+        
+        var total = 0;
+        for(let i=0;i<index;i++){
+            //en la pos 4 esta el input descuento
+            tbody.rows[i].cells[4].children[0].value = 0;
+            tbody.rows[i].cells[4].children[0].readOnly = true;
+            tbody.rows[i].cells[4].children[0].addEventListener("keyup", calcularTotalDetalles()); 
+            //en la pos 5 esta el total detalles
+            total = parseFloat(total) + parseFloat(tbody.rows[i].cells[5].children[0].value);
+        }
+        total = parseFloat(total).toFixed(2);
+        document.getElementById("lblSubtotalSinIva").value = total;
+        document.getElementById("lblTotal").value = total;
     }
     else{
-        document.getElementById("lblIva").readOnly = false;
+//        document.getElementById("lblIva").readOnly = false;
         document.getElementById("lblDescuentoTotal").readOnly = false;
         document.getElementById("lblSubtotal").readOnly = false;
+        
+        document.getElementById("lblSubtotalSinIva").value = 0;
+        document.getElementById("lblSubtotalSinIva").readOnly = false;
+        document.getElementById("lblSubtotalSinIva").addEventListener("keyup", calcularIvaTotales()); 
         //lblTotal
+        for(let i=0;i<index;i++){
+            tbody.rows[i].cells[4].children[0].readOnly = false;
+        }
     }
 }

@@ -14,7 +14,7 @@
                         <label class="control-label">Raz&oacute;n de anulaci&oacute;n</label>
                         
                         <?php $control = new razonRechazoControlador();
-                        $listaRazones = $control->listar_razones_rechazo_controlador(true);
+                        $listaRazones = $control->listar_razones_rechazo_controlador("true");
                          ?>
                         <select id="txtRazon" name="txtRazon" class="form-control" required="">
                             <option value="">Seleccione</option>

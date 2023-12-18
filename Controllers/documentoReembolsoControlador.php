@@ -132,29 +132,40 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
     
     public function cargar_justificacion_controlador() {
 //echo $_FILES['txtArchivoJust']['type'];
-        $fileP12 = file_get_contents($_FILES['txtArchivoJust']['tmp_name']);
-        $archivoB64 = base64_encode($fileP12);
+        //pedido por mail en archivo word
+        //solo se puede cargar tipo png y pdf
+        $file_extension = pathinfo($_FILES['txtArchivoJust']['name'], PATHINFO_EXTENSION); //Extensión del archivo
+        $file_extension = mb_strtolower($file_extension, 'utf-8'); //String cambia las letras a minúsculas; strtoupper pone en mayúsculas
+        
+        if($file_extension == "png" || $file_extension == "pdf"){
+
+            $fileP12 = file_get_contents($_FILES['txtArchivoJust']['tmp_name']);
+            $archivoB64 = base64_encode($fileP12);
 
 
-        $data = [
-            'id' => $_POST['idReembJust'],
-            'justificacionBase64' => $archivoB64,
-            'tipoJustificacionBase64' => $_FILES['txtArchivoJust']['type'],
-        ];
+            $data = [
+                'id' => $_POST['idReembJust'],
+                'justificacionBase64' => $archivoB64,
+                'tipoJustificacionBase64' => $_FILES['txtArchivoJust']['type'],
+            ];
 
-        $respuesta = documentoReembolsoModelo::cargar_justificacion_modelo($data);
+            $respuesta = documentoReembolsoModelo::cargar_justificacion_modelo($data);
 
-        if (isset($respuesta) && $respuesta->respuesta == "OK") {
-            return "<script>swal('','Archivo cargado correctamente y correo enviado.','info')
-                .then((value) => {
-                            $(`#btnSearch`).click();
-                        });</script>";
-        }
-        else if(isset($respuesta)){
-            return "<script>swal('','Error: ".$respuesta->respuesta."','error');</script>";
+            if (isset($respuesta) && $respuesta->respuesta == "OK") {
+                return "<script>swal('','Archivo cargado correctamente y correo enviado.','info')
+                    .then((value) => {
+                                $(`#btnSearch`).click();
+                            });</script>";
+            }
+            else if(isset($respuesta)){
+                return "<script>swal('','Error: ".$respuesta->respuesta."','error');</script>";
+            }
+            else{
+                return "<script>swal('','Error al cargar el archivo y al enviar el correo.','error');</script>";
+            }
         }
         else{
-            return "<script>swal('','Error al cargar el archivo y al enviar el correo.','error');</script>";
+            return "<script>swal('','Solo se puede cargar archivos de tipo png o pdf.','warning');</script>";
         }
     }
     

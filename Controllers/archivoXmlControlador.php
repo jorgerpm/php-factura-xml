@@ -3,7 +3,7 @@
 class archivoXmlControlador extends archivoXmlModelo {
 
     public function listar_archivos_controlador($post, $regsPagina) {
-
+//        print_r();
         if (isset($post) && isset($post['dtFechaIni']) && isset($post['dtFechaFin'])) {
             $respuesta = archivoXmlModelo::listar_archivos($post['dtFechaIni'], $post['dtFechaFin'],
                             isset($post['listUsers']) ? $post['listUsers'] : null,
@@ -17,10 +17,11 @@ class archivoXmlControlador extends archivoXmlModelo {
                     isset($post['idReembolso']) ? $post['idReembolso'] : null,
                     isset($post['txtDescargados']) ? $post['txtDescargados'] : null,
                     isset($post['txtListaEmpresas']) ? $post['txtListaEmpresas'] : null,
+                    isset($post['listaCheckClaves']) ? explode(",", $post['listaCheckClaves']) : null,
                 );
         } else {
             $respuesta = archivoXmlModelo::listar_archivos(date("Y-m-d"), date("Y-m-d"), ($_SESSION['Rol']->principal == 0) ? $_SESSION['Usuario']->id : null,
-                            null, null, null, 0, $regsPagina, null, false, false, null, null, null);
+                            null, null, null, 0, $regsPagina, null, false, false, null, null, null, null);
         }
 
         if (!isset($respuesta)) {
@@ -65,7 +66,7 @@ class archivoXmlControlador extends archivoXmlModelo {
          $respuesta = archivoXmlModelo::listar_archivos($nuevafecha, date("Y-m-d"), 
                  //($_SESSION['Rol']->principal == 0) ? $_SESSION['Usuario']->id : null,
                  isset($_POST['cbxListUser']) ? $_POST['cbxListUser'] : ($_SESSION['Rol']->id == 1 ? null : $_SESSION['Usuario']->id),
-                            null, null, null, 0, $regsPagina, "CARGADO", false, false, null, null, null);
+                            null, null, null, 0, $regsPagina, "CARGADO", false, false, null, null, null, null);
         
 
         if (!isset($respuesta)) {

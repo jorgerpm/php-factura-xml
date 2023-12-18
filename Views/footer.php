@@ -68,14 +68,19 @@ window.addEventListener('load', (event) => {
 
 <?php 
 //para mostrar la alerta de la firma por caducar
-if($_SESSION['Usuario']->alertaFD > 0 && !isset($_SESSION['showAlertFD']) ){ 
+if($_SESSION['Usuario']->alertaFD > 0 && !isset($_SESSION['showAlertFD']) ){
     $_SESSION['showAlertFD'] = 1;?>
         <script>swal('','<?php echo $_SESSION['Usuario']->textoAlertaFD; ?>','warning');</script>
 <?php }
 //para mostrar la alerta de cuando tenga una liquidacion pendiente por firmar
-if($_SESSION['Usuario']->alertaLC > 0 && !isset($_SESSION['showAlertLC']) ){ 
+if($_SESSION['Usuario']->alertaLC > 0 && !isset($_SESSION['showAlertLC']) ){
     $_SESSION['showAlertLC'] = 1;?>
     <script>swal('','<?php echo $_SESSION['Usuario']->textoAlertaLC; ?>','warning');</script>
+<?php }
+//para mostrar la alerta de reembolsos pendientes por aprobar
+if($_SESSION['Usuario']->alertaRPA > 0 && !isset($_SESSION['showAlertaRPA']) ){
+    $_SESSION['showAlertaRPA'] = 1;?>
+    <script>swal('','<?php echo $_SESSION['Usuario']->textoAlertaRPA; ?>','warning');</script>
 <?php } ?>
 
 </body>

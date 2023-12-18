@@ -35,7 +35,7 @@
                         <tbody>
                             <?php 
                             $control = new razonRechazoControlador();
-                            $listaRazones = $control->listar_razones_rechazo_controlador(false);
+                            $listaRazones = $control->listar_razones_rechazo_controlador("false");
                             foreach ($listaRazones as $razonRechazo) {
                                 ?>
                                 <tr>

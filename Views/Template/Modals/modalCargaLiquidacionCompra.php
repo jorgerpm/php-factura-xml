@@ -16,7 +16,8 @@
                     <div class="form-group row">
                         <div class="col-md-11">
                             <label class="control-label">Número liquidación de compra:</label>
-                            <input class="form-control" id="numeroLC" name="numeroLC" type="number" required="">
+                            <input class="form-control" id="numeroLC" name="numeroLC" type="number" required="" maxlength="15" minlength="15" 
+                                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div>
                     </div>
                     <div class="form-group row">
