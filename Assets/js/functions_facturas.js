@@ -314,22 +314,29 @@ var miFormatoNumber = {
 
 
 
-function calcularIvaTotales(){
+function calcularIvaTotales(event){
     try{
-        const subiva = document.getElementById("lblSubtotal");
-        const iva = document.getElementById("lblIva");
-        const total = document.getElementById("lblTotal");
-        const subsiniva = document.getElementById("lblSubtotalSinIva");
+        var codigo = event.which || event.keyCode;
 
-        if(!subiva.value){
-           subiva.value = 0;
-        }   
-        if(!subsiniva.value){
-            subsiniva.value = 0;
+        console.log("Presionada: " + codigo);
+    
+        if(codigo >= 49 && codigo <= 57 ){
+
+            const subiva = document.getElementById("lblSubtotal");
+            const iva = document.getElementById("lblIva");
+            const total = document.getElementById("lblTotal");
+            const subsiniva = document.getElementById("lblSubtotalSinIva");
+
+            if(!subiva.value){
+               subiva.value = 0;
+            }   
+            if(!subsiniva.value){
+                subsiniva.value = 0;
+            }
+
+            iva.value = parseFloat(parseFloat(subiva.value) * 12 / 100).toFixed(2);
+            total.value = parseFloat(parseFloat(subiva.value) + parseFloat(iva.value) + parseFloat(subsiniva.value)).toFixed(2);
         }
-
-        iva.value = parseFloat(parseFloat(subiva.value) * 12 / 100).toFixed(2);
-        total.value = parseFloat(parseFloat(subiva.value) + parseFloat(iva.value) + parseFloat(subsiniva.value)).toFixed(2);
         
     }catch(error){
         console.log("error: ", error);
@@ -376,6 +383,8 @@ function calcularTotalDetalles(){
     //solo cuando sea NOTAVENTA
     if(document.getElementById("txtTipoDocumento").value === "NV"){
         total = parseFloat(total).toFixed(2);
+        //se debe poner tanto el subtotal sin iva y en el total
+        document.getElementById("lblSubtotalSinIva").value = total;
         document.getElementById("lblTotal").value = total;
     }
     else{
