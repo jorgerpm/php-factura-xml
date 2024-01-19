@@ -1,11 +1,12 @@
 var listaEmpres = [];
 function openModalRol(val_datos) {
-
-    console.log("idepresas: ", val_datos.listaIdEmpresas);
     
     listaEmpres = [];
     document.querySelector('#formRol').reset();
     if(val_datos !== null){
+        
+        console.log("idepresas: ", val_datos.listaIdEmpresas);
+        
         document.querySelector('#idRol').value = val_datos.id;
         document.querySelector('#txtNombre').value = val_datos.nombre;
         document.querySelector('#chkPrincipal').checked = val_datos.principal;
