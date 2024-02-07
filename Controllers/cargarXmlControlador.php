@@ -178,8 +178,12 @@ class cargarXmlControlador extends cargarXmlModelo {
         
         //generar la clave de acceso de acuerdo a la ficha tecnica del sri
         $seccdate = (new DateTime($_POST["txtFecha"]))->format('dmY');
-        $secmisc = strtotime("now");
-        $claveAcceso = $seccdate . "01" . $_SESSION['Usuario']->cedula . "2001001" . $secmisc . "0000000119";
+        $secmisc = strtotime("now")."";//este debe tener solo 9 digitos
+        if(strlen($secmisc) > 9){
+            $secmisc = substr($secmisc, 0, 9);
+        }
+//        $claveAcceso = $seccdate . "01" . $_SESSION['Usuario']->cedula . "2001001" . $secmisc . "0000000119";
+        $claveAcceso = $seccdate . "MS" . $_SESSION['Usuario']->cedula . "MS" . $secmisc;
         
         //para enviar la fecha de forma correcta
         $fecIso = date("c", strtotime($_POST['txtFecha']));
@@ -200,7 +204,7 @@ class cargarXmlControlador extends cargarXmlModelo {
             'nombreArchivoPdf' => isset($nombreArchivo) ? $nombreArchivo : null,
             'comprobante' => '{"factura":{"infoTributaria":{"claveAcceso":"'.$claveAcceso.'","ambiente":2,"ruc":"'.$_SESSION['Usuario']->cedula.'",'
             . '"razonSocial":"'.$_SESSION['Usuario']->nombre
-            . '","estab":"001","ptoEmi":"001","secuencial":"'.$secmisc.'","codDoc":"MS","tipoEmision":1,"dirMatriz":"DIRECCION"},'
+            . '","estab":"999","ptoEmi":"999","secuencial":"'.$secmisc.'","codDoc":"MS","tipoEmision":1,"dirMatriz":"DIRECCION"},'
             . '"infoFactura":{"pagos":{"pago":[{"total":'.$_POST["txtValor"].',"plazo":1,"formaPago":"01","unidadTiempo":""}]},'
             . '"totalConImpuestos":{"totalImpuesto":[{"codigoPorcentaje":"0","tarifa":"0","codigo":2,"valor":0.0,"baseImponible":'.$_POST["txtValor"].'}]},'
             . '"identificacionComprador":"'.$_SESSION['Usuario']->cedula.'","razonSocialComprador":"'.$_SESSION['Usuario']->nombre.'",'

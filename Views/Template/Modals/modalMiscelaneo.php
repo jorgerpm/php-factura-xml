@@ -55,3 +55,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    var inputFileXml = $("#inputFileXml");
+    inputFileXml.on('change', function (e) {
+        if(e.target.files[0].size > 5000000){
+            swal('','El archivo supera los 5MB.','warning');
+            inputFileXml.val(null);
+        }
+    });
+</script>

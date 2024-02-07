@@ -162,7 +162,11 @@
                                     <td><?php echo $xml->estadoSistema ?></td>
                                     <td><?php echo $xml->tipoDocumentoTexto ?></td>
                                     
-                                    <td><?php echo $docum->infoTributaria->estab."-".$docum->infoTributaria->ptoEmi."-".$docum->infoTributaria->secuencial ?></td>
+                                    <td><?php $separador = "-";
+                                    if($xml->tipoDocumento == "MS"){
+                                        $separador = "";
+                                    }
+                                    echo $docum->infoTributaria->estab .$separador. $docum->infoTributaria->ptoEmi .$separador. $docum->infoTributaria->secuencial ?></td>
                                     
                                     <td><?php echo $importeTotal; ?></td>
                                     
