@@ -6,16 +6,21 @@ if (is_file('./Utils/configUtil.php')) {
     require_once '../Utils/configUtil.php';
 }
 
-$contRep = new reporteControlador();
-if($_POST['tipo'] == "firma"){
-    $resp = $contRep->ejecutar_reportefirma_controlador();
+if (isset($_SESSION['Usuario'])) {
+    $contRep = new reporteControlador();
+    if($_POST['tipo'] == "firma"){
+        $resp = $contRep->ejecutar_reportefirma_controlador();
+    }
+    elseif ($_POST['tipo'] == "pdf") {
+        $resp = $contRep->ejecutar_reportepdf_controlador();
+    }else{
+        $resp = $contRep->ejecutar_reportexls_controlador();
+    }
+    echo $resp;
 }
-elseif ($_POST['tipo'] == "pdf") {
-    $resp = $contRep->ejecutar_reportepdf_controlador();
-}else{
-    $resp = $contRep->ejecutar_reportexls_controlador();
+else{
+    echo '<script>window.location.replace("index");</script>';
 }
-echo $resp;
 
 //$controler = new parametroControlador();
 //$params = $controler->listarParametros();
