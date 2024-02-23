@@ -195,7 +195,7 @@
                                         <!-- <td style="text-align: end"><label id="lblSubtotal">0</label></td> -->
                                         <td style="text-align: end">
                                             <input class="form-control" type="number" step="any" id="lblSubtotal" name="lblSubtotal" value="" required="" onkeyup="calcularIvaTotales(event)"
-                                                   style="text-align: end;"/>
+                                                   onblur="calcularIvaTotales(null);" style="text-align: end;"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -204,7 +204,7 @@
                                         <!-- <td style="text-align: end"><label id="lblSubtotalSinIva">0</label></td> -->
                                         <td style="text-align: end">
                                             <input class="form-control" type="number" step="any" id="lblSubtotalSinIva" name="lblSubtotalSinIva" value="" required="" onkeyup="calcularIvaTotales(event)" 
-                                                   style="text-align: end;"/>
+                                                   onblur="calcularIvaTotales(null);" style="text-align: end;"/>
                                         </td>
                                     </tr>
                                     <tr>

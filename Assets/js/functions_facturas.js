@@ -316,11 +316,14 @@ var miFormatoNumber = {
 
 function calcularIvaTotales(event){
     try{
-        var codigo = event.which || event.keyCode;
+        var codigo = 48; //es el cero
+        
+        if(event)
+            codigo = event.which || event.keyCode;
 
-        console.log("Presionada: " + codigo);
+        console.log("Presionadax: " + codigo);
     
-        if(codigo >= 49 && codigo <= 57 ){
+        if((codigo >= 48 && codigo <= 57) || codigo === 8 || codigo === 46){ //el 8 es backspace, 46=delete
 
             const subiva = document.getElementById("lblSubtotal");
             const iva = document.getElementById("lblIva");
