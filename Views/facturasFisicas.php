@@ -14,6 +14,20 @@
                 <div class="tile-body">
 
                     <form id="formFacturaFisica" autocomplete="off">
+                        
+                        <?php 
+                        //aqui leer los parametros para obtener el iva
+                        $paramcontr = new parametroControlador();
+                        $params = $paramcontr->listarParametros();
+                        foreach ($params as $paramIva){
+                            if($paramIva->id == 33){//33 es el codigo del parametro 33	PORCENTAJE_IVA
+                            ?>
+                            <input type="hidden" id="porcentajeIva" name="porcentajeIva" value="<?php echo $paramIva->valor;?>"/>
+                            <?php
+                            }
+                        }
+                        ?>
+                        
                         <div class="row" style="padding-bottom: 5px">
                             <input type="hidden" id="txtId" name="txtId"/>
 
@@ -210,7 +224,7 @@
                                     <tr>
                                         <td colspan="3"></td>
                                         <td style="font-weight: bold; text-align: end">
-                                            IVA 12%
+                                            VALOR IVA 
                                             <select class="form-control btn-sm" id="txtTipoIva" required="" onchange="chdgd()"  hidden="">
                                                 <!-- <option value="0">IVA 0%</option> -->
                                                 <option value="2-12">IVA 12%</option>

@@ -124,7 +124,11 @@ function valorTotal() {
     document.getElementById('lblSubtotal').innerHTML = miFormatoNumber.new(subtotal, CANT_DECIMALES);
     document.getElementById('lblSubtotalSinIva').innerHTML = miFormatoNumber.new(subtotalSinIva, CANT_DECIMALES);
 
-    var iva = subtotal * 0.12;
+//porcentaje del iva
+    const porcentajeIva = document.getElementById("porcentajeIva").value;
+
+    var iva = subtotal * parseFloat(parseFloat(porcentajeIva)/100);
+    //var iva = subtotal * 0.12;
     document.getElementById('lblIva').innerHTML = miFormatoNumber.new(iva, CANT_DECIMALES);
     var total = subtotalSinIva + subtotal + iva;
     document.getElementById('lblTotal').innerHTML = miFormatoNumber.new(total, CANT_DECIMALES);
@@ -336,8 +340,10 @@ function calcularIvaTotales(event){
             if(!subsiniva.value){
                 subsiniva.value = 0;
             }
+            
+            const porcentajeIva = document.getElementById("porcentajeIva").value;
 
-            iva.value = parseFloat(parseFloat(subiva.value) * 12 / 100).toFixed(2);
+            iva.value = parseFloat(parseFloat(subiva.value) * parseFloat(porcentajeIva) / 100).toFixed(2);
             total.value = parseFloat(parseFloat(subiva.value) + parseFloat(iva.value) + parseFloat(subsiniva.value)).toFixed(2);
         }
         
