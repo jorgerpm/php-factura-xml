@@ -12,6 +12,7 @@
                     
                     <input id="idReembLQ" name="idReembLQ" type="hidden">
                     <input id="numeroReembolsoLC" name="numeroReembolsoLC" type="hidden">
+                    <input id="tipoReembolsoLC" name="tipoReembolsoLC" type="hidden">
                     
                     <div class="form-group row">
                         <div class="col-md-11">

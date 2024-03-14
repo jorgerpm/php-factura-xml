@@ -325,7 +325,7 @@
                                                 <td>
                                                     <?php if($docReembolso->estado != "RECHAZADO" && $docReembolso->tipoReembolso != 4){ ?>
                                                     <button class="btn btn-link fa fa-lg fa-upload" type="button" style="border: none"
-                                                            onclick="abrirCargaLiquidacionCompra(<?php echo $docReembolso->id.',\''.$docReembolso->numeroReembolso.'\''; ?>)"></button>
+                                                            onclick="abrirCargaLiquidacionCompra(<?php echo $docReembolso->id.',\''.$docReembolso->numeroReembolso.'\''.',\''.$docReembolso->tipoReembolsoNombre.'\''; ?>)"></button>
                                                     <?php } ?>
                                                 </td>
                                                 <?php } ?>

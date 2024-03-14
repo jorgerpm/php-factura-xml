@@ -1,4 +1,4 @@
-function abrirCargaLiquidacionCompra(idReembolso, numeroReembolso){
+function abrirCargaLiquidacionCompra(idReembolso, numeroReembolso, tipoReembolso){
     
     console.log("idReembolso: ", idReembolso);
     
@@ -6,6 +6,7 @@ function abrirCargaLiquidacionCompra(idReembolso, numeroReembolso){
 
     document.querySelector('#idReembLQ').value = idReembolso;
     document.querySelector('#numeroReembolsoLC').value = numeroReembolso;
+    document.querySelector('#tipoReembolsoLC').value = tipoReembolso;
 
     $('#modalCargaLiquidacionCompra').modal('show');
 }

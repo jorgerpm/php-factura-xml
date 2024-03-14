@@ -215,7 +215,7 @@
                                                     <?php } ?>
                                                 </td>
                                                 <td style="white-space: nowrap;"><?php echo $listaArchivoXml->estadoSistema; ?></td>
-                                                <td style="white-space: nowrap;"><?php echo $listaArchivoXml->nombreUsuario; ?></td>
+                                                <td style="white-space: nowrap; padding-left: 10px !important; padding-right: 10px !important"><?php echo $listaArchivoXml->nombreUsuario; ?></td>
                                                 <td style="white-space: nowrap;"><?php echo date("d/m/Y", $listaArchivoXml->fechaEmision / 1000); ?></td>
                                                 <td style="white-space: nowrap;"><?php echo date("d/m/Y", $listaArchivoXml->fechaAutorizacion / 1000); ?></td>
                                                 <td style="white-space: nowrap;"><?php echo $listaArchivoXml->estadoSri; ?></td>

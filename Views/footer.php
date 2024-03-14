@@ -14,6 +14,9 @@
 <script type="text/javascript" src="./Assets/js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="./Assets/js/plugins/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="./Assets/js/plugins/dataTables.colReorder.min.js"></script>
+
+<script src="./Assets/js/plugins/colResizable-1.6.min.js"></script>
+
 <script type="text/javascript">
     
         var tableex = $('#sampleTable').DataTable({

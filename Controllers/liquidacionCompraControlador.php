@@ -10,8 +10,8 @@ class liquidacionCompraControlador extends liquidacionCompraModelo {
         if(strlen($_POST['numeroLC']) == 15){
 
             if($extFile == "pdf"){
-
-                $nuevoPath = "../Archivos_subidos/liquidacioncompra/";
+                
+                $nuevoPath = "../Archivos_subidos/liquidacioncompra/".$_POST['tipoReembolsoLC']."/";
 
                 if (is_dir($nuevoPath)) {
                     chmod($nuevoPath, 0777);
@@ -20,7 +20,7 @@ class liquidacionCompraControlador extends liquidacionCompraModelo {
                     chmod($nuevoPath, 0777);
                 }
 
-                $path = "Archivos_subidos/liquidacioncompra/".$_POST['numeroReembolsoLC'] . "." . $extFile;
+                $path = "Archivos_subidos/liquidacioncompra/".$_POST['tipoReembolsoLC']."/".$_POST['numeroReembolsoLC'] . "." . $extFile;
                         //$_FILES['txtArchivoLQ']['type'];
 
                 if (move_uploaded_file($_FILES['txtArchivoLQ']['tmp_name'], "../".$path)) { //Cargar archivos

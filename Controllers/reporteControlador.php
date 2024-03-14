@@ -46,7 +46,7 @@ class reporteControlador extends reporteModelo {
                 isset($_POST['observaciones']) ? mb_strtoupper($_POST['observaciones'], 'utf-8') : "",
                 isset($_POST['seleccion']) ? $_POST['seleccion'] : "",
                 isset($_POST['claveFirma']) ? $_POST['claveFirma'] : "",
-                mb_strtoupper($_POST['numeroRC'], 'utf-8'),
+                mb_strtoupper($_POST['numeroRC'], 'utf-8')
                 );
         
         if(isset($reporteDto) && $reporteDto->respuesta == "OK"){

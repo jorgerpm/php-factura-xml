@@ -266,3 +266,16 @@ function exportTableToExcel(tableID, filename = ''){
         downloadLink.click();
     }
 }
+
+
+
+$(function(){
+        $("#sampleTableXml11").colResizable({
+                liveDrag:true, 
+                gripInnerHtml:"<div class='grip'></div>", 
+                draggingClass:"dragging", 
+//            resizeMode:'fit'
+//            resizeMode:'flex'
+            resizeMode:'overflow'
+});
+});
