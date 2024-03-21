@@ -16,7 +16,7 @@
                         <div class="col-md-11">
                             <label class="control-label">Seleccione archivo:</label>
                             
-                            <input type="file" id="txtArchivoJust" name="txtArchivoJust" class="form-control" required="" accept=".png,.pdf">
+                            <input type="file" id="txtArchivoJust" name="txtArchivoJust" class="form-control" required="" accept=".png,.pdf,.jpg,.jpge">
                             
                         </div>
                     </div>

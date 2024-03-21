@@ -137,7 +137,8 @@ class documentoReembolsoControlador extends documentoReembolsoModelo {
         $file_extension = pathinfo($_FILES['txtArchivoJust']['name'], PATHINFO_EXTENSION); //Extensión del archivo
         $file_extension = mb_strtolower($file_extension, 'utf-8'); //String cambia las letras a minúsculas; strtoupper pone en mayúsculas
         
-        if($file_extension == "png" || $file_extension == "pdf"){
+        if($file_extension == "png" || $file_extension == "pdf" || $file_extension == "jpg" 
+                || $file_extension == "jpge"){
 
             $fileP12 = file_get_contents($_FILES['txtArchivoJust']['tmp_name']);
             $archivoB64 = base64_encode($fileP12);

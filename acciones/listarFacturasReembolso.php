@@ -5,7 +5,7 @@ if (is_file('./Utils/configUtil.php')) {
     require_once '../Utils/configUtil.php';
 }
 
-$regsPagina = 10;
+$regsPagina = 200;
 $archiCont = new archivoXmlControlador();
 if (isset($_POST['btnSearch'])) {
     $respuesta = $archiCont->listar_archivos_controlador($_POST, $regsPagina);
