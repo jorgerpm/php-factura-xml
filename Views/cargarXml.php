@@ -47,10 +47,10 @@
                             <label id="archivoXml" style="word-break:break-word;"></label>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="display:none">
                         <div class="col-sm-4 col-12">
                             <label for="inputFilePdf" class="btn btn-primary">Seleccione archivo Ride</label>
-                            <input type="file" name="" class="btn btn-primary" id="inputFilePdf" accept=".pdf" style="display:none" required="">
+                            <input type="file" name="" class="btn btn-primary" id="inputFilePdf" accept=".pdf" style="display:none" >
                         </div>
                         <div class="col-sm-8">
                             <label id="archivoPdf" style="word-break:break-word;"></label>

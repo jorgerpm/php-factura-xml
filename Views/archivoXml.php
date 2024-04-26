@@ -34,9 +34,10 @@
                         <div class="btn-group" data-toggle="buttons">
                             <?php
                             foreach ($columns as $index => $col) {
-                                echo '<label class="toggle-vis btn btn-primary active" data-column="' . ($index+2) . '">';
+                                $posiis = ($index+2);
+                                echo '<label class="toggle-vis btn btn-primary active" data-column="' . $posiis . '">';
                                 //echo '<input id="' . $col['col'] . '" type="checkbox" checked />';
-                                echo '<label style="color: white;" class="fa fa-check"></label><br/>';
+                                echo '<label id="lblCol'.$posiis.'" style="color: white;" class="fa fa-check"></label><br/>';
                                 echo '<a >' . $col['col'] . '</a>';
                                 echo '</label>';
                             }
@@ -376,35 +377,80 @@ if (count($respuesta) > 0) {
 <!-- Data table plugin-->
 <script type="text/javascript" src="./Assets/js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="./Assets/js/plugins/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="./Assets/js/plugins/dataTables.colReorder.min.js"></script>
 
 <script type="text/javascript" src="./Assets/js/functions_archivosxml.js"></script>
 <script type="text/javascript" src="./Assets/js/functions_descargaMasiva.js"></script>
 
 <script type="text/javascript">
     
+    //esta funcion es para utilizar datatable y reorderColumns
+    //var tablq = crearTablaB("sampleTableXml");
+    
+    var columnasOcultas = [];
+    function comprobarColumnasOcultas(){
+        localStorage.removeItem("columnasOcultas");
+        if(localStorage.getItem("columnasOcultas")){
+            columnasOcultas = localStorage.getItem("columnasOcultas").split(",");
+            console.log("columnasOcultas: ", columnasOcultas);
+            for(let i=0;i<columnasOcultas.length;i++){
+                var numCol = columnasOcultas[i];
+                
+                var inputCheck1 = document.getElementById("lblCol"+numCol);
+//                console.log("inputCheck1: ", inputCheck1);
+                
+                ocultarLaColumn(numCol, inputCheck1, false);
+                
+            }
+            localStorage.removeItem("columnasOcultas");
+        }
+    }
+    
+    //este es el que hace que se ejecute la funcion de comprobaacion
+//    document.body.onload = comprobarColumnasOcultas; 
+    
     $('.toggle-vis').on('click', function (e) {
         e.preventDefault();
-        // Get the column API object
-        var tableXml = document.getElementById('sampleTableXml');
 //        alert(tableXml.rows[0].cells[0]);
         var numCol = $(this).attr('data-column');
         var inputCheck1 = $(this).children(0)[0];
         
 //        console.log("$(this).children(0);", inputCheck1);
 //        console.log("numcol: ", numCol);
+
+        ocultarLaColumn(numCol, inputCheck1, true);
+        
+        console.log("$(this).children(0);", inputCheck1);
+    });
+    
+    function ocultarLaColumn(numCol, inputCheck1, nuevo){
+        
+        var tableXml = document.getElementById('sampleTableXml');
         
         for(let i=0;i<tableXml.rows.length;i++){
             if(tableXml.rows[i].cells[numCol] && tableXml.rows[i].cells[numCol].style.display !== "none"){
                 if(i === 0){//esto lo hace solo para la primera fila, y no cada vez que ingresa
                     inputCheck1.style.color = "yellow";
                     inputCheck1.className = "fa fa-times";
+                    
+                    //aqui utilizar el localStorage, se necesita saber el numeroColumna para ocultar
+                    if(nuevo){
+                        columnasOcultas.push(numCol);
+                        localStorage.setItem("columnasOcultas", columnasOcultas);
+                    }
                 }
                 tableXml.rows[i].cells[numCol].style.display="none";
 //                console.log("entrra i: ", i);
             }
             else{
-                if(tableXml.rows[i].cells[numCol])
+                if(tableXml.rows[i].cells[numCol]){
                     tableXml.rows[i].cells[numCol].style.display="table-cell";
+                    if(i === 0 && nuevo){
+                        columnasOcultas = columnasOcultas.filter(y => y !== numCol);
+                        console.log("es: ", );
+                        localStorage.setItem("columnasOcultas", columnasOcultas);
+                    }
+                }
                 
                 if(i === 0){//esto lo hace solo para la primera fila, y no cada vez que ingresa
                     inputCheck1.style.color = "white";
@@ -412,12 +458,10 @@ if (count($respuesta) > 0) {
                 }
 //                console.log("entrra else i: ", i);
             }
+            
+            
         }
-        
-        console.log("$(this).children(0);", inputCheck1);
-    });
-    
-    
+    }
     
 
 

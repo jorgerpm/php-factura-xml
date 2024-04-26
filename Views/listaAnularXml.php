@@ -235,7 +235,8 @@
                                             <?php
                                         }
                                     } else {
-                                        echo '<tr><td colspan="15">No existen registros.</td></tr>';
+                                        //esto se pone por defecto utilizando el dataTable()
+//                                        echo '<tr><td colspan="15">No existen registros.</td></tr>';
                                     }
                                     ?>
                                 </tbody>
@@ -279,6 +280,7 @@
 <!-- Data table plugin-->
 <script type="text/javascript" src="./Assets/js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="./Assets/js/plugins/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="./Assets/js/plugins/dataTables.colReorder.min.js"></script>
 
 <script type="text/javascript">
 $('.toggle-vis').on('click', function (e) {

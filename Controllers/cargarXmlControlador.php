@@ -45,8 +45,9 @@ class cargarXmlControlador extends cargarXmlModelo {
                 $array = [
                     'ubicacionArchivo' => $upload_location . $archivo_xml,
                     'nombreArchivoXml' => $archivo_xml,
-                    'nombreArchivoPdf' => isset($archivo_pdf) ? $archivo_pdf : null,
-                    'urlArchivo' => constantesUtil::$URL_ARCHIVOS,
+//                    'nombreArchivoPdf' => isset($archivo_pdf) ? $archivo_pdf : null,
+                    'nombreArchivoPdf' => str_replace(".xml", ".pdf", $archivo_xml),
+                    //'urlArchivo' => constantesUtil::$URL_ARCHIVOS, esta constante ya no se utiliza
                     'idUsuarioCarga' => $_SESSION['Usuario']->id,
                     'tipoDocumento' => '01',
                     'xmlBase64' => $fileB64,
@@ -65,7 +66,9 @@ class cargarXmlControlador extends cargarXmlModelo {
 //                        echo PHP_EOL;
 //                        print_r($respuesta->dto);
 
-                        $carpetasPath = str_replace("Controllers", "", __DIR__) . $respuesta->dto; //aqui el path real 
+                        $carpetasPath = str_replace("Controllers", "", __DIR__) . $respuesta->dto->pathArchivos; //aqui el path real 
+                        
+                        
 
 //                        echo "mover hacia: " . $carpetasPath;
 
@@ -117,9 +120,19 @@ class cargarXmlControlador extends cargarXmlModelo {
 //                        echo PHP_EOL."Desde: ".$upload_location . $archivo_pdf." - Hasta: ".$carpetasPath . "/".$archivo_pdf.PHP_EOL;
                         if (isset($archivo_pdf) && rename(($upload_location.$archivo_pdf), $carpetasPath ."/".$archivo_pdf)) {
                             chmod($carpetasPath . "/".$archivo_pdf, 0666);
-//                            echo "MOVIOOOOOO <br/>";
                         } else {
 //                            echo "NOO se movvvv";
+                        }
+                        
+                        //esto es para cuando se genera automaticamente el ride en base al xml
+                        if($respuesta->dto->rideBase64 != null){
+                            //aqui generar el archivo pdf desde el base64devuelto
+                            $contentRide = base64_decode($respuesta->dto->rideBase64);
+                            //y esta parte es para guardar el ridepdf
+                            $fileRide = fopen($carpetasPath."/".str_replace(".xml", ".pdf", $archivo_xml), "w+b");
+                            fwrite($fileRide, $contentRide);
+                            fclose($fileRide);
+                            chmod($carpetasPath."/".str_replace(".xml", ".pdf", $archivo_xml), 0666);
                         }
                     }
                     $respuesta = $respuesta->respuesta;

@@ -270,12 +270,100 @@ function exportTableToExcel(tableID, filename = ''){
 
 
 $(function(){
-        $("#sampleTableXml11").colResizable({
+    $("#sampleTableXml11").colResizable({
                 liveDrag:true, 
                 gripInnerHtml:"<div class='grip'></div>", 
                 draggingClass:"dragging", 
 //            resizeMode:'fit'
 //            resizeMode:'flex'
             resizeMode:'overflow'
+    });
 });
-});
+
+function crearTablaB(idTabla){
+//    var tablq = $('#sampleTableXml').DataTable({
+var tablq = $('#'+idTabla).DataTable({
+        language: {
+            zeroRecords: 'No existen registros',
+        },
+        info: false,
+        searching:false,
+        paginate:false,
+        paging: false,
+        //ordering: false,
+        //colReorder: true
+    });
+    return tablq;
+}
+    
+    //esta funcion sirve para reordenar las columnas a una posicion especifica, pero con la cantidad
+    //exacta de columnas, entre todas esas columnas se debe reordenar
+    
+    function gg(){
+        if(tablq){
+    //        var tableXml = document.getElementById('sampleTableXml');
+            //var leTab = tableXml.rows[0].cells.length;
+            
+            console.log("a order");
+            //aqui toca guardar en un array la forma en que se ordena
+            
+            //for(let i=(leTab-1);i>=0;i--){ esta es para reverso
+//            for(let i=0;i<leTab;i++){
+//                columnx.push(i);
+//            }
+localStorage.removeItem("ordenColumna");
+            if(localStorage.getItem("ordenColumna")){
+                var columnx = localStorage.getItem("ordenColumna").split(",");
+                console.log(localStorage.getItem("ordenColumna"));
+                if(tablq.colReorder){
+                    tablq.colReorder.order(columnx);
+                }
+
+                console.log("ya ordenoo");
+            }
+            //esta e spara mover entre dos columnas
+            //tablq.colReorder.move(3,0);
+            localStorage.removeItem("ordenColumna");
+        }
+    }
+    gg();
+    
+    
+    
+    tablq.on('column-reorder', function (e, settings, details) {
+//        var headerCell = $(tablq.column(details.to).header());
+//console.log(details);
+//console.log(settings);
+//console.log(e);
+        var columnx=[];
+        if(localStorage.getItem("ordenColumna")){
+            columnx = localStorage.getItem("ordenColumna").split(",");
+        }
+        if(columnx.length === 0){
+            var tableXml = document.getElementById('sampleTableXml');
+            var leTab = tableXml.rows[0].cells.length;
+            for(let i=0;i<leTab;i++){
+                columnx.push(i);
+            }
+            
+        }
+        console.log(columnx);
+        var val1 = columnx[details.from];
+        var val2 = columnx[details.to];
+        console.log(val1);
+        console.log(val2);
+        columnx.splice(details.to, 1, val1);
+        columnx.splice(details.from, 1, val2);
+        console.log(columnx);
+        localStorage.setItem("ordenColumna", columnx);
+    
+//        headerCell.addClass('reordered');
+//        setTimeout(function () {
+//            headerCell.removeClass('reordered');
+//        }, 2000);
+    });
+    
+    //esta funcion funciona en el momento en que se order por filas, no columnas
+    tablq.on('draw', function () {
+        console.log( 'Table redrawn' );
+    } );

@@ -89,8 +89,9 @@ function cargaArchivoSri() {
     //                console.log("la linea: ",index , linea, tieneAutorizacion);
                     //comprobar si el archivo a cargar tiene la columna de clave de acceso    
                     if(index === 0){
-                        if(!linea.includes("NUMERO_AUTORIZACION")){
-                            swal('','El archivo no contiene la columna NUMERO_AUTORIZACION','error');
+//                        if(!linea.includes("NUMERO_AUTORIZACION")){ esto cambia porque ene l sri ya no viene esta columna
+                        if(!linea.includes("CLAVE_ACCESO")){
+                            swal('','El archivo no contiene la columna CLAVE_ACCESO','error');
                             tieneAutorizacion = false;
                         }
                         else{
@@ -99,7 +100,8 @@ function cargaArchivoSri() {
 
                             for(let i=0;i<headcolumn.length;i++){
                                 thead.rows[0].insertCell().innerHTML = headcolumn[i];
-                                if(headcolumn[i] === "NUMERO_AUTORIZACION"){
+//                                if(headcolumn[i] === "NUMERO_AUTORIZACION"){
+                                if(headcolumn[i] === "CLAVE_ACCESO"){
                                     indexNumAuto = (i+4);
                                     console.log("el index de la columna del numero de autorizacoin: ", indexNumAuto);
                                 }
