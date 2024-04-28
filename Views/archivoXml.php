@@ -331,6 +331,7 @@ if (count($respuesta) > 0) {
                                         <td style="white-space: nowrap;">
                                 <?php if ($listaArchivoXml->nombreArchivoPdf != null) { ?>
                                                 <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "RIDE";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf*/ ?></a>
+                                                <button type="button" onclick="generarRide(<?php echo "'".$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml."'" ?>)"  style="color: white; background-color: transparent; border: none; padding: 0;">.</button>
                                     <?php } ?>
                                         </td>
 
@@ -463,6 +464,48 @@ if (count($respuesta) > 0) {
         }
     }
     
+    function generarRide(pathXml){
+        $.ajax({
+        type: 'POST',
+        url: 'acciones/generarRide.php',
+        data: {
+            pathXml: pathXml
+        },
+        success: function (data) {
+            //LOADING.style.display='none';
+            if(data.includes("window.location")){
+                window.location.replace("index");
+                return;
+            }
+            
+            data = JSON.parse(data);
+//            console.log("asi es la data del clavefirma:: ", data);
+//console.log("resp: ", data.respuesta);
+            
+            if(data.respuesta === "OK"){
+                //data.archivoRide;
+//                    console.log(data.respuesta);
+
+                var byteCharacters = atob(data.archivoRide);
+                var byteNumbers = new Array(byteCharacters.length);
+                for (var i = 0; i < byteCharacters.length; i++) {
+                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+
+                var file = new Blob([byteArray], { type: "application/pdf;base64" });
+                var fileURL = URL.createObjectURL(file);
+                window.open(fileURL, '_blank');
+            }
+            
+
+        },
+        error: function (error) {
+            //LOADING.style.display='none';          
+            console.log(data);
+        }
+    });
+    }
 
 
 </script>

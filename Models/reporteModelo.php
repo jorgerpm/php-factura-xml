@@ -30,4 +30,10 @@ class reporteModelo extends serviciosWebModelo {
                 , $array);
         return $reporteDto;
     }
+    
+    
+    protected function generarRideXml_modelo($array) {
+        $reporteDto = self::invocarPost('reportes/generarRideXml', $array);
+        return $reporteDto;
+    }
 }

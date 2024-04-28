@@ -109,4 +109,27 @@ class reporteControlador extends reporteModelo {
         return "";
     }
     
+    
+    public function generarRideXml_controller() {
+        $fileP12 = file_get_contents("../" . $_POST["pathXml"]);
+        $archivoB64 = base64_encode($fileP12);
+
+        $srvm = new serviciosWebModelo();
+
+        $array = [
+            "reporteBase64" => $archivoB64,
+        ];
+
+        $archivoRide = reporteModelo::generarRideXml_modelo($array);
+
+        $respuesta = [
+           "respuesta" => "OK",
+           "archivoRide" =>  $archivoRide->reporteBase64,
+        ];
+
+        
+        return $respuesta;
+        
+    }
+    
 }
