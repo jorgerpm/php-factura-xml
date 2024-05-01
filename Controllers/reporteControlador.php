@@ -111,25 +111,33 @@ class reporteControlador extends reporteModelo {
     
     
     public function generarRideXml_controller() {
-        $fileP12 = file_get_contents("../" . $_POST["pathXml"]);
-        $archivoB64 = base64_encode($fileP12);
-
-        $srvm = new serviciosWebModelo();
-
-        $array = [
-            "reporteBase64" => $archivoB64,
-        ];
-
-        $archivoRide = reporteModelo::generarRideXml_modelo($array);
-
-        $respuesta = [
-           "respuesta" => "OK",
-           "archivoRide" =>  $archivoRide->reporteBase64,
-        ];
-
         
-        return $respuesta;
-        
+        if(file_exists("../" . $_POST["pathXml"])){
+            $fileP12 = file_get_contents("../" . $_POST["pathXml"]);
+            $archivoB64 = base64_encode($fileP12);
+
+            $srvm = new serviciosWebModelo();
+
+            $array = [
+                "xmlBase64" => $archivoB64,
+                "tipoDocumento" => $_POST["tipoDocumento"],
+                "fechaAutorizacion" => $_POST["fechaAutorizacion"],
+                "numeroAutorizacion" => $_POST["numeroAutorizacion"],
+            ];
+
+            $archivoRide = reporteModelo::generarRideXml_modelo($array);
+
+            $respuesta = [
+               "respuesta" => "OK",
+               "archivoRide" =>  $archivoRide->reporteBase64,
+            ];
+
+            return $respuesta;
+        }
+        else{
+            return "<script>swal('', 'NO SE PUEDE ABRIR EL ARCHIVO EN ".$_POST["pathXml"]."', 'warning');</script>";
+        }
+       
     }
     
 }

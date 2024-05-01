@@ -331,7 +331,9 @@ if (count($respuesta) > 0) {
                                         <td style="white-space: nowrap;">
                                 <?php if ($listaArchivoXml->nombreArchivoPdf != null) { ?>
                                                 <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "RIDE";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf*/ ?></a>
-                                                <button type="button" onclick="generarRide(<?php echo "'".$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml."'" ?>)"  style="color: white; background-color: transparent; border: none; padding: 0;">.</button>
+                                                <button type="button" 
+                                                        onclick="generarRide(<?php echo "'".$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml."','".$listaArchivoXml->tipoDocumento.
+                                                                "','".$listaArchivoXml->fechaAutorizacion."','".$listaArchivoXml->numeroAutorizacion."'"?>)"  style="color: white; background-color: transparent; border: none; padding: 0;">.</button>
                                     <?php } ?>
                                         </td>
 
@@ -464,18 +466,34 @@ if (count($respuesta) > 0) {
         }
     }
     
-    function generarRide(pathXml){
+    function generarRide(pathXml, tipoDocumento, fechaAutorizacion, numeroAutorizacion){
+//        console.log("tipoDocumento: ", tipoDocumento);
+//        console.log("fechaAutorizacion: ", fechaAutorizacion);
+//        console.log("numeroAutorizacion: ", numeroAutorizacion);
+//        console.log("pathXml: ", pathXml);
+        
+        
+        var resp = $('.RespuestaAjax');
+        
         $.ajax({
         type: 'POST',
         url: 'acciones/generarRide.php',
         data: {
-            pathXml: pathXml
+            pathXml: pathXml,
+            tipoDocumento: tipoDocumento,
+            fechaAutorizacion: fechaAutorizacion,
+            numeroAutorizacion: numeroAutorizacion
         },
         success: function (data) {
+            
             //LOADING.style.display='none';
             if(data.includes("window.location")){
                 window.location.replace("index");
                 return;
+            }
+            else if(data.includes("swal")){
+                resp.html(data.replaceAll("\"", "").replaceAll("\\",""));
+                return ;
             }
             
             data = JSON.parse(data);
