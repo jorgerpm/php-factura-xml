@@ -330,10 +330,17 @@ if (count($respuesta) > 0) {
                                         </td>
                                         <td style="white-space: nowrap;">
                                 <?php if ($listaArchivoXml->nombreArchivoPdf != null) { ?>
+                                            <?php if($listaArchivoXml->tipoDocumento == "07"){ ?>
+                                                <a onclick="generarRide(<?php echo "'".$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml."','".$listaArchivoXml->tipoDocumento.
+                                                                "','".$listaArchivoXml->fechaAutorizacion."','".$listaArchivoXml->numeroAutorizacion."',".
+                                                                "'".$listaArchivoXml->nombreArchivoXml."','".$listaArchivoXml->nombreArchivoPdf."'"?>)"  style="color: #009688; cursor: pointer;"><i class="fa fa-fw fa-lg fa-download"></i>RIDE</a>
+                                            <?php }else{ ?>
                                                 <a target="_blank" href="<?php echo $listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf ?>"><i class="fa fa-fw fa-lg fa-download"></i><?php echo "RIDE";/*$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoPdf*/ ?></a>
+                                            <?php } ?>
                                                 <button type="button" 
                                                         onclick="generarRide(<?php echo "'".$listaArchivoXml->urlArchivo . "/" . $listaArchivoXml->nombreArchivoXml."','".$listaArchivoXml->tipoDocumento.
-                                                                "','".$listaArchivoXml->fechaAutorizacion."','".$listaArchivoXml->numeroAutorizacion."'"?>)"  style="color: white; background-color: transparent; border: none; padding: 0;">.</button>
+                                                                "','".$listaArchivoXml->fechaAutorizacion."','".$listaArchivoXml->numeroAutorizacion."',".
+                                                                "'".$listaArchivoXml->nombreArchivoXml."','".$listaArchivoXml->nombreArchivoPdf."'"?>)"  style="color: white; background-color: transparent; border: none; padding: 0;">.</button>
                                     <?php } ?>
                                         </td>
 
@@ -466,11 +473,12 @@ if (count($respuesta) > 0) {
         }
     }
     
-    function generarRide(pathXml, tipoDocumento, fechaAutorizacion, numeroAutorizacion){
+    function generarRide(pathXml, tipoDocumento, fechaAutorizacion, numeroAutorizacion, nombreXml, nombreRide){
 //        console.log("tipoDocumento: ", tipoDocumento);
 //        console.log("fechaAutorizacion: ", fechaAutorizacion);
 //        console.log("numeroAutorizacion: ", numeroAutorizacion);
-//        console.log("pathXml: ", pathXml);
+        console.log("nombreXml: ", nombreXml);
+        console.log("nombreRide: ", nombreRide);
         
         
         var resp = $('.RespuestaAjax');
@@ -482,7 +490,9 @@ if (count($respuesta) > 0) {
             pathXml: pathXml,
             tipoDocumento: tipoDocumento,
             fechaAutorizacion: fechaAutorizacion,
-            numeroAutorizacion: numeroAutorizacion
+            numeroAutorizacion: numeroAutorizacion,
+            nombreXml: nombreXml,
+            nombreRide: nombreRide
         },
         success: function (data) {
             
@@ -502,18 +512,23 @@ if (count($respuesta) > 0) {
             
             if(data.respuesta === "OK"){
                 //data.archivoRide;
-//                    console.log(data.respuesta);
-
-                var byteCharacters = atob(data.archivoRide);
-                var byteNumbers = new Array(byteCharacters.length);
-                for (var i = 0; i < byteCharacters.length; i++) {
-                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    console.log("data.retencion: ", data.retencion);
+                if(data.retencion){
+                    console.log(window.location.href);
+                    window.open(window.location.href.replace("archivoXml", "") + data.retencion.replace("../", ""), "", "");
                 }
-                var byteArray = new Uint8Array(byteNumbers);
+                else{
+                    var byteCharacters = atob(data.archivoRide);
+                    var byteNumbers = new Array(byteCharacters.length);
+                    for (var i = 0; i < byteCharacters.length; i++) {
+                      byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    var byteArray = new Uint8Array(byteNumbers);
 
-                var file = new Blob([byteArray], { type: "application/pdf;base64" });
-                var fileURL = URL.createObjectURL(file);
-                window.open(fileURL, '_blank');
+                    var file = new Blob([byteArray], { type: "application/pdf;base64" });
+                    var fileURL = URL.createObjectURL(file);
+                    window.open(fileURL, '_blank');
+                }
             }
             
 

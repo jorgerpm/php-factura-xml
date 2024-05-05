@@ -127,9 +127,27 @@ class reporteControlador extends reporteModelo {
 
             $archivoRide = reporteModelo::generarRideXml_modelo($array);
 
+            //escribir el pdf en el disco. 
+            if($_POST["tipoDocumento"] == "07"){
+                $output_file = "../" . str_replace($_POST["nombreXml"], $_POST["nombreRide"], $_POST["pathXml"]);
+                
+//                $raux = explode("/", $output_file);
+//                $path_file = str_replace("/".$raux[6], "", $output_file);
+//                echo $path_file;
+//                if (is_dir($path_file)) {
+//                    chmod($path_file, 0777);
+//                }
+                
+                $ifp = fopen($output_file, 'wb' );
+                fwrite( $ifp, base64_decode( $archivoRide->reporteBase64 ) );
+                fclose( $ifp ); 
+                
+            }
+            
             $respuesta = [
                "respuesta" => "OK",
                "archivoRide" =>  $archivoRide->reporteBase64,
+               "retencion" => $output_file,
             ];
 
             return $respuesta;
